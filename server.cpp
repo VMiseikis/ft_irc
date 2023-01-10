@@ -1,16 +1,20 @@
 #include "server.hpp"
 
 #define PORT 	4242		// server reachable via this port
-#define BACKLOG 0x7FFFFFF 	// the maximum number of pending connections that can be queued up for the socket before connections are refused
+#define BACKLOG 0xFFFFFFF 	// the maximum number of pending connections that can be queued up for the socket before connections are refused
 
 Server::Server()
 {
-	newServer();
+	memset(&_address, 0, sizeof(_address));
+	memset(&_pollfds, 0, sizeof(_pollfds));
+	_addrlen = sizeof(_address);
+	_client = -1;
+	new_Server();
 }
 
 Server::~Server() {}
 
-void Server::newServer()
+void Server::new_Server()
 {
 	/*
 		socket(domain, service, protocol)
@@ -20,6 +24,7 @@ void Server::newServer()
 					Normally only a single protocol exists to support a particular socket type 
 					within a given protocol family, in which case protocol can be specified as 0. 
 	*/
+
 	_server = socket(AF_INET, SOCK_STREAM, 0);
 	if (_server < 0)
 		exit(-1); //TODO error handling
@@ -34,10 +39,10 @@ void Server::newServer()
 						while it's in close-wait or time-wait state.
 		enable			- SO_REUSEADDR is a boolean option. It only has two defined values, 0 (off) and 1 (on).
 	*/
-	const int enable = 1;
-	if (setsockopt(_server, SOL_SOCKET,  SO_REUSEADDR, &enable, sizeof(int) < 0))
-		exit(-1); //TODO error handling
 
+	const int enable = 1;
+	if (setsockopt(_server, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+		exit(-1); //TODO error handling
 	/*
 		F_SETFL		- Set the file status flags.
 		O_NONBLOCK	- When possible, the file is opened in nonblocking mode. 
@@ -60,6 +65,7 @@ void Server::newServer()
 	_address.sin_port = htons(PORT);
 	_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
+
 	//Bind socket to the IP address and port
 	if (bind(_server, (sockaddr *)&_address, sizeof(_address)) < 0)
 		exit(-1); //TODO error handling
@@ -72,16 +78,90 @@ void Server::newServer()
 
 	if (listen(_server, BACKLOG) < 0)
 		exit(-1); //TODO error handling
+
+	store_pollfd(_server);
 }
 
-Server::runServer()
+void Server::store_pollfd(int socket)
 {
+	memset(&_pollfd, 0, sizeof(_pollfd));
+	_pollfd.fd = socket;
+	_pollfd.events = POLLIN;
+	_pollfd.revents = 0;
+	_pollfds.push_back(_pollfd);
+}
+
+void Server::run_Server()
+{
+	std::vector<struct pollfd>::iterator it;
+
 	while (true)
 	{
-		//Client Connect
+		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
+			std::cout << "ERR POLL" << std::endl;					//TODO handle poll error
 
-		//Client Disconnect
+		for (it = _pollfds.begin(); it != _pollfds.end(); ++it)
+		{
+			
+			if (it->revents == 0)
+				continue;
 
-		//Client Message
+			if (it->revents != POLLIN)
+			{
+				if (it->revents == POLLNVAL)
+					std::cout << "ERR" << std::endl; 					//TODO error handling (Invalid request: fd not open)
+				else if (it->revents == POLLHUP)
+					std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
+				break ;
+			}
+
+
+			if (it->fd == _server)
+			{
+				std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
+				/*
+					Accept all incoming connections that are
+        			queued up on the listening socket before we
+        			loop back and call poll again. 
+				*/
+
+
+				do {
+					_client = accept(_server, (sockaddr *)&_address, (socklen_t*)&(_addrlen));
+					if (_client < 0)
+						break;	//TODO error handling
+						
+					if (fcntl(_client, F_SETFL, O_NONBLOCK))
+						break; 	
+
+					store_pollfd(_client);
+					_clients.insert(_client);
+
+				} while (_client != -1);
+			}
+			else
+			{
+				std::cout << "Message from client" << std::endl;	//TODO handle messages from client
+				/*
+					RFC 2812
+					IRC messages are always lines of characters terminated 
+					with a CR-LF (Carriage Return - Line Feed) pair, and 
+					these messages SHALL NOT exceed 512 characters in length,
+					counting all characters including the trailing CR-LF. 
+					Thus, there are 510 characters maximum allowed for the 
+					command and its parameters.
+				*/
+
+				// Reikia pagalvt kaip tikrint jeigu client message yra ilgesne, nei bufferis. 
+				// Kaip informuot apie tai klienta? Ar geriau loopint kol gaunama visa zinute?
+
+				char buffer[IRC_MESSAGE_LENGHT];
+				bzero(buffer, IRC_MESSAGE_LENGHT);
+				if (recv(it->fd, buffer, IRC_MESSAGE_LENGHT, 0) > -1)
+					std::cout << buffer << std::endl; 
+				else
+					break ;	//TODO error handling
+			}
+		}
 	}
 }
