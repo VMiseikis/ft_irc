@@ -1,13 +1,12 @@
 #include "server.hpp"
 
-#define PORT 	4242		// server reachable via this port
+//#define PORT 	4242		// server reachable via this port
 #define BACKLOG 0xFFFFFFF 	// the maximum number of pending connections that can be queued up for the socket before connections are refused
 
-Server::Server()
+Server::Server(int port, std::string password) : _port(port), _password(password)
 {
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
-	_addrlen = sizeof(_address);
 	_client = -1;
 	new_Server();
 }
@@ -62,7 +61,8 @@ void Server::new_Server()
 						byte first.” 
 	*/
 	_address.sin_family = AF_INET; 
-	_address.sin_port = htons(PORT);
+	// _address.sin_port = htons(PORT);
+	_address.sin_port = htons(_port);
 	_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
 
@@ -124,20 +124,31 @@ void Server::run_Server()
         			queued up on the listening socket before we
         			loop back and call poll again. 
 				*/
+				char ip[NI_MAXHOST];	//client ip
+				//char sv[NI_MAXSERV];	
+				struct sockaddr_in client_address;
+				int addrlen = sizeof(client_address);
 
+				while (true)
+				{
+					memset(&client_address, 0, addrlen);
+					_client = accept(_server, (sockaddr *)&client_address, (socklen_t*)&addrlen);
 
-				do {
-					_client = accept(_server, (sockaddr *)&_address, (socklen_t*)&(_addrlen));
 					if (_client < 0)
 						break;	//TODO error handling
 						
 					if (fcntl(_client, F_SETFL, O_NONBLOCK))
-						break; 	
+						break; 	//TODO error handling
 
 					store_pollfd(_client);
 					_clients.insert(_client);
 
-				} while (_client != -1);
+					memset(&ip, 0, NI_MAXHOST);
+					getnameinfo((sockaddr *)&client_address, addrlen, ip, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+				
+					// memset(&sv, 0, NI_MAXSERV);
+					// getnameinfo((sockaddr *)&client_address, addrlen, ip, NI_MAXHOST, sv, NI_MAXSERV, NI_NUMERICHOST | NI_NUMERICSERV);
+				}
 			}
 			else
 			{
