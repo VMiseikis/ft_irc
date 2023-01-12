@@ -3,17 +3,22 @@
 //#define PORT 	4242		// server reachable via this port
 #define BACKLOG 0xFFFFFFF 	// the maximum number of pending connections that can be queued up for the socket before connections are refused
 
+
+
+
+#include <arpa/inet.h>		//for inet_addr() 
+// ipconfig getifaddr en0
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
 	_client = -1;
-	new_Server();
+	new_server();
 }
 
 Server::~Server() {}
 
-void Server::new_Server()
+void Server::new_server()
 {
 	/*
 		socket(domain, service, protocol)
@@ -65,7 +70,7 @@ void Server::new_Server()
 	_address.sin_port = htons(_port);
 	_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
-
+	
 	//Bind socket to the IP address and port
 	if (bind(_server, (sockaddr *)&_address, sizeof(_address)) < 0)
 		exit(-1); //TODO error handling
@@ -80,6 +85,7 @@ void Server::new_Server()
 		exit(-1); //TODO error handling
 
 	store_pollfd(_server);
+	
 }
 
 void Server::store_pollfd(int socket)
@@ -91,10 +97,11 @@ void Server::store_pollfd(int socket)
 	_pollfds.push_back(_pollfd);
 }
 
-void Server::run_Server()
+void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
-
+	char buffer[IRC_MESSAGE_LENGHT];
+	
 	while (true)
 	{
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
@@ -118,13 +125,13 @@ void Server::run_Server()
 
 			if (it->fd == _server)
 			{
-				std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
+				// std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
 				/*
 					Accept all incoming connections that are
         			queued up on the listening socket before we
         			loop back and call poll again. 
 				*/
-				char ip[NI_MAXHOST];	//client ip
+				// char ip[NI_MAXHOST];	//client ip
 				//char sv[NI_MAXSERV];	
 				struct sockaddr_in client_address;
 				int addrlen = sizeof(client_address);
@@ -139,20 +146,27 @@ void Server::run_Server()
 						
 					if (fcntl(_client, F_SETFL, O_NONBLOCK))
 						break; 	//TODO error handling
-
+					
 					store_pollfd(_client);
-					_clients.insert(_client);
+					_clients.insert(std::make_pair(it->fd, new Client(it->fd, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
+					
+					std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
 
-					memset(&ip, 0, NI_MAXHOST);
-					getnameinfo((sockaddr *)&client_address, addrlen, ip, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-				
-					// memset(&sv, 0, NI_MAXSERV);
-					// getnameinfo((sockaddr *)&client_address, addrlen, ip, NI_MAXHOST, sv, NI_MAXSERV, NI_NUMERICHOST | NI_NUMERICSERV);
+
+
+
+
+					// _clients.insert(_client);
+					// memset(&ip, 0, NI_MAXHOST);
+					// if (getnameinfo((sockaddr *)&client_address, addrlen, ip, NI_MAXHOST, NULL, 0, NI_NUMERICHOST) == 0)
+					// {
+					// 	store_pollfd(_client);
+					// 	_clients.insert(_client);
+					// }
 				}
 			}
 			else
 			{
-				std::cout << "Message from client" << std::endl;	//TODO handle messages from client
 				/*
 					RFC 2812
 					IRC messages are always lines of characters terminated 
@@ -165,13 +179,16 @@ void Server::run_Server()
 
 				// Reikia pagalvt kaip tikrint jeigu client message yra ilgesne, nei bufferis. 
 				// Kaip informuot apie tai klienta? Ar geriau loopint kol gaunama visa zinute?
-
-				char buffer[IRC_MESSAGE_LENGHT];
-				bzero(buffer, IRC_MESSAGE_LENGHT);
-				if (recv(it->fd, buffer, IRC_MESSAGE_LENGHT, 0) > -1)
-					std::cout << buffer << std::endl; 
-				else
+				std::string message;
+				memset(&buffer, 0, IRC_MESSAGE_LENGHT);
+				if (recv(it->fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0 || !strstr(buffer, "\r\n"))
 					break ;	//TODO error handling
+				else
+				{
+					std::cout << "Message from client" << std::endl;	//TODO handle messages from client
+					std::cout << buffer << std::endl; 
+				}
+					
 			}
 		}
 	}

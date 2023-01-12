@@ -10,7 +10,12 @@
 
 #include <poll.h>
 #include <vector>
-#include <set>
+#include <map>
+
+#include "client.hpp"
+
+
+
 
 #define IRC_MESSAGE_LENGHT 512
 // #define HOST_NAME_MAX 63
@@ -22,20 +27,20 @@ class Server
 		int _server;
 		int _port;
 		std::string _password;
-		int _client;
+		int _client;		//connecting client socket
 
 		struct pollfd _pollfd;
-		std::vector<struct pollfd> _pollfds;
-		std::set<int> _clients;
+		std::vector<struct pollfd> _pollfds;	
+		std::map<int, Client *> _clients;		//list of all conected clients
 
-		void new_Server();
+		void new_server();
 		void store_pollfd(int socket);
 
 	public:
 		Server(int port, std::string password);
 		~Server();
 
-		void run_Server();
+		void run_server();
 };
 
 #endif

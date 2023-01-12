@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 			exit(-1); 	//TODO handle incorect password format
 
 	Server srv(port, argv[2]);
-	srv.run_Server();
+	srv.run_server();
 
 	return 0;
 }
