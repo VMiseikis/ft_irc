@@ -12,7 +12,7 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 {
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
-	_client = -1;
+	_conn = -1;
 	new_server();
 }
 
@@ -97,10 +97,76 @@ void Server::store_pollfd(int socket)
 	_pollfds.push_back(_pollfd);
 }
 
+void Server::new_connection()
+{
+	/*
+		Accept all incoming connections that are
+		queued up on the listening socket before we
+		loop back and call poll again. 
+	*/
+
+	struct sockaddr_in client_address;
+	socklen_t addrlen = sizeof(client_address);
+
+	while (true)
+	{
+		memset(&client_address, 0, addrlen);
+
+		_conn = accept(_server, (sockaddr *)&client_address, (socklen_t*)&addrlen);
+
+		if (_conn < 0)
+			break;	//TODO error handling
+			
+		if (fcntl(_conn, F_SETFL, O_NONBLOCK))
+			break; 	//TODO error handling
+		
+		store_pollfd(_conn);
+		_connections.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
+		
+		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
+	}
+}
+
+void handle_client_message(Client *client, std::string message)
+{
+	(void)client;
+	//std::cout << client->get_port() << message << "<<" << std::endl;
+	std::cout << message << std::endl;
+
+	if (message)
+
+}
+
+void Server::message_recieved(int fd)
+{
+	/*
+		RFC 2812
+		IRC messages are always lines of characters terminated 
+		with a CR-LF (Carriage Return - Line Feed) pair, and 
+		these messages SHALL NOT exceed 512 characters in length,
+		counting all characters including the trailing CR-LF. 
+		Thus, there are 510 characters maximum allowed for the 
+		command and its parameters.
+	*/
+	std::string message;
+
+	char buffer[IRC_MESSAGE_LENGHT];
+	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
+
+	while (!strstr(buffer, "\r\n"))
+	{
+		if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
+			break ; //TODO error handling
+		message.append(buffer);
+	}
+	try {
+		handle_client_message(_connections.at(fd), message);
+	} catch (const std::out_of_range &err) {}
+} 
+
 void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
-	char buffer[IRC_MESSAGE_LENGHT];
 	
 	while (true)
 	{
@@ -122,74 +188,13 @@ void Server::run_server()
 				break ;
 			}
 
-
 			if (it->fd == _server)
-			{
-				// std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
-				/*
-					Accept all incoming connections that are
-        			queued up on the listening socket before we
-        			loop back and call poll again. 
-				*/
-				// char ip[NI_MAXHOST];	//client ip
-				//char sv[NI_MAXSERV];	
-				struct sockaddr_in client_address;
-				int addrlen = sizeof(client_address);
-
-				while (true)
-				{
-					memset(&client_address, 0, addrlen);
-					_client = accept(_server, (sockaddr *)&client_address, (socklen_t*)&addrlen);
-
-					if (_client < 0)
-						break;	//TODO error handling
-						
-					if (fcntl(_client, F_SETFL, O_NONBLOCK))
-						break; 	//TODO error handling
-					
-					store_pollfd(_client);
-					_clients.insert(std::make_pair(it->fd, new Client(it->fd, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
-					
-					std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
-
-
-
-
-
-					// _clients.insert(_client);
-					// memset(&ip, 0, NI_MAXHOST);
-					// if (getnameinfo((sockaddr *)&client_address, addrlen, ip, NI_MAXHOST, NULL, 0, NI_NUMERICHOST) == 0)
-					// {
-					// 	store_pollfd(_client);
-					// 	_clients.insert(_client);
-					// }
-				}
-			}
-			else
-			{
-				/*
-					RFC 2812
-					IRC messages are always lines of characters terminated 
-					with a CR-LF (Carriage Return - Line Feed) pair, and 
-					these messages SHALL NOT exceed 512 characters in length,
-					counting all characters including the trailing CR-LF. 
-					Thus, there are 510 characters maximum allowed for the 
-					command and its parameters.
-				*/
-
-				// Reikia pagalvt kaip tikrint jeigu client message yra ilgesne, nei bufferis. 
-				// Kaip informuot apie tai klienta? Ar geriau loopint kol gaunama visa zinute?
-				std::string message;
-				memset(&buffer, 0, IRC_MESSAGE_LENGHT);
-				if (recv(it->fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0 || !strstr(buffer, "\r\n"))
-					break ;	//TODO error handling
-				else
-				{
-					std::cout << "Message from client" << std::endl;	//TODO handle messages from client
-					std::cout << buffer << std::endl; 
-				}
-					
-			}
+				new_connection();
+			message_recieved(it->fd);
 		}
 	}
 }
+
+
+
+

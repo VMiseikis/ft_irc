@@ -7,7 +7,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <cctype>
-
+#include <cstring>
 #include <poll.h>
 #include <vector>
 #include <map>
@@ -27,11 +27,15 @@ class Server
 		int _server;
 		int _port;
 		std::string _password;
-		int _client;		//connecting client socket
+		int _conn;		//connecting client socket
+
 
 		struct pollfd _pollfd;
-		std::vector<struct pollfd> _pollfds;	
-		std::map<int, Client *> _clients;		//list of all conected clients
+		std::vector<struct pollfd> _pollfds;
+		
+		std::vector	<Client *> _clients;			//list of all registered, active clients
+		std::map<int, Client *> _connections;		//list of all active connections
+
 
 		void new_server();
 		void store_pollfd(int socket);
@@ -41,6 +45,8 @@ class Server
 		~Server();
 
 		void run_server();
+		void new_connection();
+		void message_recieved(int fd);
 };
 
 #endif
