@@ -8,11 +8,13 @@
 #include <fcntl.h>
 #include <cctype>
 #include <cstring>
+#include <sstream>
 #include <poll.h>
 #include <vector>
 #include <map>
 
 #include "client.hpp"
+#include "commands.hpp"
 
 
 
@@ -37,6 +39,9 @@ class Server
 		std::map<int, Client *> _connections;		//list of all active connections
 
 
+		Commands *_cmd;							//list of commands
+
+
 		void new_server();
 		void store_pollfd(int socket);
 
@@ -47,6 +52,7 @@ class Server
 		void run_server();
 		void new_connection();
 		void message_recieved(int fd);
+		void handle_client_message(Client *client, std::string message);
 };
 
 #endif

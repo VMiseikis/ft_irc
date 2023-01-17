@@ -10,6 +10,7 @@
 // ipconfig getifaddr en0
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
+	_cmd = new Commands();
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
 	_conn = -1;
@@ -123,17 +124,83 @@ void Server::new_connection()
 		store_pollfd(_conn);
 		_connections.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
 		
+		// Commands *cmd = new Commands();
+		// (void) cmd;
+		// //cmd->*(cmd->_commands.at("NAME"))();
+		// cmd->execute_command("NAME");
+
 		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
 	}
 }
 
-void handle_client_message(Client *client, std::string message)
-{
-	(void)client;
-	//std::cout << client->get_port() << message << "<<" << std::endl;
-	std::cout << message << std::endl;
 
-	if (message)
+void split_command()
+{
+
+}
+
+
+void Server::handle_client_message(Client *client, std::string message)
+{
+
+	(void)client;
+	(void)message;
+	std::stringstream ss(message);
+	std::string line;
+	std::string msg = ":10.12.5.1 001 amy :Welcome to the Internet Relay Network amy!amy@10.15.2.1\r\n";
+
+	//std::string msg = "CAP * LIST :\r\n";
+	//std::string command_name;
+	std::string args;
+
+	if (!message.empty())
+	{
+		while (std::getline(ss, line))
+		{
+			// command = std::strtok(line, ' ');
+			// std::cout << command << std::endl;
+			//command_name = line.substr(0, line.find(" "));
+			// if (command_name == "CAP")
+			// 	std::cout << send(client->get_fd(), msg.c_str(), msg.length(), 0) << std::endl;
+
+
+			if (!client->get_nick_name().empty() && !client->get_user_name().empty() && !client->get_password().empty() && client->get_status() == HANDSHAKE)
+				{client->set_status(REGISTERED); std::cout << "REG OK \n"; }
+			
+		}
+	}
+
+
+
+
+
+//":NiceIRC 001 Edracoon :Welcome to the Internet Relay Network Edracoon!epfennig@127.0.0.1\r\n"
+// welcomemsg << ":" << Host << " 001 " << Nick << " :Welcome to the Internet Relay Network " << Nick <<"!"<<Username<<"@"<<Host << std::endl;
+	// if (!message.empty())
+	// {
+		//send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0);
+		// if (send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0))
+		// 	std::cout << msg.c_str() << " \n";
+
+		// std::cout << send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0) <<std::endl;
+		//std::cout << strerror(3)  << "\n";
+
+
+		// while (std::getline(ss, line))
+		// {
+			
+		// 	if (line.substr(0, line.find(" ")) == "NAME")
+
+		// 	std::cout << "LINE: " << std::substr(0, " ") << std::endl;
+		// }
+
+	// send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0);
+		// if (!client->get_nick_name().empty() && !client->get_user_name().empty())
+		// {
+		// 	msg = ":10.12.5.1 001 " + client->get_nick_name() + " :Welcome " + client->get_nick_name() + "!" + client->get_user_name() + "@" + "15.12.5.1\r\n";
+		// 	send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0);
+		// }
+	// }
 
 }
 
@@ -148,20 +215,35 @@ void Server::message_recieved(int fd)
 		Thus, there are 510 characters maximum allowed for the 
 		command and its parameters.
 	*/
+
+	std::cout << "gauta zinute \n";
 	std::string message;
+	(void) message;
 
 	char buffer[IRC_MESSAGE_LENGHT];
 	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
 
-	while (!strstr(buffer, "\r\n"))
+	// while (!strstr(buffer, "\r\n"))
+	// {
+	// 	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
+	// 		break ; //TODO error handling
+	// 	message.append(buffer);
+	// }
+	// try {
+	// 	handle_client_message(_connections.at(fd), message);
+	// } catch (const std::out_of_range &err) {}
+
+	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
 	{
-		if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
-			break ; //TODO error handling
-		message.append(buffer);
+		try {
+			handle_client_message(_connections.at(fd), buffer);
+		} catch (const std::out_of_range &err) {}
 	}
-	try {
-		handle_client_message(_connections.at(fd), message);
-	} catch (const std::out_of_range &err) {}
+	// else
+	// 	break ; //TODO error handling
+
+
+
 } 
 
 void Server::run_server()
@@ -190,7 +272,8 @@ void Server::run_server()
 
 			if (it->fd == _server)
 				new_connection();
-			message_recieved(it->fd);
+			else
+				message_recieved(it->fd);
 		}
 	}
 }
