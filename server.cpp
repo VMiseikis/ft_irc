@@ -150,13 +150,54 @@ void Server::handle_client_message(Client *client, std::string message)
 	std::string msg = ":10.12.5.1 001 amy :Welcome to the Internet Relay Network amy!amy@10.15.2.1\r\n";
 
 	//std::string msg = "CAP * LIST :\r\n";
-	//std::string command_name;
-	std::string args;
+	std::string command_name;
+	std::vector<std::string> args;
+
+
 
 	if (!message.empty())
 	{
+		
 		while (std::getline(ss, line))
 		{
+			args.clear();
+
+			if (line.back() == '\r')
+				line.pop_back();
+
+			for (int i = 0; line[i]; i++)	
+				if (!isprint(line[i]))
+					break ; 				//TODO handle incorect password format
+					
+			command_name = line.substr(0, line.find(' '));
+			for (size_t i = command_name.length(); i < line.length(); )
+			{
+				while (line[i] == ' ')
+					i++;
+				args.push_back(line.substr(i, line.find(' ', i) - i));
+				i += args.back().length();
+			}
+
+			for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+				std::cout << "ARGS:" << *it << std::endl;
+
+			if (client->get_status() == HANDSHAKE 
+				&& (command_name == "NICK" || command_name == "USER" || command_name == "PASS"))
+			{
+				_cmd->execute_command(command_name, args);
+				if (!client->get_nick_name().empty() && !client->get_user_name().empty() && !client->get_password().empty())
+				{
+					client->set_status(REGISTERED);
+					//+ send welcome message
+				}
+			}
+			else if (!_cmd->execute_command(command_name, args)) //jeigu tokios komandos neradome, reiskai, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
+			{
+				// broadcast message
+			}
+
+
+
 			// command = std::strtok(line, ' ');
 			// std::cout << command << std::endl;
 			//command_name = line.substr(0, line.find(" "));
@@ -164,8 +205,8 @@ void Server::handle_client_message(Client *client, std::string message)
 			// 	std::cout << send(client->get_fd(), msg.c_str(), msg.length(), 0) << std::endl;
 
 
-			if (!client->get_nick_name().empty() && !client->get_user_name().empty() && !client->get_password().empty() && client->get_status() == HANDSHAKE)
-				{client->set_status(REGISTERED); std::cout << "REG OK \n"; }
+			// if (!client->get_nick_name().empty() && !client->get_user_name().empty() && !client->get_password().empty() && client->get_status() == HANDSHAKE)
+			// 	{client->set_status(REGISTERED); std::cout << "REG OK \n"; }
 			
 		}
 	}

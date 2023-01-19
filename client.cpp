@@ -17,3 +17,4 @@ void Client::set_status(int status) { _status = status; }
 void Client::set_user_name(std::string name) { _name = name; }
 void Client::set_nick_name(std::string nick) { _nick = nick; }
 void Client::set_password(std::string pass)  { _pass = pass; }
+
