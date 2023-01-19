@@ -147,13 +147,8 @@ void Server::handle_client_message(Client *client, std::string message)
 	(void)message;
 	std::stringstream ss(message);
 	std::string line;
-	std::string msg = ":10.12.5.1 001 amy :Welcome to the Internet Relay Network amy!amy@10.15.2.1\r\n";
-
-	//std::string msg = "CAP * LIST :\r\n";
 	std::string command_name;
 	std::vector<std::string> args;
-
-
 
 	if (!message.empty())
 	{
@@ -178,71 +173,33 @@ void Server::handle_client_message(Client *client, std::string message)
 				i += args.back().length();
 			}
 
-			for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
-				std::cout << "ARGS:" << *it << std::endl;
-
-			if (client->get_status() == HANDSHAKE 
-				&& (command_name == "NICK" || command_name == "USER" || command_name == "PASS"))
+			if (command_name == "CAP")
+				return ;
+		
+			if (client->get_status() == NEW && command_name == "PASS")
 			{
 				_cmd->execute_command(command_name, args);
-				if (!client->get_nick_name().empty() && !client->get_user_name().empty() && !client->get_password().empty())
+				client->set_status(HANDSHAKE);
+			}
+			else if (client->get_status() == HANDSHAKE 
+				&& (command_name == "NICK" || command_name == "USER"))
+			{
+				_cmd->execute_command(command_name, args);
+				if (!client->get_nick_name().empty() && !client->get_user_name().empty())
+				//  && !client->get_password().empty()) //kol kas nereikalingas nes tikrinam tik serverio passworda
 				{
 					client->set_status(REGISTERED);
-					//+ send welcome message
+					std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
+					send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
 				}
 			}
-			else if (!_cmd->execute_command(command_name, args)) //jeigu tokios komandos neradome, reiskai, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
+			else if (!_cmd->execute_command(command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
 			{
+				//_cmd->execute_command(command_name, args);
 				// broadcast message
-			}
-
-
-
-			// command = std::strtok(line, ' ');
-			// std::cout << command << std::endl;
-			//command_name = line.substr(0, line.find(" "));
-			// if (command_name == "CAP")
-			// 	std::cout << send(client->get_fd(), msg.c_str(), msg.length(), 0) << std::endl;
-
-
-			// if (!client->get_nick_name().empty() && !client->get_user_name().empty() && !client->get_password().empty() && client->get_status() == HANDSHAKE)
-			// 	{client->set_status(REGISTERED); std::cout << "REG OK \n"; }
-			
+			}			
 		}
 	}
-
-
-
-
-
-//":NiceIRC 001 Edracoon :Welcome to the Internet Relay Network Edracoon!epfennig@127.0.0.1\r\n"
-// welcomemsg << ":" << Host << " 001 " << Nick << " :Welcome to the Internet Relay Network " << Nick <<"!"<<Username<<"@"<<Host << std::endl;
-	// if (!message.empty())
-	// {
-		//send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0);
-		// if (send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0))
-		// 	std::cout << msg.c_str() << " \n";
-
-		// std::cout << send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0) <<std::endl;
-		//std::cout << strerror(3)  << "\n";
-
-
-		// while (std::getline(ss, line))
-		// {
-			
-		// 	if (line.substr(0, line.find(" ")) == "NAME")
-
-		// 	std::cout << "LINE: " << std::substr(0, " ") << std::endl;
-		// }
-
-	// send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0);
-		// if (!client->get_nick_name().empty() && !client->get_user_name().empty())
-		// {
-		// 	msg = ":10.12.5.1 001 " + client->get_nick_name() + " :Welcome " + client->get_nick_name() + "!" + client->get_user_name() + "@" + "15.12.5.1\r\n";
-		// 	send(client->get_fd(), msg.c_str(), sizeof(msg.c_str()), 0);
-		// }
-	// }
-
 }
 
 void Server::message_recieved(int fd)
@@ -257,7 +214,7 @@ void Server::message_recieved(int fd)
 		command and its parameters.
 	*/
 
-	std::cout << "gauta zinute \n";
+	// std::cout << "gauta zinute \n";
 	std::string message;
 	(void) message;
 
@@ -277,7 +234,9 @@ void Server::message_recieved(int fd)
 	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
 	{
 		try {
+			std::cout << buffer << std::endl;
 			handle_client_message(_connections.at(fd), buffer);
+
 		} catch (const std::out_of_range &err) {}
 	}
 	// else

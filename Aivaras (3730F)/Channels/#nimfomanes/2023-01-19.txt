@@ -1,0 +1,8 @@
+[2023-01-19T18:24:27+0100]  
+[2023-01-19T18:24:27+0100] ------------- Begin Session -------------
+[2023-01-19T18:24:27+0100]  
+[2023-01-19T18:24:27+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T18:24:27+0100] Topic is 2023
+[2023-01-19T18:24:27+0100] Set by kugelis on January 16, 2023 at 8:08:39 AM GMT+1
+[2023-01-19T18:24:27+0100] Mode is +Mnrt
+[2023-01-19T18:26:35+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) left the channel

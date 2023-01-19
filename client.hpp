@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum client_state { HANDSHAKE, REGISTERED };
+enum client_state { NEW, HANDSHAKE, REGISTERED };
 
 
 class Client

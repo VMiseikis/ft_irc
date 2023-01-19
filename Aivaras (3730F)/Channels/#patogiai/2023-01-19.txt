@@ -1,0 +1,727 @@
+[2023-01-19T17:13:43+0100]  
+[2023-01-19T17:13:43+0100] ------------- Begin Session -------------
+[2023-01-19T17:13:43+0100]  
+[2023-01-19T17:13:43+0100] Guest56 (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T17:13:43+0100] Topic is Viktorina Jusu Paslaugoms Visa Para! ;) ..together we make a perfect storm!.. :)
+[2023-01-19T17:13:43+0100] Set by Vilmune on August 26, 2020 at 12:05:37 PM GMT+2
+[2023-01-19T17:13:43+0100] Mode is +fjnrt [6j#R]:9 3:10
+[2023-01-19T17:13:44+0100] <&Viktorina>  Raides (3/4): K*******A*  Liko 30.0 sek.
+[2023-01-19T17:13:59+0100] <&Viktorina>  Raides (4/4): K****D**A*  Liko 15.0 sek.
+[2023-01-19T17:14:14+0100] <&Viktorina> Bandykite atspeti sekanti. Teisingas atsakymas buvo: KAVENDISAS.
+[2023-01-19T17:14:24+0100] <&Viktorina>  iNFO: Dabar yra 19:14:24. Iki nauju dienos rezultatu liko 4 val. 45 min. 36 sek. 
+[2023-01-19T17:14:24+0100] <&Viktorina>  45157  MEILES SIMBOLIS? 
+[2023-01-19T17:14:24+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 7 task. 
+[2023-01-19T17:14:35+0100] <Guest15> sirdis
+[2023-01-19T17:14:35+0100] <&Viktorina> Atsake: Guest15 (per 10.047 sek.) ir gauna 7 task., atsakymas: SIRDIS, Guest15 turi 45 (siandien surinko 45) task. ir yra 39/56 vietoje.
+[2023-01-19T17:14:44+0100] <&Viktorina>  iNFO: Komandos !top10, !top20, !dtop10 ir !dtop20 parodys jums kanalo topus. 
+[2023-01-19T17:14:45+0100] <&Viktorina>  16744  TELE_____? 
+[2023-01-19T17:14:45+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 10 task. 
+[2023-01-19T17:14:54+0100] <Guest15> fonas
+[2023-01-19T17:14:54+0100] <&Viktorina> Atsake: Guest15 (per 8.469 sek.) ir gauna 10 task., atsakymas: FONAS, Guest15 turi 55 (siandien surinko 55) task. ir yra 38/56 vietoje.
+[2023-01-19T17:15:04+0100] <&Viktorina>  TOP6-10:  #6. aha (10663) #7. Tarakonas (7710) #8. karmen (6537) #9. _zmogenas (6362) #10. ugnisa (5770).
+[2023-01-19T17:15:04+0100] <&Viktorina>  21179  NEPASAKANT SAVO VARDO? 
+[2023-01-19T17:15:04+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 1 task. 
+[2023-01-19T17:15:14+0100] <Guest15> anonimiskai
+[2023-01-19T17:15:18+0100] <@ilonat> inkognito
+[2023-01-19T17:15:19+0100] <&Viktorina> Atsake: ilonat (per 13.301 sek.) ir gauna 1 task., atsakymas: INKOGNITO, ilonat turi 1202111 (siandien surinko 3860) task. ir yra 1/56 vietoje.
+[2023-01-19T17:15:28+0100] <&Viktorina>  iNFO: !visi ir !dvisi parodys siuo metu kanale esanciu taskus. 
+[2023-01-19T17:15:28+0100] <&Viktorina>  18135  MOKSLAS APIE SENEJIMO PRIEZASTIS IR REISKINIUS? 
+[2023-01-19T17:15:28+0100] <&Viktorina>  Raides (1/4): *************  Klausimo verte: 10 task. 
+[2023-01-19T17:15:42+0100] <&Viktorina>  Raides (2/4): G************  Liko 45.0 sek.
+[2023-01-19T17:15:57+0100] <&Viktorina>  Raides (3/4): G*********I**  Liko 30.0 sek.
+[2023-01-19T17:16:12+0100] <@ilonat> !hint
+[2023-01-19T17:16:12+0100] <@ilonat> !hint
+[2023-01-19T17:16:12+0100] <&Viktorina>  Raides (4/4): G********GI**  Liko 15.0 sek.
+[2023-01-19T17:16:13+0100] <&Viktorina> Nagi, pasistenkite! Teisingas atsakymas buvo: GERONTOLOGIJA.
+[2023-01-19T17:16:22+0100] <&Viktorina>  iNFO: Siuo metu klausimu baze sudaro 78600 klaus. Jei norite prisideti prie klausimu bazes !klsm.
+[2023-01-19T17:16:22+0100] <&Viktorina>  58348  PRIETAISAS VANDENS GARAVIMUI IS DIRVOS AR VANDENS TELKINIU MATUOTI? 
+[2023-01-19T17:16:22+0100] <&Viktorina>  Raides (1/4): *************  Klausimo verte: 8 task. 
+[2023-01-19T17:16:38+0100] <&Viktorina>  Raides (2/4): E************  Liko 45.0 sek.
+[2023-01-19T17:16:46+0100] <Guest56> !hint
+[2023-01-19T17:16:47+0100] <&Viktorina>  Raides (3/4): E**********A*  Liko 30.0 sek.
+[2023-01-19T17:17:01+0100] <&Viktorina>  Raides (4/4): E**P*******A*  Liko 15.0 sek.
+[2023-01-19T17:17:05+0100] You're now known as MGS
+[2023-01-19T17:17:05+0100] <@ilonat> !hint
+[2023-01-19T17:17:05+0100] <&Viktorina> Gal jums uzduot lengvesni klausima? Teisingas atsakymas buvo: EVAPORIMETRAS.
+[2023-01-19T17:17:15+0100] <&Viktorina>  iNFO: Komandos !eile ir !deile rodys jusu padeti rezultatu lenteleje. 
+[2023-01-19T17:17:16+0100] <&Viktorina>  65410  KOKIAME RAJONE YRA MAZONU KAIMAS? 
+[2023-01-19T17:17:16+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 4 task. 
+[2023-01-19T17:17:19+0100] <@ilonat> !hint
+[2023-01-19T17:17:19+0100] <&Viktorina>  Raides (2/4): K********  Liko 45.0 sek.
+[2023-01-19T17:17:25+0100] <@ilonat> klaipedos
+[2023-01-19T17:17:28+0100] <@ilonat> kretingos
+[2023-01-19T17:17:28+0100] <&Viktorina> Atsake: ilonat (per 11.532 sek.) ir gauna 4 task., atsakymas: KRETINGOS, ilonat turi 1202115 (siandien surinko 3864) task. ir yra 1/56 vietoje.
+[2023-01-19T17:17:37+0100] <&Viktorina>  TOP11-15:  #11. svecias (4977) #12. Din_Weasel (4007) #13. iso (3926) #14. roxazz (3577) #15. Sim (3364).
+[2023-01-19T17:17:37+0100] <&Viktorina>  23057  RESTORANAS SU PRAMOGINE PROGRAMA? 
+[2023-01-19T17:17:37+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 2 task. 
+[2023-01-19T17:17:42+0100] <@ilonat> !hint
+[2023-01-19T17:17:42+0100] <&Viktorina>  Raides (2/4): K********  Liko 45.0 sek.
+[2023-01-19T17:17:57+0100] <&Viktorina>  Raides (3/4): K*******S  Liko 30.0 sek.
+[2023-01-19T17:18:00+0100] <@ilonat> !hint
+[2023-01-19T17:18:01+0100] <&Viktorina>  Raides (4/4): K**A****S  Liko 15.0 sek.
+[2023-01-19T17:18:12+0100] <@ilonat> !hint
+[2023-01-19T17:18:13+0100] <&Viktorina> Sis jums pasirode per sunkus. Teisingas atsakymas buvo: KABARETAS.
+[2023-01-19T17:18:23+0100] <&Viktorina>  iNFO: Turite savu klausimu ir norite jais pasidalinti? Rasykite !klsm. 
+[2023-01-19T17:18:23+0100] <&Viktorina>  51960  VARSTOMA TVOROS DALIS? 
+[2023-01-19T17:18:23+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 3 task. 
+[2023-01-19T17:18:27+0100] <MGS> Vartai
+[2023-01-19T17:18:28+0100] <&Viktorina> Atsake: MGS (per 4.081 sek.) ir gauna 3 task., atsakymas: VARTAI, MGS turi 3 (siandien surinko 3) task. ir yra 52/57 vietoje.
+[2023-01-19T17:18:29+0100] <Guest15> kvartai
+[2023-01-19T17:18:37+0100] <&Viktorina>  iNFO: Viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 1202115 task. 
+[2023-01-19T17:18:38+0100] <&Viktorina>  62462  VALDZIOS, SLOVES, KILMINGUMO, SEKMES SIMBOLIS? 
+[2023-01-19T17:18:38+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 8 task. 
+[2023-01-19T17:18:43+0100] <@ilonat> !hint
+[2023-01-19T17:18:43+0100] <&Viktorina>  Raides (2/4): K*****  Liko 45.0 sek.
+[2023-01-19T17:18:46+0100] <Guest15> karuna
+[2023-01-19T17:18:46+0100] <MGS> karuna
+[2023-01-19T17:18:46+0100] <&Viktorina> Atsake: Guest15 (per 7.921 sek.) ir gauna 8 task., atsakymas: KARUNA, Guest15 turi 63 (siandien surinko 63) task. ir yra 38/57 vietoje.
+[2023-01-19T17:18:47+0100] <@ilonat> karuna
+[2023-01-19T17:18:56+0100] <&Viktorina>  iNFO: Pastebeje viktorinoje klaidu galite apie tai pranesti /msg Viktorina error (kl.nr.) (kur klaida) 
+[2023-01-19T17:18:57+0100] <&Viktorina>  74842  RAJONAS, KURIAME YRA EZERAS PUNTAS? 
+[2023-01-19T17:18:57+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 8 task. 
+[2023-01-19T17:19:01+0100] <@ilonat> moletu
+[2023-01-19T17:19:01+0100] <&Viktorina> Atsake: ilonat (per 3.498 sek.) ir gauna 8 task., atsakymas: MOLETU, ilonat turi 1202123 (siandien surinko 3872) task. ir yra 1/57 vietoje.
+[2023-01-19T17:19:02+0100] <MGS> anyksciai
+[2023-01-19T17:19:10+0100] <&Viktorina>  TOP16-20:  #16. OldBoy (3000) #17. zigiz (2822) #18. Hell (2232) #19. bOPin (2014) #20. smokingas (1767).
+[2023-01-19T17:19:10+0100] <&Viktorina>  8068  PASAKYKITE, KOKIA SIOS VALSTYBES SOSTINE: TAILANDAS? 
+[2023-01-19T17:19:10+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 9 task. 
+[2023-01-19T17:19:19+0100] <MGS> taipejus
+[2023-01-19T17:19:21+0100] <Guest15> !hint
+[2023-01-19T17:19:21+0100] <&Viktorina>  Raides (2/4): B*******  Liko 45.0 sek.
+[2023-01-19T17:19:23+0100] <@ilonat> bankokas
+[2023-01-19T17:19:23+0100] <&Viktorina> Atsake: ilonat (per 11.826 sek.) ir gauna 9 task., atsakymas: BANKOKAS, ilonat turi 1202132 (siandien surinko 3881) task. ir yra 1/57 vietoje.
+[2023-01-19T17:19:33+0100] <&Viktorina>  iNFO: Kanale veikia sios komandos: !ping !stat !dstat !seen !memo !place !dplace !wordstats !topwords !top10 !top20 !dtop10 !dtop20 !taskai !eile !deile !visi !dvisi !klausimas !klsm. 
+[2023-01-19T17:19:33+0100] <&Viktorina>  75540  RAJONAS, KURIAME YRA SVIRONIU PILIAKALNIS? 
+[2023-01-19T17:19:33+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 5 task. 
+[2023-01-19T17:19:39+0100] <@ilonat> !hint
+[2023-01-19T17:19:39+0100] <&Viktorina>  Raides (2/4): V*******  Liko 45.0 sek.
+[2023-01-19T17:19:39+0100] <MGS> keine anung
+[2023-01-19T17:19:42+0100] <@ilonat> vilniaus
+[2023-01-19T17:19:43+0100] <&Viktorina> Atsake: ilonat (per 8.246 sek.) ir gauna 5 task., atsakymas: VILNIAUS, ilonat turi 1202137 (siandien surinko 3886) task. ir yra 1/57 vietoje.
+[2023-01-19T17:19:43+0100] <&Viktorina> ilonat atsake 3 kart. is eiles!
+[2023-01-19T17:19:52+0100] <&Viktorina>  iNFO: Laimejimu is eiles rekordas priklauso orneta. Sis zaidejas atsake i 33 klausimus is eiles. 
+[2023-01-19T17:19:52+0100] <&Viktorina>  62306  JAVINIS AUGALAS LOT. ZEA? 
+[2023-01-19T17:19:52+0100] <&Viktorina>  Raides (1/4): *********   BONUS klausimo verte 10 task. 
+[2023-01-19T17:20:07+0100] <&Viktorina>  Raides (2/4): K********  Liko 45.0 sek.
+[2023-01-19T17:20:09+0100] <@ilonat> kukuruzas
+[2023-01-19T17:20:09+0100] <&Viktorina> Atsake: ilonat (per 16.613 sek.) ir gauna 10 task., atsakymas: KUKURUZAS, ilonat turi 1202147 (siandien surinko 3896) task. ir yra 1/57 vietoje.
+[2023-01-19T17:20:09+0100] <&Viktorina> ilonat atsake 4 kart. is eiles!
+[2023-01-19T17:20:19+0100] <&Viktorina>  iNFO: Viktorina visa para! Ko dar noreti?. 
+[2023-01-19T17:20:20+0100] <&Viktorina>  65295  KOKIA SAVAITES DIENA IRANIETISKAME KALENDORIUJE SKAMBA KAIP 'JEKSAMBE'? 
+[2023-01-19T17:20:20+0100] <&Viktorina>  Raides (1/4): ***********  Klausimo verte: 2 task. 
+[2023-01-19T17:20:22+0100] <@ilonat> !hint
+[2023-01-19T17:20:22+0100] <&Viktorina>  Raides (2/4): S**********  Liko 45.0 sek.
+[2023-01-19T17:20:31+0100] <MGS> sekmadienis
+[2023-01-19T17:20:31+0100] <&Viktorina> Atsake: MGS (per 10.896 sek.) ir gauna 2 task., atsakymas: SEKMADIENIS, MGS turi 5 (siandien surinko 5) task. ir yra 50/57 vietoje.
+[2023-01-19T17:20:32+0100] <&Viktorina> Baigesi ilonat laimejimu serija.
+[2023-01-19T17:20:42+0100] <&Viktorina>  TOP1-5(dienos):  #1. ilonat (3896) #2. _zmogenas (135) #3. Guest15 (63) #4. MGS (5) #5. nera (0).
+[2023-01-19T17:20:42+0100] <&Viktorina>  64796  IS KOKIOS SALIES YRA FUTBOLININKAS PAVEL NEDVED? 
+[2023-01-19T17:20:42+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 10 task. 
+[2023-01-19T17:20:44+0100] <@ilonat> !hint
+[2023-01-19T17:20:45+0100] <&Viktorina>  Raides (2/4): C******  Liko 45.0 sek.
+[2023-01-19T17:20:47+0100] <MGS> cekija
+[2023-01-19T17:20:48+0100] <@ilonat> cekijos
+[2023-01-19T17:20:48+0100] <&Viktorina> Atsake: ilonat (per 5.423 sek.) ir gauna 10 task., atsakymas: CEKIJOS, ilonat turi 1202157 (siandien surinko 3906) task. ir yra 1/57 vietoje.
+[2023-01-19T17:20:58+0100] <&Viktorina>  iNFO: Siandien daugiausiai kartu is eiles atsake ilonat. Sis zaidejas atsake i 4 klausimus is eiles. 
+[2023-01-19T17:20:59+0100] <&Viktorina>  25062  NUO JAVU UKIO PRIKLAUSANTI GYVULININKYSTES SAKA? 
+[2023-01-19T17:20:59+0100] <&Viktorina>  Raides (1/4): **************  Klausimo verte: 2 task. 
+[2023-01-19T17:21:04+0100] <@ilonat> !hint
+[2023-01-19T17:21:05+0100] <&Viktorina>  Raides (2/4): K*************  Liko 45.0 sek.
+[2023-01-19T17:21:12+0100] <MGS> karvininkyste
+[2023-01-19T17:21:18+0100] <&Viktorina>  Raides (3/4): K****I********  Liko 30.0 sek.
+[2023-01-19T17:21:18+0100] <@ilonat> :))
+[2023-01-19T17:21:20+0100] <MGS> :D
+[2023-01-19T17:21:29+0100] <Guest15> kiaulininkyste
+[2023-01-19T17:21:29+0100] <MGS> kiaulininkyste
+[2023-01-19T17:21:32+0100] <&Viktorina> Atsake: Guest15 (per 30.301 sek.) ir gauna 2 task., atsakymas: KIAULININKYSTE, Guest15 turi 65 (siandien surinko 65) task. ir yra 37/57 vietoje.
+[2023-01-19T17:21:40+0100] <&Viktorina>  iNFO: #patogiai kanalo tinklapis --> www.patogiai.info/aitvaras <--FOTO su NICK'u siusti e-mailu: andriuxas@gmail.com 
+[2023-01-19T17:21:40+0100] <&Viktorina>  74713  RAJONAS, KURIAME YRA EZERAS BIJOTE? 
+[2023-01-19T17:21:40+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 9 task. 
+[2023-01-19T17:21:42+0100] <@ilonat> !hint
+[2023-01-19T17:21:43+0100] <&Viktorina>  Raides (2/4): S******  Liko 45.0 sek.
+[2023-01-19T17:21:46+0100] <@ilonat> siauliu
+[2023-01-19T17:21:46+0100] <&Viktorina> Atsake: ilonat (per 5.353 sek.) ir gauna 9 task., atsakymas: SIAULIU, ilonat turi 1202166 (siandien surinko 3915) task. ir yra 1/57 vietoje.
+[2023-01-19T17:21:56+0100] <&Viktorina>  TOP6-10(dienos):  #6. nera (0) #7. nera (0) #8. nera (0) #9. nera (0) #10. nera (0).
+[2023-01-19T17:21:57+0100] <&Viktorina>  47350  KAS LAIMEJO 1982M. F1 CEMPIONATA (LENKTYNININKAS) [ORIG.]? 
+[2023-01-19T17:21:57+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 1 task. 
+[2023-01-19T17:21:59+0100] <@ilonat> !hint
+[2023-01-19T17:21:59+0100] <&Viktorina>  Raides (2/4): R******  Liko 45.0 sek.
+[2023-01-19T17:22:13+0100] <&Viktorina>  Raides (3/4): R*S****  Liko 30.0 sek.
+[2023-01-19T17:22:20+0100] <MGS> rositas
+[2023-01-19T17:22:29+0100] <&Viktorina>  Raides (4/4): R*SB***  Liko 15.0 sek.
+[2023-01-19T17:22:44+0100] <&Viktorina> Ar as cia vienas? Teisingas atsakymas buvo: ROSBERG.
+[2023-01-19T17:22:53+0100] <&Viktorina>  iNFO: Dienos rekordas priklauso ilonat. Sis zaidejas per diena surinko 25068 task. 
+[2023-01-19T17:22:53+0100] <&Viktorina>  12096  K. UTENOS R. (LIETUVOS VIETOVAIZDIS)? 
+[2023-01-19T17:22:53+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 8 task. 
+[2023-01-19T17:22:59+0100] <@ilonat> !hint
+[2023-01-19T17:22:59+0100] <&Viktorina>  Raides (2/4): D********  Liko 45.0 sek.
+[2023-01-19T17:23:00+0100] <@ilonat> !hint
+[2023-01-19T17:23:00+0100] <@ilonat> !hint
+[2023-01-19T17:23:00+0100] <@ilonat> !hint
+[2023-01-19T17:23:01+0100] <&Viktorina>  Raides (3/4): D*******I  Liko 30.0 sek.
+[2023-01-19T17:23:01+0100] <&Viktorina>  Raides (4/4): D*****I*I  Liko 15.0 sek.
+[2023-01-19T17:23:02+0100] <&Viktorina> Gal kitas bus lengvesnis... Teisingas atsakymas buvo: DAUNORIAI.
+[2023-01-19T17:23:11+0100] <&Viktorina>  iNFO: Siandien viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 3915 task. 
+[2023-01-19T17:23:11+0100] <&Viktorina>  28319  MEDZIAGA, IS KURIOS PAPRASTAI GAMINAMAS PREZERVATYVAS? 
+[2023-01-19T17:23:11+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 6 task. 
+[2023-01-19T17:23:15+0100] <MGS> lateksas
+[2023-01-19T17:23:16+0100] <Guest15> lateksas
+[2023-01-19T17:23:16+0100] <&Viktorina> Atsake: Guest15 (per 4.448 sek.) ir gauna 6 task., atsakymas: LATEKSAS, Guest15 turi 71 (siandien surinko 71) task. ir yra 37/57 vietoje.
+[2023-01-19T17:23:16+0100] <@ilonat> lateksas
+[2023-01-19T17:23:27+0100] <&Viktorina>  iNFO:  Kanale reklama draudziama! Pagauti tai darantys bus ismesti visam laikui! 
+[2023-01-19T17:23:27+0100] <&Viktorina>  59444  GARSUS MATEMATIKAS, DALYVAVES OLIMPINESE ZAIDYNESE? 
+[2023-01-19T17:23:27+0100] <@ilonat> ta zinai:))
+[2023-01-19T17:23:27+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 8 task. 
+[2023-01-19T17:23:32+0100] <@ilonat> !hint
+[2023-01-19T17:23:33+0100] <&Viktorina>  Raides (2/4): P********  Liko 45.0 sek.
+[2023-01-19T17:23:35+0100] <MGS> zinoma :D
+[2023-01-19T17:23:37+0100] <@ilonat> pitagoras
+[2023-01-19T17:23:37+0100] <&Viktorina> Atsake: ilonat (per 9.599 sek.) ir gauna 8 task., atsakymas: PITAGORAS, ilonat turi 1202174 (siandien surinko 3923) task. ir yra 1/57 vietoje.
+[2023-01-19T17:23:41+0100] <@ilonat> :))
+[2023-01-19T17:23:42+0100] <MGS> bent kazka zinau :D
+[2023-01-19T17:23:47+0100] <&Viktorina>  iNFO: Noredami suzinoti kanale veikiancias komandas rasykite !komandos 
+[2023-01-19T17:23:47+0100] <&Viktorina>  14150  "ISMIERA" LIETUVISKAI? 
+[2023-01-19T17:23:47+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 2 task. 
+[2023-01-19T17:23:51+0100] <@ilonat> dydis
+[2023-01-19T17:23:52+0100] <&Viktorina> Atsake: ilonat (per 3.458 sek.) ir gauna 2 task., atsakymas: DYDIS, ilonat turi 1202176 (siandien surinko 3925) task. ir yra 1/57 vietoje.
+[2023-01-19T17:23:52+0100] <MGS> matmuo
+[2023-01-19T17:23:53+0100] <Guest15> dydis
+[2023-01-19T17:23:58+0100] <@ilonat> kiek metu
+[2023-01-19T17:24:01+0100] <&Viktorina>  TOP1-5:  #1. ilonat (1202176) #2. busilass (510204) #3. orneta (190895) #4. ImCat (87897) #5. Daliuska (58205).
+[2023-01-19T17:24:02+0100] <&Viktorina>  8858  KAS PIRMAS PARASYS BESIKISKIAKOPUSTELIAUDAMAS? 
+[2023-01-19T17:24:02+0100] <&Viktorina>  Raides (1/4): **************************  Klausimo verte: 3 task. 
+[2023-01-19T17:24:05+0100] <MGS> 38
+[2023-01-19T17:24:11+0100] <@ilonat> normaliai
+[2023-01-19T17:24:15+0100] <MGS> besikiskiopusteliaudamas
+[2023-01-19T17:24:17+0100] <&Viktorina>  Raides (2/4): B*************************  Liko 45.0 sek.
+[2023-01-19T17:24:25+0100] <Guest15> besikiskiakopusteliaudamas
+[2023-01-19T17:24:25+0100] <&Viktorina> Atsake: Guest15 (per 22.644 sek.) ir gauna 3 task., atsakymas: BESIKISKIAKOPUSTELIAUDAMAS, Guest15 turi 74 (siandien surinko 74) task. ir yra 35/57 vietoje.
+[2023-01-19T17:24:34+0100] <&Viktorina>  iNFO: Savo taskus galite paziureti parase komanda !taskai. 
+[2023-01-19T17:24:34+0100] <&Viktorina>  67279  SALIS, KURIOJE YRA MIESTAS GAGRA? 
+[2023-01-19T17:24:34+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 10 task. 
+[2023-01-19T17:24:41+0100] <@ilonat> !hint
+[2023-01-19T17:24:41+0100] <&Viktorina>  Raides (2/4): G******  Liko 45.0 sek.
+[2023-01-19T17:24:45+0100] <@ilonat> gruzija
+[2023-01-19T17:24:45+0100] <&Viktorina> Atsake: ilonat (per 9.843 sek.) ir gauna 10 task., atsakymas: GRUZIJA, ilonat turi 1202186 (siandien surinko 3935) task. ir yra 1/57 vietoje.
+[2023-01-19T17:24:55+0100] <&Viktorina>  iNFO: Dabar yra 19:24:55. Iki nauju dienos rezultatu liko 4 val. 35 min. 5 sek. 
+[2023-01-19T17:24:55+0100] <&Viktorina>  60945  GIEDA KAIP ... PRIES MENULI? 
+[2023-01-19T17:24:55+0100] <&Viktorina>  Raides (1/4): ***  Klausimo verte: 2 task. 
+[2023-01-19T17:24:57+0100] <@ilonat> !hint
+[2023-01-19T17:24:58+0100] <&Viktorina>  Raides (2/4): S**  Liko 45.0 sek.
+[2023-01-19T17:24:59+0100] <@ilonat> suo
+[2023-01-19T17:24:59+0100] <&Viktorina> Atsake: ilonat (per 2.759 sek.) ir gauna 2 task., atsakymas: SUO, ilonat turi 1202188 (siandien surinko 3937) task. ir yra 1/57 vietoje.
+[2023-01-19T17:25:09+0100] <&Viktorina>  iNFO: Komandos !top10, !top20, !dtop10 ir !dtop20 parodys jums kanalo topus. 
+[2023-01-19T17:25:10+0100] <&Viktorina>  68390  SALIS, KURIOJE YRA MIESTAS TEARCE? 
+[2023-01-19T17:25:10+0100] <&Viktorina>  Raides (1/4): **********  Klausimo verte: 3 task. 
+[2023-01-19T17:25:12+0100] <@ilonat> !hint
+[2023-01-19T17:25:12+0100] <&Viktorina>  Raides (2/4): M*********  Liko 45.0 sek.
+[2023-01-19T17:25:15+0100] <@ilonat> makedonija
+[2023-01-19T17:25:16+0100] <&Viktorina> Atsake: ilonat (per 5.249 sek.) ir gauna 3 task., atsakymas: MAKEDONIJA, ilonat turi 1202191 (siandien surinko 3940) task. ir yra 1/57 vietoje.
+[2023-01-19T17:25:16+0100] <&Viktorina> ilonat atsake 3 kart. is eiles!
+[2023-01-19T17:25:26+0100] <&Viktorina>  TOP6-10:  #6. aha (10663) #7. Tarakonas (7710) #8. karmen (6537) #9. _zmogenas (6362) #10. ugnisa (5770).
+[2023-01-19T17:25:26+0100] <&Viktorina>  62614  GRYBAS LOT. CANTHARELLUS? 
+[2023-01-19T17:25:26+0100] <&Viktorina>  Raides (1/4): *********   BONUS klausimo verte 50 task. 
+[2023-01-19T17:25:40+0100] <&Viktorina>  Raides (2/4): V********  Liko 45.0 sek.
+[2023-01-19T17:25:43+0100] <@ilonat> !hintvoveraite
+[2023-01-19T17:25:44+0100] <Guest15> voveraite
+[2023-01-19T17:25:44+0100] <&Viktorina> Atsake: Guest15 (per 17.374 sek.) ir gauna 50 task., atsakymas: VOVERAITE, Guest15 turi 124 (siandien surinko 124) task. ir yra 33/57 vietoje.
+[2023-01-19T17:25:44+0100] <&Viktorina> Baigesi ilonat laimejimu serija.
+[2023-01-19T17:25:47+0100] <@ilonat> voveraite
+[2023-01-19T17:25:52+0100] <@ilonat> :))
+[2023-01-19T17:25:54+0100] <&Viktorina>  iNFO: !visi ir !dvisi parodys siuo metu kanale esanciu taskus. 
+[2023-01-19T17:25:55+0100] <&Viktorina>  76263  IS KUR YRA MUZ. GRUPE ZENYTAS? 
+[2023-01-19T17:25:55+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 10 task. 
+[2023-01-19T17:26:10+0100] <&Viktorina>  Raides (2/4): Z******  Liko 45.0 sek.
+[2023-01-19T17:26:11+0100] <MGS> till next time... bye
+[2023-01-19T17:26:15+0100] <@ilonat> zarasai
+[2023-01-19T17:26:15+0100] <&Viktorina> Atsake: ilonat (per 19.472 sek.) ir gauna 10 task., atsakymas: ZARASAI, ilonat turi 1202201 (siandien surinko 3950) task. ir yra 1/57 vietoje.
+[2023-01-19T17:26:17+0100] Disconnected
+[2023-01-19T17:26:17+0100]  
+[2023-01-19T17:26:17+0100] ------------- End Session -------------
+[2023-01-19T17:26:17+0100]  
+[2023-01-19T18:13:08+0100]  
+[2023-01-19T18:13:08+0100] ------------- Begin Session -------------
+[2023-01-19T18:13:08+0100]  
+[2023-01-19T18:13:08+0100] Vidas (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T18:13:08+0100] Topic is Viktorina Jusu Paslaugoms Visa Para! ;) ..together we make a perfect storm!.. :)
+[2023-01-19T18:13:08+0100] Set by Vilmune on August 26, 2020 at 12:05:37 PM GMT+2
+[2023-01-19T18:13:09+0100] Mode is +fjnrt [6j#R]:9 3:10
+[2023-01-19T18:13:09+0100] <&Viktorina>  Raides (2/4): A****  Liko 45.0 sek.
+[2023-01-19T18:13:20+0100] <Guest15> arija
+[2023-01-19T18:13:20+0100] <&Viktorina> Atsake: Guest15 (per 25.252 sek.) ir gauna 1 task., atsakymas: ARIJA, Guest15 turi 133 (siandien surinko 133) task. ir yra 33/57 vietoje.
+[2023-01-19T18:13:21+0100] You're now known as MGS
+[2023-01-19T18:13:30+0100] <&Viktorina>  iNFO: Turite savu klausimu ir norite jais pasidalinti? Rasykite !klsm. 
+[2023-01-19T18:13:30+0100] <&Viktorina>  67716  SALIS, KURIOJE YRA MIESTAS PAGANIS? 
+[2023-01-19T18:13:30+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 5 task. 
+[2023-01-19T18:13:44+0100] <&Viktorina>  Raides (2/4): I******  Liko 45.0 sek.
+[2023-01-19T18:13:53+0100] <MGS> Italija
+[2023-01-19T18:13:54+0100] <@ilonat> italija
+[2023-01-19T18:13:54+0100] <&Viktorina> Atsake: MGS (per 23.479 sek.) ir gauna 5 task., atsakymas: ITALIJA, MGS turi 10 (siandien surinko 10) task. ir yra 44/57 vietoje.
+[2023-01-19T18:13:59+0100] <MGS> dar zaidi? :D
+[2023-01-19T18:14:04+0100] <&Viktorina>  iNFO: Viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 1203138 task. 
+[2023-01-19T18:14:04+0100] <&Viktorina>  59012  MOKSLAS APIE RINKOS MECHANIZMA IR KONKURENCINES JEGAS? 
+[2023-01-19T18:14:04+0100] <&Viktorina>  Raides (1/4): **************  Klausimo verte: 1 task. 
+[2023-01-19T18:14:11+0100] <Guest15> ekonomika
+[2023-01-19T18:14:12+0100] <MGS> Ekonomika
+[2023-01-19T18:14:19+0100] <&Viktorina>  Raides (2/4): M*************  Liko 45.0 sek.
+[2023-01-19T18:14:28+0100] <Guest15> makroekonomika
+[2023-01-19T18:14:32+0100] <Guest15> mikroekonomika
+[2023-01-19T18:14:32+0100] <&Viktorina> Atsake: Guest15 (per 26.884 sek.) ir gauna 1 task., atsakymas: MIKROEKONOMIKA, Guest15 turi 134 (siandien surinko 134) task. ir yra 33/57 vietoje.
+[2023-01-19T18:14:32+0100] <MGS> mikroekonomika
+[2023-01-19T18:14:42+0100] <&Viktorina>  iNFO: Pastebeje viktorinoje klaidu galite apie tai pranesti /msg Viktorina error (kl.nr.) (kur klaida) 
+[2023-01-19T18:14:42+0100] <&Viktorina>  18943  PRANCUZU GROZINEJE LITERATUROJE - JAUNA MERGINA, DIRBANTI PARDAVEJA? 
+[2023-01-19T18:14:42+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 3 task. 
+[2023-01-19T18:14:57+0100] <&Viktorina>  Raides (2/4): G******  Liko 45.0 sek.
+[2023-01-19T18:15:02+0100] <MGS> !hint
+[2023-01-19T18:15:03+0100] <&Viktorina>  Raides (3/4): GR*****  Liko 30.0 sek.
+[2023-01-19T18:15:14+0100] <MGS> !hint
+[2023-01-19T18:15:15+0100] <&Viktorina>  Raides (4/4): GR****E  Liko 15.0 sek.
+[2023-01-19T18:15:21+0100] <MGS> !hint
+[2023-01-19T18:15:21+0100] <&Viktorina> Lengvesnio klausimo nesugalvosi... Teisingas atsakymas buvo: GRIZETE.
+[2023-01-19T18:15:31+0100] <&Viktorina>  TOP16-20:  #16. OldBoy (3000) #17. zigiz (2822) #18. Hell (2232) #19. bOPin (2014) #20. smokingas (1767).
+[2023-01-19T18:15:31+0100] <&Viktorina>  18344  AZURINIS NERINYS SU ISKILAIS STORESNIU SIULU RASTAIS? 
+[2023-01-19T18:15:31+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 5 task. 
+[2023-01-19T18:15:46+0100] <&Viktorina>  Raides (2/4): G*******  Liko 45.0 sek.
+[2023-01-19T18:16:01+0100] <&Viktorina>  Raides (3/4): G****R**  Liko 30.0 sek.
+[2023-01-19T18:16:04+0100] <MGS> !hint
+[2023-01-19T18:16:05+0100] Petras kicked MGS from the channel (Nesikartoki!)
+[2023-01-19T18:16:24+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T18:16:24+0100] Topic is Viktorina Jusu Paslaugoms Visa Para! ;) ..together we make a perfect storm!.. :)
+[2023-01-19T18:16:24+0100] Set by Vilmune on August 26, 2020 at 12:05:37 PM GMT+2
+[2023-01-19T18:16:24+0100] Mode is +fjnrt [6j#R]:9 3:10
+[2023-01-19T18:16:29+0100] <&Viktorina>  iNFO: Kanale veikia sios komandos: !ping !stat !dstat !seen !memo !place !dplace !wordstats !topwords !top10 !top20 !dtop10 !dtop20 !taskai !eile !deile !visi !dvisi !klausimas !klsm. 
+[2023-01-19T18:16:29+0100] <&Viktorina>  6161  SAKINIO DALIU ARBA SAKINIU JUNGIMAS BE JUNGTUKU BEI KITU GRAMATINIU JUNGIMO PRIEMONIU? 
+[2023-01-19T18:16:29+0100] <&Viktorina>  Raides (1/4): ***********  Klausimo verte: 8 task. 
+[2023-01-19T18:16:44+0100] <&Viktorina>  Raides (2/4): A**********  Liko 45.0 sek.
+[2023-01-19T18:16:59+0100] <&Viktorina>  Raides (3/4): A******O***  Liko 30.0 sek.
+[2023-01-19T18:17:14+0100] <&Viktorina>  Raides (4/4): A******ON**  Liko 15.0 sek.
+[2023-01-19T18:17:29+0100] <&Viktorina> Ar as cia vienas? Teisingas atsakymas buvo: ASINDETONAS.
+[2023-01-19T18:17:40+0100] <&Viktorina>  iNFO: Laimejimu is eiles rekordas priklauso orneta. Sis zaidejas atsake i 33 klausimus is eiles. 
+[2023-01-19T18:17:40+0100] <&Viktorina>  11879  DIEVISKOJI KOMEDIJA. ROJUS AUTORIUS? 
+[2023-01-19T18:17:40+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 7 task. 
+[2023-01-19T18:17:54+0100] <&Viktorina>  Raides (2/4): D****  Liko 45.0 sek.
+[2023-01-19T18:18:09+0100] <&Viktorina>  Raides (3/4): D**T*  Liko 30.0 sek.
+[2023-01-19T18:18:18+0100] <Guest15> dante
+[2023-01-19T18:18:18+0100] <&Viktorina> Atsake: Guest15 (per 37.417 sek.) ir gauna 7 task., atsakymas: DANTE, Guest15 turi 141 (siandien surinko 141) task. ir yra 33/57 vietoje.
+[2023-01-19T18:18:28+0100] <&Viktorina>  iNFO: Viktorina visa para! Ko dar noreti?. 
+[2023-01-19T18:18:28+0100] <&Viktorina>  23673  INFORMACIJOS PERDAVIMO TRAKTAS? 
+[2023-01-19T18:18:28+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 8 task. 
+[2023-01-19T18:18:44+0100] <&Viktorina>  Raides (2/4): K******  Liko 45.0 sek.
+[2023-01-19T18:18:49+0100] <MGS> koduote
+[2023-01-19T18:18:51+0100] <Guest15> kanalas
+[2023-01-19T18:18:51+0100] <&Viktorina> Atsake: Guest15 (per 21.848 sek.) ir gauna 8 task., atsakymas: KANALAS, Guest15 turi 149 (siandien surinko 149) task. ir yra 32/57 vietoje.
+[2023-01-19T18:19:01+0100] <&Viktorina>  TOP1-5(dienos):  #1. ilonat (4887) #2. Guest15 (149) #3. _zmogenas (135) #4. MGS (10) #5. nera (0).
+[2023-01-19T18:19:01+0100] <&Viktorina>  61048  GAILISI KAIP ... SKATIKO? 
+[2023-01-19T18:19:01+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 10 task. 
+[2023-01-19T18:19:10+0100] <MGS> varna
+[2023-01-19T18:19:17+0100] <&Viktorina>  Raides (2/4): Z****  Liko 45.0 sek.
+[2023-01-19T18:19:31+0100] <&Viktorina>  Raides (3/4): Z***S  Liko 30.0 sek.
+[2023-01-19T18:19:47+0100] <&Viktorina>  Raides (4/4): ZY**S  Liko 15.0 sek.
+[2023-01-19T18:19:50+0100] <Guest15> zydas
+[2023-01-19T18:19:50+0100] <MGS> zyles
+[2023-01-19T18:19:50+0100] <&Viktorina> Atsake: Guest15 (per 47.927 sek.) ir gauna 10 task., atsakymas: ZYDAS, Guest15 turi 159 (siandien surinko 159) task. ir yra 32/57 vietoje.
+[2023-01-19T18:19:50+0100] <&Viktorina> Guest15 atsake 3 kart. is eiles!
+[2023-01-19T18:20:01+0100] <&Viktorina>  iNFO: Siandien daugiausiai kartu is eiles atsake ilonat. Sis zaidejas atsake i 4 klausimus is eiles. 
+[2023-01-19T18:20:01+0100] <&Viktorina>  75759  KOKS AKORDAS SUSIDARO NUO TRECIO GAMOS LAIPSNIO? 
+[2023-01-19T18:20:01+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 6 task. 
+[2023-01-19T18:20:08+0100] <MGS> !hint
+[2023-01-19T18:20:09+0100] <&Viktorina>  Raides (2/4): M*******  Liko 45.0 sek.
+[2023-01-19T18:20:25+0100] <&Viktorina>  Raides (3/4): M***A***  Liko 30.0 sek.
+[2023-01-19T18:20:40+0100] <&Viktorina>  Raides (4/4): M***A**E  Liko 15.0 sek.
+[2023-01-19T18:20:54+0100] <&Viktorina> Ar as cia vienas? Teisingas atsakymas buvo: MEDIANTE.
+[2023-01-19T18:20:54+0100] <&Viktorina> Baigesi Guest15 laimejimu serija.
+[2023-01-19T18:21:04+0100] <&Viktorina>  iNFO: #patogiai kanalo tinklapis --> www.patogiai.info/aitvaras <--FOTO su NICK'u siusti e-mailu: andriuxas@gmail.com 
+[2023-01-19T18:21:04+0100] <&Viktorina>  55715  LIETUVOS ORNITOLOGU DRAUGIJA 2009-UOSIUS PASKELBE KOKIO PAUKSCIO METAIS? 
+[2023-01-19T18:21:04+0100] <&Viktorina>  Raides (1/4): ******* ******  Klausimo verte: 2 task. 
+[2023-01-19T18:21:19+0100] <&Viktorina>  Raides (2/4): J****** G*****  Liko 45.0 sek.
+[2023-01-19T18:21:34+0100] <MGS> juodojo gandro
+[2023-01-19T18:21:34+0100] <&Viktorina>  Raides (3/4): J*O**** G****O  Liko 30.0 sek.
+[2023-01-19T18:21:35+0100] <&Viktorina> Atsake: MGS (per 29.475 sek.) ir gauna 2 task., atsakymas: JUODOJO GANDRO, MGS turi 12 (siandien surinko 12) task. ir yra 44/57 vietoje.
+[2023-01-19T18:21:45+0100] <&Viktorina>  TOP6-10(dienos):  #6. nera (0) #7. nera (0) #8. nera (0) #9. nera (0) #10. nera (0).
+[2023-01-19T18:21:45+0100] <&Viktorina>  5302  GYDYMAS BICIU GAMINAMAIS IR SURENKAMAIS PRODUKTAIS? 
+[2023-01-19T18:21:45+0100] <&Viktorina>  Raides (1/4): ***********  Klausimo verte: 4 task. 
+[2023-01-19T18:21:56+0100] <MGS> bitininkyste
+[2023-01-19T18:22:00+0100] <&Viktorina>  Raides (2/4): A**********  Liko 45.0 sek.
+[2023-01-19T18:22:15+0100] <&Viktorina>  Raides (3/4): A*I********  Liko 30.0 sek.
+[2023-01-19T18:22:29+0100] <&Viktorina>  Raides (4/4): A*I*****I**  Liko 15.0 sek.
+[2023-01-19T18:22:45+0100] <&Viktorina> Sis jums pasirode per sunkus. Teisingas atsakymas buvo: APITERAPIJA.
+[2023-01-19T18:22:54+0100] <&Viktorina>  iNFO: Dienos rekordas priklauso ilonat. Sis zaidejas per diena surinko 25068 task. 
+[2023-01-19T18:22:54+0100] <&Viktorina>  49647  NUSKEDES LAIVAS? 
+[2023-01-19T18:22:54+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 8 task. 
+[2023-01-19T18:23:09+0100] <&Viktorina>  Raides (2/4): T********  Liko 45.0 sek.
+[2023-01-19T18:23:24+0100] <&Viktorina>  Raides (3/4): T*******S  Liko 30.0 sek.
+[2023-01-19T18:23:28+0100] <MGS> titanikas
+[2023-01-19T18:23:29+0100] <&Viktorina> Atsake: MGS (per 33.485 sek.) ir gauna 8 task., atsakymas: TITANIKAS, MGS turi 20 (siandien surinko 20) task. ir yra 42/57 vietoje.
+[2023-01-19T18:23:31+0100] Guest15!~textual@8A95DEC2.CC0C06E0.DC25739B.IP invited you to join #bebras
+[2023-01-19T18:23:38+0100] <&Viktorina>  iNFO: Siandien viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 4887 task. 
+[2023-01-19T18:23:38+0100] <&Viktorina>  61085  TINKA KAIP CIGONO ARKLIUI ...? 
+[2023-01-19T18:23:38+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 5 task. 
+[2023-01-19T18:23:54+0100] <&Viktorina>  Raides (2/4): B******  Liko 45.0 sek.
+[2023-01-19T18:24:08+0100] <&Viktorina>  Raides (3/4): B*****S  Liko 30.0 sek.
+[2023-01-19T18:24:23+0100] <&Viktorina>  Raides (4/4): B*Z***S  Liko 15.0 sek.
+[2023-01-19T18:24:37+0100] <MGS> bizunas
+[2023-01-19T18:24:39+0100] <&Viktorina> Atsake: MGS (per 59.208 sek.) ir gauna 5 task., atsakymas: BIZUNAS, MGS turi 25 (siandien surinko 25) task. ir yra 41/57 vietoje.
+[2023-01-19T18:24:47+0100] <&Viktorina>  iNFO:  Kanale reklama draudziama! Pagauti tai darantys bus ismesti visam laikui! 
+[2023-01-19T18:24:47+0100] <&Viktorina>  68224  SALIS, KURIOJE YRA MIESTAS GELGAUDISKIS? 
+[2023-01-19T18:24:47+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 4 task. 
+[2023-01-19T18:25:02+0100] <&Viktorina>  Raides (2/4): L******  Liko 45.0 sek.
+[2023-01-19T18:25:17+0100] <&Viktorina>  Raides (3/4): L**T***  Liko 30.0 sek.
+[2023-01-19T18:25:33+0100] <&Viktorina>  Raides (4/4): L**T*V*  Liko 15.0 sek.
+[2023-01-19T18:25:35+0100] <MGS> Lietuva
+[2023-01-19T18:25:36+0100] <&Viktorina> Atsake: MGS (per 47.666 sek.) ir gauna 4 task., atsakymas: LIETUVA, MGS turi 29 (siandien surinko 29) task. ir yra 41/57 vietoje.
+[2023-01-19T18:25:36+0100] <&Viktorina> MGS atsake 3 kart. is eiles!
+[2023-01-19T18:25:45+0100] <&Viktorina>  iNFO: Noredami suzinoti kanale veikiancias komandas rasykite !komandos 
+[2023-01-19T18:25:45+0100] <&Viktorina>  10888  SENOVES GRAIKIJOJE, ROMOJE RANKRASTIS, TAIP PAT MEDZIAGA, KURIOJE JIS PARASYTAS? 
+[2023-01-19T18:25:45+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 7 task. 
+[2023-01-19T18:26:00+0100] <&Viktorina>  Raides (2/4): C*******  Liko 45.0 sek.
+[2023-01-19T18:26:15+0100] <&Viktorina>  Raides (3/4): CH******  Liko 30.0 sek.
+[2023-01-19T18:26:31+0100] <&Viktorina>  Raides (4/4): CH***I**  Liko 15.0 sek.
+[2023-01-19T18:26:46+0100] <&Viktorina> Nagi, pasistenkite! Teisingas atsakymas buvo: CHARTIJA.
+[2023-01-19T18:26:46+0100] <&Viktorina> Baigesi MGS laimejimu serija.
+[2023-01-19T18:26:55+0100] <&Viktorina>  TOP1-5:  #1. ilonat (1203138) #2. busilass (510204) #3. orneta (190895) #4. ImCat (87897) #5. Daliuska (58205).
+[2023-01-19T18:26:55+0100] <&Viktorina>  38720  IRANKIS KALTI? 
+[2023-01-19T18:26:56+0100] <&Viktorina>  Raides (1/4): *********   BONUS klausimo verte 50 task. 
+[2023-01-19T18:27:04+0100] <MGS> plaktukas
+[2023-01-19T18:27:05+0100] <Guest15> plaktukas
+[2023-01-19T18:27:05+0100] <&Viktorina> Atsake: MGS (per 8.730 sek.) ir gauna 50 task., atsakymas: PLAKTUKAS, MGS turi 79 (siandien surinko 79) task. ir yra 34/57 vietoje.
+[2023-01-19T18:27:14+0100] <&Viktorina>  iNFO: Savo taskus galite paziureti parase komanda !taskai. 
+[2023-01-19T18:27:15+0100] <&Viktorina>  49988  BASTYTIS, VALKIOTIS? 
+[2023-01-19T18:27:15+0100] <&Viktorina>  Raides (1/4): **********  Klausimo verte: 9 task. 
+[2023-01-19T18:27:26+0100] <Guest15> valkatauti
+[2023-01-19T18:27:29+0100] <&Viktorina>  Raides (2/4): T*********  Liko 45.0 sek.
+[2023-01-19T18:27:37+0100] <Guest15> trainiotis
+[2023-01-19T18:27:37+0100] <&Viktorina> Atsake: Guest15 (per 21.625 sek.) ir gauna 9 task., atsakymas: TRAINIOTIS, Guest15 turi 168 (siandien surinko 168) task. ir yra 32/57 vietoje.
+[2023-01-19T18:27:47+0100] <&Viktorina>  iNFO: Dabar yra 20:27:47. Iki nauju dienos rezultatu liko 3 val. 32 min. 13 sek. 
+[2023-01-19T18:27:47+0100] <&Viktorina>  42535  RAUDONNOSIO KALEDU SENELIO ELNIO VARDAS? 
+[2023-01-19T18:27:47+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 2 task. 
+[2023-01-19T18:27:52+0100] <MGS> rudolfas
+[2023-01-19T18:27:53+0100] <&Viktorina> Atsake: MGS (per 4.460 sek.) ir gauna 2 task., atsakymas: RUDOLFAS, MGS turi 81 (siandien surinko 81) task. ir yra 34/57 vietoje.
+[2023-01-19T18:27:53+0100] <Guest15> rudolfas
+[2023-01-19T18:28:02+0100] <&Viktorina>  iNFO: Komandos !top10, !top20, !dtop10 ir !dtop20 parodys jums kanalo topus. 
+[2023-01-19T18:28:02+0100] <&Viktorina>  49147  SENOVES ROMENU VIESOJI PIRTIS? 
+[2023-01-19T18:28:02+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 1 task. 
+[2023-01-19T18:28:14+0100] <Guest15> !hint
+[2023-01-19T18:28:14+0100] <&Viktorina>  Raides (2/4): T****  Liko 45.0 sek.
+[2023-01-19T18:28:22+0100] <MGS> !hint
+[2023-01-19T18:28:22+0100] <&Viktorina>  Raides (3/4): T*R**  Liko 30.0 sek.
+[2023-01-19T18:28:27+0100] <Guest15> toros
+[2023-01-19T18:28:37+0100] <&Viktorina>  Raides (4/4): T*R*A  Liko 15.0 sek.
+[2023-01-19T18:28:40+0100] Guest15!~textual@8A95DEC2.CC0C06E0.DC25739B.IP invited you to join #bebras
+[2023-01-19T18:28:52+0100] <&Viktorina> Sitaip jus negausite nei vieno tasko. Teisingas atsakymas buvo: TERMA.
+[2023-01-19T18:29:02+0100] <&Viktorina>  TOP6-10:  #6. aha (10663) #7. Tarakonas (7710) #8. karmen (6537) #9. _zmogenas (6362) #10. ugnisa (5770).
+[2023-01-19T18:29:02+0100] <&Viktorina>  31184  JEIGU ZMOGUS IS TIKRUJU NORI GYVENTI - TAI ...? 
+[2023-01-19T18:29:02+0100] <&Viktorina>  Raides (1/4): ******** ******  Klausimo verte: 4 task. 
+[2023-01-19T18:29:17+0100] <&Viktorina>  Raides (2/4): M******* B*****  Liko 45.0 sek.
+[2023-01-19T18:29:32+0100] <&Viktorina>  Raides (3/4): M****I** B****E  Liko 30.0 sek.
+[2023-01-19T18:29:47+0100] <&Viktorina>  Raides (4/4): M****I*A B***GE  Liko 15.0 sek.
+[2023-01-19T18:30:02+0100] <&Viktorina> Sis jums pasirode per sunkus. Teisingas atsakymas buvo: MEDICINA BEJEGE.
+[2023-01-19T18:30:12+0100] <&Viktorina>  iNFO: !visi ir !dvisi parodys siuo metu kanale esanciu taskus. 
+[2023-01-19T18:30:12+0100] <&Viktorina>  49716  DIDZIAUSIAS AZIJOS MIESTAS? 
+[2023-01-19T18:30:12+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 1 task. 
+[2023-01-19T18:30:27+0100] <&Viktorina>  Raides (2/4): T******  Liko 45.0 sek.
+[2023-01-19T18:30:27+0100] <MGS> tokijas
+[2023-01-19T18:30:28+0100] <&Viktorina> Atsake: MGS (per 15.466 sek.) ir gauna 1 task., atsakymas: TOKIJAS, MGS turi 82 (siandien surinko 82) task. ir yra 34/57 vietoje.
+[2023-01-19T18:30:32+0100] <Guest15> !visi
+[2023-01-19T18:30:38+0100] <&Viktorina>  iNFO: Siuo metu klausimu baze sudaro 78600 klaus. Jei norite prisideti prie klausimu bazes !klsm.
+[2023-01-19T18:30:39+0100] <&Viktorina>  15260  METU PERSONAZAS, SAVO GYVENIMA PALYGINES SU PEILIU? 
+[2023-01-19T18:30:39+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 5 task. 
+[2023-01-19T18:30:53+0100] <&Viktorina>  Raides (2/4): E*****  Liko 45.0 sek.
+[2023-01-19T18:31:03+0100] <MGS> !dvisi
+[2023-01-19T18:31:09+0100] <&Viktorina>  Raides (3/4): E*S***  Liko 30.0 sek.
+[2023-01-19T18:31:24+0100] <&Viktorina>  Raides (4/4): ENS***  Liko 15.0 sek.
+[2023-01-19T18:31:26+0100] <MGS> !hint
+[2023-01-19T18:31:27+0100] <&Viktorina> Sitaip jus negausite nei vieno tasko. Teisingas atsakymas buvo: ENSKYS.
+[2023-01-19T18:31:36+0100] <&Viktorina>  iNFO: Komandos !eile ir !deile rodys jusu padeti rezultatu lenteleje. 
+[2023-01-19T18:31:36+0100] <&Viktorina>  7643  LYRINIS-EPINIS ISTORINIO AR LEGENDINIO TURINIO KURINYS, ATSKLEIDZIANTIS PASAULIO PASLAPTINGUMA IR TRAGISKA ZMOGAUS LEMTI. LIETUVIU LITERATUROJE PLACIAI ZINOMOS MAIRONIO BALADES "JURATE IR KASTYTIS", "CICINSKAS" IR KT.? 
+[2023-01-19T18:31:36+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 1 task. 
+[2023-01-19T18:31:51+0100] <&Viktorina>  Raides (2/4): B*****  Liko 45.0 sek.
+[2023-01-19T18:31:55+0100] <Guest15> balada
+[2023-01-19T18:31:59+0100] <Guest15> balade
+[2023-01-19T18:31:59+0100] <&Viktorina> Atsake: Guest15 (per 21.682 sek.) ir gauna 1 task., atsakymas: BALADE, Guest15 turi 169 (siandien surinko 169) task. ir yra 32/57 vietoje.
+[2023-01-19T18:32:09+0100] <&Viktorina>  TOP11-15:  #11. svecias (4977) #12. Din_Weasel (4007) #13. iso (3926) #14. roxazz (3577) #15. Sim (3364).
+[2023-01-19T18:32:09+0100] <&Viktorina>  60806  2001M. VASARA VILNIUJE SUSIKURUSI ROKO GRUPE, LABIAUSIAI ISGARSEJUSI DAINOMIS 'NUO DURU PRIE DURU' IR 'LINKEJIMAI TAU'? 
+[2023-01-19T18:32:09+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 9 task. 
+[2023-01-19T18:32:24+0100] <&Viktorina>  Raides (2/4): A*****  Liko 45.0 sek.
+[2023-01-19T18:32:40+0100] <&Viktorina>  Raides (3/4): A*B***  Liko 30.0 sek.
+[2023-01-19T18:32:41+0100] <Guest15> airija
+[2023-01-19T18:32:54+0100] <&Viktorina>  Raides (4/4): A*B**A  Liko 15.0 sek.
+[2023-01-19T18:32:58+0100] <Guest15> arbata
+[2023-01-19T18:32:58+0100] <&Viktorina> Atsake: Guest15 (per 48.332 sek.) ir gauna 9 task., atsakymas: ARBATA, Guest15 turi 178 (siandien surinko 178) task. ir yra 31/57 vietoje.
+[2023-01-19T18:33:09+0100] <&Viktorina>  iNFO: Turite savu klausimu ir norite jais pasidalinti? Rasykite !klsm. 
+[2023-01-19T18:33:09+0100] <&Viktorina>  67302  SALIS, KURIOJE YRA MIESTAS SAGAREDZAS? 
+[2023-01-19T18:33:09+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 7 task. 
+[2023-01-19T18:33:16+0100] <Guest15> gruzija
+[2023-01-19T18:33:16+0100] <&Viktorina> Atsake: Guest15 (per 6.705 sek.) ir gauna 7 task., atsakymas: GRUZIJA, Guest15 turi 185 (siandien surinko 185) task. ir yra 31/57 vietoje.
+[2023-01-19T18:33:16+0100] <&Viktorina> Guest15 atsake 3 kart. is eiles!
+[2023-01-19T18:33:26+0100] <&Viktorina>  iNFO: Viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 1203138 task. 
+[2023-01-19T18:33:27+0100] <&Viktorina>  76804  I. KALMANO OPERETE? 
+[2023-01-19T18:33:27+0100] <&Viktorina>  Raides (1/4): ******** ******  Klausimo verte: 7 task. 
+[2023-01-19T18:33:41+0100] <&Viktorina>  Raides (2/4): G******* M*****  Liko 45.0 sek.
+[2023-01-19T18:33:56+0100] <&Viktorina>  Raides (3/4): G**F**** MA****  Liko 30.0 sek.
+[2023-01-19T18:34:05+0100] <MGS> grafiene marija
+[2023-01-19T18:34:11+0100] <&Viktorina>  Raides (4/4): G**F**T* MA*I**  Liko 15.0 sek.
+[2023-01-19T18:34:20+0100] <Guest15> grafaite marija
+[2023-01-19T18:34:21+0100] <MGS> grafaite marija
+[2023-01-19T18:34:26+0100] <&Viktorina> Ar tai jums per sunku? Teisingas atsakymas buvo: GRAFAITE MARICA.
+[2023-01-19T18:34:26+0100] <&Viktorina> Baigesi Guest15 laimejimu serija.
+[2023-01-19T18:34:36+0100] <&Viktorina>  iNFO: Pastebeje viktorinoje klaidu galite apie tai pranesti /msg Viktorina error (kl.nr.) (kur klaida) 
+[2023-01-19T18:34:36+0100] <&Viktorina>  47403  'BUTERBRODAS' TAISYKLINGAI? 
+[2023-01-19T18:34:36+0100] <&Viktorina>  Raides (1/4): **********  Klausimo verte: 5 task. 
+[2023-01-19T18:34:41+0100] <MGS> sumustinis
+[2023-01-19T18:34:41+0100] <Guest15> sumustinis
+[2023-01-19T18:34:42+0100] <&Viktorina> Atsake: MGS (per 4.585 sek.) ir gauna 5 task., atsakymas: SUMUSTINIS, MGS turi 87 (siandien surinko 87) task. ir yra 34/57 vietoje.
+[2023-01-19T18:34:51+0100] <&Viktorina>  TOP16-20:  #16. OldBoy (3000) #17. zigiz (2822) #18. Hell (2232) #19. bOPin (2014) #20. smokingas (1767).
+[2023-01-19T18:34:52+0100] <&Viktorina>  41067  LIEKA UZGIJUS ZAIZDAI? 
+[2023-01-19T18:34:52+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 9 task. 
+[2023-01-19T18:34:55+0100] <MGS> randas
+[2023-01-19T18:34:56+0100] <&Viktorina> Atsake: MGS (per 3.460 sek.) ir gauna 9 task., atsakymas: RANDAS, MGS turi 96 (siandien surinko 96) task. ir yra 34/57 vietoje.
+[2023-01-19T18:35:06+0100] <&Viktorina>  iNFO: Kanale veikia sios komandos: !ping !stat !dstat !seen !memo !place !dplace !wordstats !topwords !top10 !top20 !dtop10 !dtop20 !taskai !eile !deile !visi !dvisi !klausimas !klsm. 
+[2023-01-19T18:35:06+0100] <&Viktorina>  20962  ANTRA PAGAL GYVENTOJU SKAICIU PASAULIO VALSTYBE? 
+[2023-01-19T18:35:06+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 7 task. 
+[2023-01-19T18:35:10+0100] <MGS> indija
+[2023-01-19T18:35:11+0100] <&Viktorina> Atsake: MGS (per 3.464 sek.) ir gauna 7 task., atsakymas: INDIJA, MGS turi 103 (siandien surinko 103) task. ir yra 34/57 vietoje.
+[2023-01-19T18:35:11+0100] <&Viktorina> MGS atsake 3 kart. is eiles!
+[2023-01-19T18:35:20+0100] <&Viktorina>  iNFO: Laimejimu is eiles rekordas priklauso orneta. Sis zaidejas atsake i 33 klausimus is eiles. 
+[2023-01-19T18:35:20+0100] <&Viktorina>  25500  SAMDYTI ZIUROVAI? 
+[2023-01-19T18:35:20+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 9 task. 
+[2023-01-19T18:35:27+0100] <Guest15> klapa
+[2023-01-19T18:35:35+0100] <&Viktorina>  Raides (2/4): K****  Liko 45.0 sek.
+[2023-01-19T18:35:37+0100] <MGS> !hint
+[2023-01-19T18:35:38+0100] <&Viktorina>  Raides (3/4): K**K*  Liko 30.0 sek.
+[2023-01-19T18:35:39+0100] <Guest15> klava
+[2023-01-19T18:35:40+0100] <@ilonat> klika
+[2023-01-19T18:35:45+0100] <Guest15> klaka
+[2023-01-19T18:35:45+0100] <&Viktorina> Atsake: Guest15 (per 24.210 sek.) ir gauna 9 task., atsakymas: KLAKA, Guest15 turi 194 (siandien surinko 194) task. ir yra 31/57 vietoje.
+[2023-01-19T18:35:45+0100] <&Viktorina> Baigesi MGS laimejimu serija.
+[2023-01-19T18:35:54+0100] <&Viktorina>  iNFO: Viktorina visa para! Ko dar noreti?. 
+[2023-01-19T18:35:54+0100] <&Viktorina>  48683  EZ. ZARASU R. (LIETUVOS VIETOVAIZDIS)? 
+[2023-01-19T18:35:54+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 6 task. 
+[2023-01-19T18:36:10+0100] <&Viktorina>  Raides (2/4): T********  Liko 45.0 sek.
+[2023-01-19T18:36:13+0100] <MGS> tauragnas
+[2023-01-19T18:36:20+0100] <Guest15> tauragnai
+[2023-01-19T18:36:23+0100] <MGS> tauragnu
+[2023-01-19T18:36:25+0100] <&Viktorina>  Raides (3/4): T*******S  Liko 30.0 sek.
+[2023-01-19T18:36:40+0100] <&Viktorina>  Raides (4/4): T***E***S  Liko 15.0 sek.
+[2023-01-19T18:36:55+0100] <&Viktorina> Nagi, pasistenkite! Teisingas atsakymas buvo: TAUTESNIS.
+[2023-01-19T18:37:01+0100] <@ilonat> ant dvieju niku zaidu
+[2023-01-19T18:37:03+0100] <@ilonat> zaidi
+[2023-01-19T18:37:04+0100] <&Viktorina>  TOP1-5(dienos):  #1. ilonat (4887) #2. Guest15 (194) #3. _zmogenas (135) #4. MGS (103) #5. nera (0).
+[2023-01-19T18:37:05+0100] <&Viktorina>  32574  NEAPYKANTA ZMONEMS, JU VENGIMAS, SALINIMASIS? 
+[2023-01-19T18:37:05+0100] <&Viktorina>  Raides (1/4): ************  Klausimo verte: 8 task. 
+[2023-01-19T18:37:06+0100] <MGS> nea
+[2023-01-19T18:37:11+0100] <MGS> koelga salia sedi :D
+[2023-01-19T18:37:13+0100] <@ilonat> )))
+[2023-01-19T18:37:19+0100] <&Viktorina>  Raides (2/4): M***********  Liko 45.0 sek.
+[2023-01-19T18:37:22+0100] <@ilonat> jo jo kurgi ne
+[2023-01-19T18:37:29+0100] <MGS> foto atsiust? :D
+[2023-01-19T18:37:35+0100] <&Viktorina>  Raides (3/4): M*Z*********  Liko 30.0 sek.
+[2023-01-19T18:37:37+0100] <@ilonat> gali
+[2023-01-19T18:37:48+0100] <Guest15> mizantropija
+[2023-01-19T18:37:49+0100] <&Viktorina> Atsake: Guest15 (per 42.606 sek.) ir gauna 8 task., atsakymas: MIZANTROPIJA, Guest15 turi 202 (siandien surinko 202) task. ir yra 31/57 vietoje.
+[2023-01-19T18:37:49+0100] <MGS> gal kita karat, kolega gedijasi :D
+[2023-01-19T18:37:52+0100] <@ilonat> man jokio skirtumo
+[2023-01-19T18:37:58+0100] <&Viktorina>  iNFO: Siandien daugiausiai kartu is eiles atsake ilonat. Sis zaidejas atsake i 4 klausimus is eiles. 
+[2023-01-19T18:37:58+0100] <&Viktorina>  54339  KAS YRA OKAPIJA? 
+[2023-01-19T18:37:58+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 1 task. 
+[2023-01-19T18:38:14+0100] <&Viktorina>  Raides (2/4): Z********  Liko 45.0 sek.
+[2023-01-19T18:38:28+0100] <&Viktorina>  Raides (3/4): Z*******S  Liko 30.0 sek.
+[2023-01-19T18:38:30+0100] <@ilonat> taigi kai pasijungi rodo kad guest15 db yra mgs
+[2023-01-19T18:38:44+0100] <&Viktorina>  Raides (4/4): Z****O**S  Liko 15.0 sek.
+[2023-01-19T18:38:59+0100] <&Viktorina> Ar as cia vienas? Teisingas atsakymas buvo: ZINDUOLIS.
+[2023-01-19T18:39:09+0100] <&Viktorina>  iNFO: #patogiai kanalo tinklapis --> www.patogiai.info/aitvaras <--FOTO su NICK'u siusti e-mailu: andriuxas@gmail.com 
+[2023-01-19T18:39:09+0100] <&Viktorina>  76872  2006 M. KALENDORIUS: KOKIA SVENTE YRA KOVO 3 D. (HINA-MATSURI)? 
+[2023-01-19T18:39:09+0100] <&Viktorina>  Raides (1/4): ***** ******  Klausimo verte: 7 task. 
+[2023-01-19T18:39:23+0100] <&Viktorina>  Raides (2/4): L**** S*****  Liko 45.0 sek.
+[2023-01-19T18:39:42+0100] <MGS> blogai rodo :)
+[2023-01-19T18:40:01+0100] <&Viktorina>  Raides (3/4): LE*** SV****  Liko 30.0 sek.
+[2023-01-19T18:40:01+0100] <&Viktorina>  Raides (4/4): LE*I* SV*N**  Liko 15.0 sek.
+[2023-01-19T18:40:08+0100] <&Viktorina> Deja, niekas teisingai neatsake. Teisingas atsakymas buvo: LELIU SVENTE.
+[2023-01-19T18:40:19+0100] <&Viktorina>  TOP6-10(dienos):  #6. nera (0) #7. nera (0) #8. nera (0) #9. nera (0) #10. nera (0).
+[2023-01-19T18:40:19+0100] <&Viktorina>  62467  GALYBES, KILMINGUMO, MIRTIES, KARO, NAIKINIMO IR GRIOVIMO ZENKLAS? 
+[2023-01-19T18:40:19+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 4 task. 
+[2023-01-19T18:40:33+0100] <&Viktorina>  Raides (2/4): K*****  Liko 45.0 sek.
+[2023-01-19T18:40:39+0100] <Guest15> kardas
+[2023-01-19T18:40:49+0100] <&Viktorina>  Raides (3/4): K***I*  Liko 30.0 sek.
+[2023-01-19T18:40:54+0100] <Guest15> kirvis
+[2023-01-19T18:40:55+0100] <&Viktorina> Atsake: Guest15 (per 35.069 sek.) ir gauna 4 task., atsakymas: KIRVIS, Guest15 turi 206 (siandien surinko 206) task. ir yra 31/57 vietoje.
+[2023-01-19T18:41:04+0100] <&Viktorina>  iNFO: Dienos rekordas priklauso ilonat. Sis zaidejas per diena surinko 25068 task. 
+[2023-01-19T18:41:04+0100] <&Viktorina>  4067  SUVALGYK MAISA SNIKERSU IR SUPRASI ANT KIEK GERIAU YRA ...? 
+[2023-01-19T18:41:04+0100] <&Viktorina>  Raides (1/4): ****   BONUS klausimo verte 75 task. 
+[2023-01-19T18:41:13+0100] <Guest15> mars
+[2023-01-19T18:41:19+0100] <&Viktorina>  Raides (2/4): A***  Liko 45.0 sek.
+[2023-01-19T18:41:28+0100] <MGS> !hint
+[2023-01-19T18:41:29+0100] <&Viktorina>  Raides (3/4): AL**  Liko 30.0 sek.
+[2023-01-19T18:41:34+0100] <Guest15> alus
+[2023-01-19T18:41:34+0100] <&Viktorina> Atsake: Guest15 (per 28.995 sek.) ir gauna 75 task., atsakymas: ALUS, Guest15 turi 281 (siandien surinko 281) task. ir yra 29/57 vietoje.
+[2023-01-19T18:41:44+0100] <&Viktorina>  iNFO: Siandien viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 4887 task. 
+[2023-01-19T18:41:44+0100] <&Viktorina>  58829  DIDZIAUSIAS SIUO METU ZEMEJE GYVENANTIS PAUKSTIS? 
+[2023-01-19T18:41:44+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 7 task. 
+[2023-01-19T18:41:49+0100] <MGS> strutis
+[2023-01-19T18:41:50+0100] <Guest15> strutis
+[2023-01-19T18:41:50+0100] <&Viktorina> Atsake: MGS (per 5.463 sek.) ir gauna 7 task., atsakymas: STRUTIS, MGS turi 110 (siandien surinko 110) task. ir yra 34/57 vietoje.
+[2023-01-19T18:42:01+0100] <&Viktorina>  iNFO:  Kanale reklama draudziama! Pagauti tai darantys bus ismesti visam laikui! 
+[2023-01-19T18:42:01+0100] <&Viktorina>  57463  BALDAKIMO PAVIDALO ALTORIAUS SUTVIRTINIMAS? 
+[2023-01-19T18:42:01+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 5 task. 
+[2023-01-19T18:42:15+0100] <&Viktorina>  Raides (2/4): C*******  Liko 45.0 sek.
+[2023-01-19T18:42:21+0100] <MGS> !hint
+[2023-01-19T18:42:22+0100] <&Viktorina>  Raides (3/4): C***R***  Liko 30.0 sek.
+[2023-01-19T18:42:37+0100] <&Viktorina>  Raides (4/4): C***R*J*  Liko 15.0 sek.
+[2023-01-19T18:42:52+0100] <&Viktorina> Gal kitas bus lengvesnis... Teisingas atsakymas buvo: CIBORIJA.
+[2023-01-19T18:43:02+0100] <&Viktorina>  iNFO: Noredami suzinoti kanale veikiancias komandas rasykite !komandos 
+[2023-01-19T18:43:02+0100] <&Viktorina>  48009  VIENAS LABIAUSIAI ISTIRTU VIRUSU? 
+[2023-01-19T18:43:02+0100] <&Viktorina>  Raides (1/4): **  Klausimo verte: 1 task. 
+[2023-01-19T18:43:16+0100] <&Viktorina>  Raides (2/4): T*  Liko 45.0 sek.
+[2023-01-19T18:43:31+0100] <&Viktorina>  Raides (3/4): T4  Liko 30.0 sek.
+[2023-01-19T18:43:32+0100] <MGS> t4
+[2023-01-19T18:43:33+0100] <Guest15> t4
+[2023-01-19T18:43:33+0100] <&Viktorina> Atsake: MGS (per 30.381 sek.) ir gauna 1 task., atsakymas: T4, MGS turi 111 (siandien surinko 111) task. ir yra 34/57 vietoje.
+[2023-01-19T18:43:43+0100] <&Viktorina>  TOP1-5:  #1. ilonat (1203138) #2. busilass (510204) #3. orneta (190895) #4. ImCat (87897) #5. Daliuska (58205).
+[2023-01-19T18:43:44+0100] <&Viktorina>  73361  ISSIFRUOKITE SI ZODI: RASAPAVIS? 
+[2023-01-19T18:43:44+0100] <&Viktorina>  Raides (1/4): *********  Klausimo verte: 3 task. 
+[2023-01-19T18:43:50+0100] <MGS> pavasaris
+[2023-01-19T18:43:51+0100] <&Viktorina> Atsake: MGS (per 6.467 sek.) ir gauna 3 task., atsakymas: PAVASARIS, MGS turi 114 (siandien surinko 114) task. ir yra 34/57 vietoje.
+[2023-01-19T18:44:00+0100] <&Viktorina>  iNFO: Savo taskus galite paziureti parase komanda !taskai. 
+[2023-01-19T18:44:00+0100] <&Viktorina>  15927  ALAUS PAVADINIMAS, KURIS ISKOVOJO AUKSA BEI SIDABRA? 
+[2023-01-19T18:44:00+0100] <&Viktorina>  Raides (1/4): *****  Klausimo verte: 6 task. +eXtra
+[2023-01-19T18:44:09+0100] <Guest15> ekstra
+[2023-01-19T18:44:10+0100] <@ilonat> extra
+[2023-01-19T18:44:11+0100] <&Viktorina> Atsake: ilonat (per 9.002 sek.) ir gauna 6 task. +eXtra 3333  , atsakymas: EXTRA, ilonat turi 1206477 (siandien surinko 8226) task. ir yra 1/57 vietoje.
+[2023-01-19T18:44:20+0100] <&Viktorina>  iNFO: Dabar yra 20:44:20. Iki nauju dienos rezultatu liko 3 val. 15 min. 40 sek. 
+[2023-01-19T18:44:20+0100] <&Viktorina>  34343  EUROPIECIAI, ATVYKE I AUSTRALIJA IR PAMATE SOKINEJANCIUS GYVUNUS, KLAUSINEJO VIETINIU "KAS TAI". ABORIGENAI ATSAKE: "KENGURA". O KA TAI REISKE? 
+[2023-01-19T18:44:20+0100] <&Viktorina>  Raides (1/4): **********  Klausimo verte: 2 task. 
+[2023-01-19T18:44:36+0100] <&Viktorina>  Raides (2/4): N*********  Liko 45.0 sek.
+[2023-01-19T18:44:45+0100] <Guest15> nebezaidziu
+[2023-01-19T18:44:51+0100] <&Viktorina>  Raides (3/4): NE********  Liko 30.0 sek.
+[2023-01-19T18:45:05+0100] <&Viktorina>  Raides (4/4): NE****A***  Liko 15.0 sek.
+[2023-01-19T18:45:10+0100] <Guest15> nevalgomas
+[2023-01-19T18:45:21+0100] <&Viktorina> Ar tai jums per sunku? Teisingas atsakymas buvo: NESUPRATAM.
+[2023-01-19T18:45:31+0100] <&Viktorina>  iNFO: Komandos !top10, !top20, !dtop10 ir !dtop20 parodys jums kanalo topus. 
+[2023-01-19T18:45:31+0100] <&Viktorina>  56815  INKUBATORIUJE ISPERINTU PAUKSCIU JAUNIKLIU AUGINIMAS BRUDERHAUZE? 
+[2023-01-19T18:45:31+0100] <&Viktorina>  Raides (1/4): ***********  Klausimo verte: 8 task. 
+[2023-01-19T18:45:45+0100] <&Viktorina>  Raides (2/4): B**********  Liko 45.0 sek.
+[2023-01-19T18:45:57+0100] Disconnected
+[2023-01-19T18:45:57+0100]  
+[2023-01-19T18:45:57+0100] ------------- End Session -------------
+[2023-01-19T18:45:57+0100]  
+[2023-01-19T19:12:54+0100]  
+[2023-01-19T19:12:54+0100] ------------- Begin Session -------------
+[2023-01-19T19:12:54+0100]  
+[2023-01-19T19:12:54+0100] Vidas (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T19:12:54+0100] Topic is Viktorina Jusu Paslaugoms Visa Para! ;) ..together we make a perfect storm!.. :)
+[2023-01-19T19:12:54+0100] Set by Vilmune on August 26, 2020 at 12:05:37 PM GMT+2
+[2023-01-19T19:12:54+0100] Mode is +fjnrt [6j#R]:9 3:10
+[2023-01-19T19:13:06+0100] <&Viktorina>  Raides (2/4): P**********  Liko 45.0 sek.
+[2023-01-19T19:13:20+0100] You're now known as MGS
+[2023-01-19T19:13:22+0100] <&Viktorina>  Raides (3/4): P**T*******  Liko 30.0 sek.
+[2023-01-19T19:13:36+0100] <&Viktorina>  Raides (4/4): P**T*G*****  Liko 15.0 sek.
+[2023-01-19T19:13:51+0100] <&Viktorina> Bandykite atspeti sekanti. Teisingas atsakymas buvo: PORTUGALIJA.
+[2023-01-19T19:14:01+0100] <&Viktorina>  TOP6-10:  #6. aha (10663) #7. Tarakonas (7710) #8. karmen (6537) #9. _zmogenas (6362) #10. ugnisa (5770).
+[2023-01-19T19:14:02+0100] <&Viktorina>  40000  KOSOVO SRITIES SOSTINE? 
+[2023-01-19T19:14:02+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 2 task. 
+[2023-01-19T19:14:17+0100] <&Viktorina>  Raides (2/4): P*******  Liko 45.0 sek.
+[2023-01-19T19:14:32+0100] <&Viktorina>  Raides (3/4): P******A  Liko 30.0 sek.
+[2023-01-19T19:14:47+0100] <&Viktorina>  Raides (4/4): P**S***A  Liko 15.0 sek.
+[2023-01-19T19:15:02+0100] <&Viktorina> Ar as cia vienas? Teisingas atsakymas buvo: PRISTINA.
+[2023-01-19T19:15:11+0100] <&Viktorina>  iNFO: !visi ir !dvisi parodys siuo metu kanale esanciu taskus. 
+[2023-01-19T19:15:11+0100] <&Viktorina>  33503  LIETUVISKA GRUPE? 
+[2023-01-19T19:15:11+0100] <&Viktorina>  Raides (1/4): ******** ********  Klausimo verte: 8 task. 
+[2023-01-19T19:15:26+0100] <&Viktorina>  Raides (2/4): N******* P*******  Liko 45.0 sek.
+[2023-01-19T19:15:37+0100] <MGS> naktines personos
+[2023-01-19T19:15:38+0100] <&Viktorina> Atsake: MGS (per 26.168 sek.) ir gauna 8 task., atsakymas: NAKTINES PERSONOS, MGS turi 122 (siandien surinko 122) task. ir yra 34/57 vietoje.
+[2023-01-19T19:15:47+0100] <&Viktorina>  iNFO: Siuo metu klausimu baze sudaro 78600 klaus. Jei norite prisideti prie klausimu bazes !klsm.
+[2023-01-19T19:15:47+0100] <&Viktorina>  45327  SKALBIANTI MOTERIS? 
+[2023-01-19T19:15:47+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 2 task. 
+[2023-01-19T19:15:56+0100] <MGS> skalbeja
+[2023-01-19T19:15:57+0100] <&Viktorina> Atsake: MGS (per 8.862 sek.) ir gauna 2 task., atsakymas: SKALBEJA, MGS turi 124 (siandien surinko 124) task. ir yra 34/57 vietoje.
+[2023-01-19T19:16:06+0100] <&Viktorina>  iNFO: Komandos !eile ir !deile rodys jusu padeti rezultatu lenteleje. 
+[2023-01-19T19:16:06+0100] <&Viktorina>  53618  ROMANO RONETA AUTORIUS? 
+[2023-01-19T19:16:06+0100] <&Viktorina>  Raides (1/4): ******** ********  Klausimo verte: 7 task. 
+[2023-01-19T19:16:21+0100] <&Viktorina>  Raides (2/4): V******* A*******  Liko 45.0 sek.
+[2023-01-19T19:16:37+0100] <&Viktorina>  Raides (3/4): V***U*** A******S  Liko 30.0 sek.
+[2023-01-19T19:16:51+0100] <&Viktorina>  Raides (4/4): V***U**S AZ*****S  Liko 15.0 sek.
+[2023-01-19T19:17:06+0100] <&Viktorina> Sitaip jus negausite nei vieno tasko. Teisingas atsakymas buvo: VYTAUTAS AZUSILIS.
+[2023-01-19T19:17:17+0100] <&Viktorina>  TOP11-15:  #11. svecias (4977) #12. Din_Weasel (4007) #13. iso (3926) #14. roxazz (3577) #15. Sim (3364).
+[2023-01-19T19:17:17+0100] <&Viktorina>  45699  LABAI TIKSLUS NEDIDELIU ILGIU MATAVIMO PRIETAISAS? 
+[2023-01-19T19:17:17+0100] <&Viktorina>  Raides (1/4): **********   BONUS klausimo verte 10 task. 
+[2023-01-19T19:17:31+0100] <&Viktorina>  Raides (2/4): S*********  Liko 45.0 sek.
+[2023-01-19T19:17:46+0100] <&Viktorina>  Raides (3/4): S***K*****  Liko 30.0 sek.
+[2023-01-19T19:17:48+0100] <MGS> slankmatis
+[2023-01-19T19:17:49+0100] <&Viktorina> Atsake: MGS (per 31.465 sek.) ir gauna 10 task., atsakymas: SLANKMATIS, MGS turi 134 (siandien surinko 134) task. ir yra 34/57 vietoje.
+[2023-01-19T19:17:59+0100] <&Viktorina>  iNFO: Turite savu klausimu ir norite jais pasidalinti? Rasykite !klsm. 
+[2023-01-19T19:17:59+0100] <&Viktorina>  4901  ROMANO "VALENTINA" AUTORIUS? 
+[2023-01-19T19:17:59+0100] <&Viktorina>  Raides (1/4): ******* ************  Klausimo verte: 6 task. 
+[2023-01-19T19:18:14+0100] <&Viktorina>  Raides (2/4): A****** V***********  Liko 45.0 sek.
+[2023-01-19T19:18:25+0100] <Guest15> antanas vienuolis
+[2023-01-19T19:18:29+0100] <&Viktorina>  Raides (3/4): A*T**** V**C********  Liko 30.0 sek.
+[2023-01-19T19:18:44+0100] <Guest15> antanas venclovas
+[2023-01-19T19:18:45+0100] <&Viktorina>  Raides (4/4): A*T*N** V**C******I*  Liko 15.0 sek.
+[2023-01-19T19:18:57+0100] <Guest15> antanas venckaitis
+[2023-01-19T19:18:59+0100] <&Viktorina> Nagi, pasistenkite! Teisingas atsakymas buvo: ANTANAS VAICIULAITIS.
+[2023-01-19T19:19:09+0100] <&Viktorina>  iNFO: Viktorinoje daugiausia tasku turi ilonat. Sis zaidejas surinko 1206477 task. 
+[2023-01-19T19:19:09+0100] <&Viktorina>  21956  KRAUJO TEISE? 
+[2023-01-19T19:19:09+0100] <&Viktorina>  Raides (1/4): *** *********  Klausimo verte: 4 task. 
+[2023-01-19T19:19:24+0100] <&Viktorina>  Raides (2/4): I** S********  Liko 45.0 sek.
+[2023-01-19T19:19:39+0100] <&Viktorina>  Raides (3/4): IU* S**G*****  Liko 30.0 sek.
+[2023-01-19T19:19:54+0100] <&Viktorina>  Raides (4/4): IUS S**G**N**  Liko 15.0 sek.
+[2023-01-19T19:20:10+0100] <&Viktorina> Laikas pasitempti! Teisingas atsakymas buvo: IUS SANGVINIS.
+[2023-01-19T19:20:20+0100] <&Viktorina>  iNFO: Pastebeje viktorinoje klaidu galite apie tai pranesti /msg Viktorina error (kl.nr.) (kur klaida) 
+[2023-01-19T19:20:20+0100] <&Viktorina>  1236  XXVII? 
+[2023-01-19T19:20:20+0100] <&Viktorina>  Raides (1/4): **  Klausimo verte: 6 task. 
+[2023-01-19T19:20:24+0100] <MGS> 27
+[2023-01-19T19:20:24+0100] <&Viktorina> Atsake: MGS (per 3.466 sek.) ir gauna 6 task., atsakymas: 27, MGS turi 140 (siandien surinko 140) task. ir yra 34/57 vietoje.
+[2023-01-19T19:20:34+0100] <&Viktorina>  TOP16-20:  #16. OldBoy (3000) #17. zigiz (2822) #18. Hell (2232) #19. bOPin (2014) #20. smokingas (1767).
+[2023-01-19T19:20:35+0100] <&Viktorina>  56943  SUDURTINIU ZODZIU ANTRASIS DEMUO, RODANTIS SASAJA SU GALVA, KAUKOLE? 
+[2023-01-19T19:20:35+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 8 task. 
+[2023-01-19T19:20:50+0100] <&Viktorina>  Raides (2/4): C*******  Liko 45.0 sek.
+[2023-01-19T19:21:05+0100] <&Viktorina>  Raides (3/4): C*F*****  Liko 30.0 sek.
+[2023-01-19T19:21:20+0100] <&Viktorina>  Raides (4/4): C*F***J*  Liko 15.0 sek.
+[2023-01-19T19:21:35+0100] <&Viktorina> Sitaip jus negausite nei vieno tasko. Teisingas atsakymas buvo: CEFALIJA.
+[2023-01-19T19:21:45+0100] <&Viktorina>  iNFO: Kanale veikia sios komandos: !ping !stat !dstat !seen !memo !place !dplace !wordstats !topwords !top10 !top20 !dtop10 !dtop20 !taskai !eile !deile !visi !dvisi !klausimas !klsm. 
+[2023-01-19T19:21:45+0100] <&Viktorina>  61257  DOMINIKOS TARPTAUTINIS KODAS? 
+[2023-01-19T19:21:45+0100] <&Viktorina>  Raides (1/4): **  Klausimo verte: 7 task. 
+[2023-01-19T19:21:53+0100] <MGS> do
+[2023-01-19T19:22:00+0100] <&Viktorina>  Raides (2/4): D*  Liko 45.0 sek.
+[2023-01-19T19:22:09+0100] <MGS> DM
+[2023-01-19T19:22:10+0100] <&Viktorina> Atsake: MGS (per 24.578 sek.) ir gauna 7 task., atsakymas: DM, MGS turi 147 (siandien surinko 147) task. ir yra 33/57 vietoje.
+[2023-01-19T19:22:20+0100] <&Viktorina>  iNFO: Laimejimu is eiles rekordas priklauso orneta. Sis zaidejas atsake i 33 klausimus is eiles. 
+[2023-01-19T19:22:21+0100] <&Viktorina>  34924  LIETUVIU JAVU DIEVAS, MINIMAS JEZUITU PRANESIMUOSE 1605 M.? 
+[2023-01-19T19:22:21+0100] <&Viktorina>  Raides (1/4): *******  Klausimo verte: 5 task. 
+[2023-01-19T19:22:36+0100] <&Viktorina>  Raides (2/4): N******  Liko 45.0 sek.
+[2023-01-19T19:22:51+0100] <&Viktorina>  Raides (3/4): N****U*  Liko 30.0 sek.
+[2023-01-19T19:23:06+0100] <&Viktorina>  Raides (4/4): N*S**U*  Liko 15.0 sek.
+[2023-01-19T19:23:21+0100] <&Viktorina> Nagi, pasistenkite! Teisingas atsakymas buvo: NOSOLUS.
+[2023-01-19T19:23:31+0100] <&Viktorina>  iNFO: Viktorina visa para! Ko dar noreti?. 
+[2023-01-19T19:23:31+0100] <&Viktorina>  67462  SALIS, KURIOJE YRA MIESTAS PARLA? 
+[2023-01-19T19:23:31+0100] <&Viktorina>  Raides (1/4): ********  Klausimo verte: 6 task. 
+[2023-01-19T19:23:46+0100] <&Viktorina>  Raides (2/4): I*******  Liko 45.0 sek.
+[2023-01-19T19:24:01+0100] <&Viktorina>  Raides (3/4): I****I**  Liko 30.0 sek.
+[2023-01-19T19:24:11+0100] <MGS> ispanija
+[2023-01-19T19:24:12+0100] <&Viktorina> Atsake: MGS (per 40.281 sek.) ir gauna 6 task., atsakymas: ISPANIJA, MGS turi 153 (siandien surinko 153) task. ir yra 33/57 vietoje.
+[2023-01-19T19:24:22+0100] <&Viktorina>  TOP1-5(dienos):  #1. ilonat (8226) #2. Guest15 (286) #3. MGS (153) #4. _zmogenas (135) #5. nera (0).
+[2023-01-19T19:24:22+0100] <&Viktorina>  14300  HIGROSKOPISKOS MEDZIAGOS? 
+[2023-01-19T19:24:22+0100] <&Viktorina>  Raides (1/4): ***********  Klausimo verte: 3 task. 
+[2023-01-19T19:24:37+0100] <&Viktorina>  Raides (2/4): D**********  Liko 45.0 sek.
+[2023-01-19T19:24:52+0100] <&Viktorina>  Raides (3/4): D*******I**  Liko 30.0 sek.
+[2023-01-19T19:25:08+0100] <&Viktorina>  Raides (4/4): D***V***I**  Liko 15.0 sek.
+[2023-01-19T19:25:23+0100] <&Viktorina> Bandykite atspeti sekanti. Teisingas atsakymas buvo: DZIOVIKLIAI.
+[2023-01-19T19:25:33+0100] <&Viktorina>  iNFO: Siandien daugiausiai kartu is eiles atsake ilonat. Sis zaidejas atsake i 4 klausimus is eiles. 
+[2023-01-19T19:25:33+0100] <&Viktorina>  37382  MOTERISHKOSIOS LYTIES GYVUNAS.? 
+[2023-01-19T19:25:33+0100] <&Viktorina>  Raides (1/4): ******  Klausimo verte: 3 task. 
+[2023-01-19T19:25:48+0100] <&Viktorina>  Raides (2/4): P*****  Liko 45.0 sek.
+[2023-01-19T19:25:54+0100] <MGS> patele
+[2023-01-19T19:25:54+0100] <&Viktorina> Atsake: MGS (per 20.366 sek.) ir gauna 3 task., atsakymas: PATELE, MGS turi 156 (siandien surinko 156) task. ir yra 33/57 vietoje.
+[2023-01-19T19:26:04+0100] <&Viktorina>  iNFO: #patogiai kanalo tinklapis --> www.patogiai.info/aitvaras <--FOTO su NICK'u siusti e-mailu: andriuxas@gmail.com 
+[2023-01-19T19:26:04+0100] <&Viktorina>  34928  XVI A PRANASAS PALIKES DAUGYBE UZKODUOTU PRANASYSCIU? 
+[2023-01-19T19:26:04+0100] <&Viktorina>  Raides (1/4): ***********  Klausimo verte: 7 task. 
+[2023-01-19T19:26:20+0100] <&Viktorina>  Raides (2/4): N**********  Liko 45.0 sek.
+[2023-01-19T19:26:20+0100] <MGS> nostradamas
+[2023-01-19T19:26:34+0100] <&Viktorina>  Raides (3/4): N***A******  Liko 30.0 sek.
+[2023-01-19T19:26:39+0100] <MGS> nostradamus
+[2023-01-19T19:26:50+0100] <&Viktorina>  Raides (4/4): N**TA******  Liko 15.0 sek.
+[2023-01-19T19:27:04+0100] <&Viktorina> Gal jums uzduot lengvesni klausima? Teisingas atsakymas buvo: NOSTARDAMAS.
+[2023-01-19T19:27:14+0100] <&Viktorina>  TOP6-10(dienos):  #6. nera (0) #7. nera (0) #8. nera (0) #9. nera (0) #10. nera (0).
+[2023-01-19T19:27:14+0100] <&Viktorina>  14341  KAS PANAUDOJO 8,000 SKIRTINGU ZODZIU SAVO POEMOJE "PRARASTAS ROJUS"? 
+[2023-01-19T19:27:14+0100] <&Viktorina>  Raides (1/4): ****** ********  Klausimo verte: 9 task. +eXtra
+[2023-01-19T19:27:29+0100] <&Viktorina>  Raides (2/4): D***** M*******  Liko 45.0 sek.
+[2023-01-19T19:27:44+0100] <&Viktorina>  Raides (3/4): D***A* M*****A*  Liko 30.0 sek.
+[2023-01-19T19:27:59+0100] <&Viktorina>  Raides (4/4): D*O*A* M***O*A*  Liko 15.0 sek.

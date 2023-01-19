@@ -1,0 +1,22 @@
+[2023-01-19T18:23:58+0100]  
+[2023-01-19T18:23:58+0100] ------------- Begin Session -------------
+[2023-01-19T18:23:58+0100]  
+[2023-01-19T18:23:58+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T18:23:58+0100] Topic is LM FREELEECH: ON / WEB: ON | Pagalba - #LM.Support | Pakvietimai - #lminvite | FB - http://j.mp/AnxiIu | Twitter - http://j.mp/yZyaUa |Keiksmažodžiai, reklama, tautinė neapykanta, agresyvus elgesys = BAN | LM 19 YEARS !!!
+[2023-01-19T18:23:58+0100] Set by Desala on December 24, 2022 at 12:55:20 PM GMT+1
+[2023-01-19T18:23:58+0100] Mode is +nrt
+[2023-01-19T18:44:41+0100] aidas957 (~aidas957@C2C2CDA0.2A43336C.B73A39F8.IP) left IRC (Atsijungė)
+[2023-01-19T18:44:58+0100] aidas957 (~aidas957@C2C2CDA0.2A43336C.B73A39F8.IP) joined the channel
+[2023-01-19T18:45:44+0100] aidas957 (~aidas957@C2C2CDA0.2A43336C.B73A39F8.IP) left IRC (Atsijungė)
+[2023-01-19T18:45:57+0100] Disconnected
+[2023-01-19T18:45:57+0100]  
+[2023-01-19T18:45:57+0100] ------------- End Session -------------
+[2023-01-19T18:45:57+0100]  
+[2023-01-19T19:12:51+0100]  
+[2023-01-19T19:12:51+0100] ------------- Begin Session -------------
+[2023-01-19T19:12:51+0100]  
+[2023-01-19T19:12:51+0100] Vidas (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-19T19:12:51+0100] Topic is LM FREELEECH: ON / WEB: ON | Pagalba - #LM.Support | Pakvietimai - #lminvite | FB - http://j.mp/AnxiIu | Twitter - http://j.mp/yZyaUa |Keiksmažodžiai, reklama, tautinė neapykanta, agresyvus elgesys = BAN | LM 19 YEARS !!!
+[2023-01-19T19:12:51+0100] Set by Desala on December 24, 2022 at 12:55:20 PM GMT+1
+[2023-01-19T19:12:53+0100] Mode is +nrt
+[2023-01-19T19:13:20+0100] You're now known as MGS
