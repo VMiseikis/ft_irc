@@ -6,16 +6,19 @@
 #include <arpa/inet.h>		//for inet_addr() 
 
 
+
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
-	_cmd = new Commands();
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
 	_conn = -1;
 	new_server();
+	_cmd = new Commands(this);
 }
 
 Server::~Server() {}
+
+std::string Server::get_password() { return _password; }
 
 void Server::new_server()
 {
@@ -126,17 +129,37 @@ void Server::new_connection()
 	}
 }
 
-void Server::get_arguments(std::string line, std::string command_name, std::vector<std::string> args)
+void Server::get_arguments(std::string line, std::vector<std::string> *args)
 {
-	args.clear();
+	(*args).clear();
 
-	for (size_t i = command_name.length(); i < line.length(); )
+	for (size_t i = 0; i < line.length(); )
 	{
-		while (line[i] == ' ')
-			i++;
-		args.push_back(line.substr(i, line.find(' ', i) - i));
-		i += args.back().length();
+		i = line.find_first_not_of(' ' , i);
+		if (line[i] == ':')
+		{
+			(*args).push_back(line.substr(i, line.size()));
+			break;
+		}
+		(*args).push_back(line.substr(i, line.find(' ', i) - i));
+		i += (*args).back().length();
 	}
+
+	// for (size_t i = command_name.length(); i < line.length(); )
+	// {
+	// 	i = line.find_first_not_of(' ' , i);
+	// 	if (line[i] == ':')
+	// 	{
+	// 		i = line.find_first_not_of(' ' , i + 1);
+	// 		(*args).push_back(line.substr(i, line.size()));
+	// 		break;
+	// 	}
+	// 	(*args).push_back(line.substr(i, line.find(' ', i) - i));
+	// 	i += (*args).back().length();
+	// }
+	for (std::vector<std::string>::iterator it = (*args).begin(); it != (*args).end(); ++it)
+		std::cout << ">>>" <<  *it << "\n";
+	std::cout << std::endl;
 }
 
 void Server::handle_message(Client *client, std::string message)
@@ -145,7 +168,7 @@ void Server::handle_message(Client *client, std::string message)
 	std::string line;
 	std::string command_name;
 	std::vector<std::string> args;
-
+	
 	if (!message.empty())
 	{
 		while (std::getline(ss, line))
@@ -156,15 +179,16 @@ void Server::handle_message(Client *client, std::string message)
 			for (int i = 0; line[i]; i++)	
 				if (!isprint(line[i]))
 					break ; 				//TODO handle incorect password format
-					
+			
 			command_name = line.substr(0, line.find(' '));
-			if (command_name == "CAP")
-				return ;
+			// if (command_name == "CAP")
+			// 	continue ;
 
-			get_arguments(line, command_name, args);
+			get_arguments(line, &args);
 			if (!_cmd->execute_command(client, command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
 				break ; // broadcast message or handle different way, idk
-
+			// _cmd->execute_command(this, client, command_name, args);
+			
 			if (!client->get_nick_name().empty() && !client->get_user_name().empty() && client->get_status() == HANDSHAKE)
 			{
 				std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";

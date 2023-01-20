@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <cctype>
 #include <cstring>
+
 #include <sstream>
 #include <poll.h>
 #include <vector>
@@ -21,6 +22,8 @@
 
 #define IRC_MESSAGE_LENGHT 512
 // #define HOST_NAME_MAX 63
+
+class Commands;
 
 class Server
 {
@@ -49,8 +52,9 @@ class Server
 		Server(int port, std::string password);
 		~Server();
 
-		void get_arguments(std::string line, std::string command_name, std::vector<std::string> args);
-
+		void get_arguments(std::string line, std::vector<std::string> *args);
+		// void get_arguments(std::string line, std::string command_name, std::vector<std::string> *args);
+		std::string get_password();
 
 
 		void run_server();
