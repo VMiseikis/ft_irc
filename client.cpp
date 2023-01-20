@@ -1,7 +1,7 @@
 #include "client.hpp"
 
 
-Client::Client(int fd, std::string ip, int port) : _fd(fd), _port(port), _status(HANDSHAKE), _ip(ip), _name(), _nick(), _pass() {}
+Client::Client(int fd, std::string ip, int port) : _fd(fd), _port(port), _status(NEW), _ip(ip), _name(), _nick(), _pass() {}
 
 Client::~Client() {}
 

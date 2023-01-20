@@ -1,13 +1,11 @@
 #include "server.hpp"
 
+//Reikia default porta tureti nusirodziu, del viso pikto
 //#define PORT 	4242		// server reachable via this port
 #define BACKLOG 0xFFFFFFF 	// the maximum number of pending connections that can be queued up for the socket before connections are refused
-
-
-
-
 #include <arpa/inet.h>		//for inet_addr() 
-// ipconfig getifaddr en0
+
+
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
 	_cmd = new Commands();
@@ -124,27 +122,25 @@ void Server::new_connection()
 		store_pollfd(_conn);
 		_connections.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
 		
-		// Commands *cmd = new Commands();
-		// (void) cmd;
-		// //cmd->*(cmd->_commands.at("NAME"))();
-		// cmd->execute_command("NAME");
-
 		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
 	}
 }
 
-
-void split_command()
+void Server::get_arguments(std::string line, std::string command_name, std::vector<std::string> args)
 {
+	args.clear();
 
+	for (size_t i = command_name.length(); i < line.length(); )
+	{
+		while (line[i] == ' ')
+			i++;
+		args.push_back(line.substr(i, line.find(' ', i) - i));
+		i += args.back().length();
+	}
 }
 
-
-void Server::handle_client_message(Client *client, std::string message)
+void Server::handle_message(Client *client, std::string message)
 {
-
-	(void)client;
-	(void)message;
 	std::stringstream ss(message);
 	std::string line;
 	std::string command_name;
@@ -152,11 +148,8 @@ void Server::handle_client_message(Client *client, std::string message)
 
 	if (!message.empty())
 	{
-		
 		while (std::getline(ss, line))
 		{
-			args.clear();
-
 			if (line.back() == '\r')
 				line.pop_back();
 
@@ -165,39 +158,41 @@ void Server::handle_client_message(Client *client, std::string message)
 					break ; 				//TODO handle incorect password format
 					
 			command_name = line.substr(0, line.find(' '));
-			for (size_t i = command_name.length(); i < line.length(); )
-			{
-				while (line[i] == ' ')
-					i++;
-				args.push_back(line.substr(i, line.find(' ', i) - i));
-				i += args.back().length();
-			}
-
 			if (command_name == "CAP")
 				return ;
-		
-			if (client->get_status() == NEW && command_name == "PASS")
+
+			get_arguments(line, command_name, args);
+			if (!_cmd->execute_command(client, command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
+				break ; // broadcast message or handle different way, idk
+
+			if (!client->get_nick_name().empty() && !client->get_user_name().empty() && client->get_status() == HANDSHAKE)
 			{
-				_cmd->execute_command(command_name, args);
-				client->set_status(HANDSHAKE);
+				std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
+				send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
+				client->set_status(REGISTERED);	
 			}
-			else if (client->get_status() == HANDSHAKE 
-				&& (command_name == "NICK" || command_name == "USER"))
-			{
-				_cmd->execute_command(command_name, args);
-				if (!client->get_nick_name().empty() && !client->get_user_name().empty())
-				//  && !client->get_password().empty()) //kol kas nereikalingas nes tikrinam tik serverio passworda
-				{
-					client->set_status(REGISTERED);
-					std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
-					send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
-				}
-			}
-			else if (!_cmd->execute_command(command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
-			{
-				//_cmd->execute_command(command_name, args);
-				// broadcast message
-			}			
+
+			// if (client->get_status() == NEW && command_name == "PASS")
+			// {
+			// 	_cmd->execute_command(command_name, args);
+			// 	client->set_status(HANDSHAKE);
+			// }
+			// else if (client->get_status() == HANDSHAKE 
+			// 	&& (command_name == "NICK" || command_name == "USER"))
+			// {
+			// 	_cmd->execute_command(command_name, args);
+			// 	if (!client->get_nick_name().empty() && !client->get_user_name().empty())
+			// 	//  && !client->get_password().empty()) //kol kas nereikalingas nes tikrinam tik serverio passworda
+			// 	{
+			// 		client->set_status(REGISTERED);
+			// 		std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
+			// 		send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
+			// 	}
+			// }
+			// else if (!_cmd->execute_command(command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
+			// {
+			// 	// broadcast message or handle different way, idk
+			// }			
 		}
 	}
 }
@@ -214,36 +209,18 @@ void Server::message_recieved(int fd)
 		command and its parameters.
 	*/
 
-	// std::cout << "gauta zinute \n";
-	std::string message;
-	(void) message;
-
 	char buffer[IRC_MESSAGE_LENGHT];
 	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
-
-	// while (!strstr(buffer, "\r\n"))
-	// {
-	// 	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
-	// 		break ; //TODO error handling
-	// 	message.append(buffer);
-	// }
-	// try {
-	// 	handle_client_message(_connections.at(fd), message);
-	// } catch (const std::out_of_range &err) {}
 
 	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
 	{
 		try {
 			std::cout << buffer << std::endl;
-			handle_client_message(_connections.at(fd), buffer);
+
+			handle_message(_connections.at(fd), buffer);
 
 		} catch (const std::out_of_range &err) {}
 	}
-	// else
-	// 	break ; //TODO error handling
-
-
-
 } 
 
 void Server::run_server()

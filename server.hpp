@@ -49,10 +49,14 @@ class Server
 		Server(int port, std::string password);
 		~Server();
 
+		void get_arguments(std::string line, std::string command_name, std::vector<std::string> args);
+
+
+
 		void run_server();
 		void new_connection();
 		void message_recieved(int fd);
-		void handle_client_message(Client *client, std::string message);
+		void handle_message(Client *client, std::string message);
 };
 
 #endif
