@@ -25,6 +25,18 @@ bool Client::is_auth() 			{ return (_status == HANDSHAKE); }
 bool Client::is_registered() 	{ return (_status == REGISTERED); }
 
 
+void Client::welcome()
+{
+	if (_status == HANDSHAKE && !_user.empty() && !_real.empty() && !_nick.empty())
+	{
+		std::string welcome_message = ":MultiplayerNotepad 001 " + _nick + " :Welcome to MultiplayerNodepad " + _nick + "\r\n";
+		// reply(" 001 " + _nick + " :Welcome to MultiplayerNodepad " + _nick + "\r\n");	
+		send(_fd, welcome_message.c_str(), welcome_message.length(), 0);
+		_status++;
+		std::cout << "Issiustas welcome" << "\n";
+	}		
+}
+
 void Client::reply(const std::string &msg)
 {
 	std::string reply;

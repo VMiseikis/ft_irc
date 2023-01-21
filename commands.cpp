@@ -17,12 +17,18 @@ bool Commands::execute_command(Client *client, std::string cmd, std::vector<std:
 	return true;
 }
 
-std::string responce_msg(std::string client, int err, std::string cmd)
+std::string responce_msg(std::string client, int err, std::string arg)
 {
 	switch (err)
 	{
+		case ERR_NONICKNAMEGIVEN:
+			return (" 431 " + client + " " + arg + " :No nickname give to change to.\r\n");
+		case ERR_ERRONEUSNICKNAME:
+			return (" 432 " + client + " " + arg + " :Erroneus nickname.\r\n");
+		case ERR_NICKNAMEINUSE:
+			return (" 433 " + client + " " + arg + " :Nickname is already in use.\r\n");
 		case ERR_NEEDMOREPARAMS:
-			return (" 461 " + client + " " + cmd + " :Not enough parameters\r\n");
+			return (" 461 " + client + " " + arg + " :Not enough parameters\r\n");
 		case ERR_ALREADYREGISTRED:
 			return (" 462 " + client + " :Unauthorized command\r\n");
 		case ERR_PASSWDMISMATCH:
@@ -47,27 +53,48 @@ void Commands::pass_command(Client *client, std::vector<std::string>args)
 
 void Commands::nick_command(Client *client, std::vector<std::string>args)
 {
-	(void) args;
 
-	if (client->get_status() < HANDSHAKE)
-		return ;
+	if (client->is_new())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+	
+	if (args.size() < 2)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NONICKNAMEGIVEN, args[0]));
 
+	if (!isalpha(args[1][0]))
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ERRONEUSNICKNAME, args[1]));
+	for (unsigned long i = 1; args[1][i]; i++)
+		if (!iswalnum(args[1][i]))
+			return client->reply(responce_msg(client->get_nick_name(), ERR_ERRONEUSNICKNAME, args[1]));
+	
+	if (_server->get_client(args[1]))
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NICKNAMEINUSE, args[1]));
+	
+	client->set_nick_name(args[1]);
+	std::cout << "NICK:" << client->get_nick_name() << "\n";
+	client->welcome();
 
-	std::cout << "nick was changed\n";
-
-	client->set_nick_name("TEST_NICK");
+	// if (!client->is_auth() && !client->get_user_name().empty() && !client->get_real_name().empty())
+	// {
+	// 	client->set_status(client->get_status() + 1);
+	// 	client->reply(client->welcome_message());
+	// }
 }
 
 void Commands::user_command(Client *client, std::vector<std::string> args)
 {
 
-	if (!client->is_auth())
+	if (!client->is_auth() || !client->get_user_name().empty())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
-	if (args.size() < 5)
+	if (args.size() != 5)
 		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, args[0]));
 
 	client->set_user_name(args[1]);
-	client->set_real_name((args[4].substr(args[4].find_first_not_of(' ' , 1), args[4].size())));
-	client->set_status(client->get_status() + 1);
+	std::cout << "USER:" << client->get_user_name() << "\n";
+
+	client->set_real_name((args[4].substr(args[4].find_first_not_of(' '), args[4].size())));
+	std::cout << "REAL:" << client->get_real_name() << "\n";
+	client->welcome();
+
+	//client->set_status(client->get_status() + 1);
 }

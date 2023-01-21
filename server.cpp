@@ -123,7 +123,7 @@ void Server::new_connection()
 			break; 	//TODO error handling
 		
 		store_pollfd(_conn);
-		_connections.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
+		_clients.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
 		
 		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
 	}
@@ -136,14 +136,27 @@ void Server::get_arguments(std::string line, std::vector<std::string> *args)
 	for (size_t i = 0; i < line.length(); )
 	{
 		i = line.find_first_not_of(' ' , i);
+		if (i == std::string::npos)
+			break ;
 		if (line[i] == ':')
 		{
+			i = line.find_first_not_of(' ' , i + 1);
 			(*args).push_back(line.substr(i, line.size()));
-			break;
+			break ;
 		}
 		(*args).push_back(line.substr(i, line.find(' ', i) - i));
 		i += (*args).back().length();
 	}
+
+	// for (size_t i = 0; i < line.length(); )
+	// {
+	// 	i = line.find_first_not_of(' ' , i);
+	// 	if (i == std::string::npos)
+	// 		break;
+	// 	(*args).push_back(line.substr(i, line.find(' ', i) - i));
+	// 	i += (*args).back().length();
+	// }
+
 
 	// for (size_t i = command_name.length(); i < line.length(); )
 	// {
@@ -157,18 +170,15 @@ void Server::get_arguments(std::string line, std::vector<std::string> *args)
 	// 	(*args).push_back(line.substr(i, line.find(' ', i) - i));
 	// 	i += (*args).back().length();
 	// }
-	for (std::vector<std::string>::iterator it = (*args).begin(); it != (*args).end(); ++it)
-		std::cout << ">>>" <<  *it << "\n";
-	std::cout << std::endl;
 }
 
 void Server::handle_message(Client *client, std::string message)
 {
 	std::stringstream ss(message);
 	std::string line;
-	std::string command_name;
 	std::vector<std::string> args;
-	
+	(void) client;
+		
 	if (!message.empty())
 	{
 		while (std::getline(ss, line))
@@ -179,22 +189,23 @@ void Server::handle_message(Client *client, std::string message)
 			for (int i = 0; line[i]; i++)	
 				if (!isprint(line[i]))
 					break ; 				//TODO handle incorect password format
-			
-			command_name = line.substr(0, line.find(' '));
-			// if (command_name == "CAP")
-			// 	continue ;
 
 			get_arguments(line, &args);
-			if (!_cmd->execute_command(client, command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
-				break ; // broadcast message or handle different way, idk
-			// _cmd->execute_command(this, client, command_name, args);
-			
-			if (!client->get_nick_name().empty() && !client->get_user_name().empty() && client->get_status() == HANDSHAKE)
+			if (!args.empty())
 			{
-				std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
-				send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
-				client->set_status(REGISTERED);	
+				if (args[0] == "CAP")
+					continue ;
+					
+				if (!_cmd->execute_command(client, args[0], args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
+					break ; // broadcast message or handle different way, idk
+				//_cmd->execute_command(this, client, command_name, args);
 			}
+			// if (!client->get_nick_name().empty() && !client->get_user_name().empty() && client->get_status() == HANDSHAKE)
+			// {
+			// 	std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
+			// 	send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
+			// 	client->set_status(REGISTERED);	
+			// }
 
 			// if (client->get_status() == NEW && command_name == "PASS")
 			// {
@@ -239,13 +250,20 @@ void Server::message_recieved(int fd)
 	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
 	{
 		try {
-			std::cout << buffer << std::endl;
-
-			handle_message(_connections.at(fd), buffer);
-
+			std::cout << "BUFF>>" << buffer << std::endl;
+			handle_message(_clients.at(fd), buffer);
 		} catch (const std::out_of_range &err) {}
 	}
 } 
+
+Client *Server::get_client(std::string name)
+{
+	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+		if (it->second->get_nick_name() == name)
+			return it->second;
+	return NULL;
+}
+
 
 void Server::run_server()
 {

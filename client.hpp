@@ -33,6 +33,8 @@ class Client
 		std::string get_nick_name();
 		std::string get_password();
 
+		void welcome();
+
 		void set_status(int status);
 		void set_user_name(std::string user);
 		void set_real_name(std::string real);

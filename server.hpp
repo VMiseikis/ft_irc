@@ -38,8 +38,8 @@ class Server
 		struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
-		std::vector	<Client *> _clients;			//list of all registered, active clients
-		std::map<int, Client *> _connections;		//list of all active connections
+
+		std::map<int, Client *> _clients;		//list of all connections/clients
 
 
 		Commands *_cmd;							//list of commands
@@ -61,6 +61,8 @@ class Server
 		void new_connection();
 		void message_recieved(int fd);
 		void handle_message(Client *client, std::string message);
+
+		Client *get_client(std::string name);
 };
 
 #endif
