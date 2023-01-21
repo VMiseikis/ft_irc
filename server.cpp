@@ -279,6 +279,14 @@ void Server::run_server()
 	}
 }
 
+std::vector<Channel *> & Server::getChannels(void)	{
+	return (_channels);
+}
 
-
-
+Channel	*Server::getChannel(std::string &name)	{
+	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++)	{
+		if ((*it)->getName() == name)
+			return (*it);
+	}
+	return (NULL);
+}

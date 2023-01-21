@@ -16,6 +16,7 @@
 
 #include "client.hpp"
 #include "commands.hpp"
+#include "channel.hpp"
 
 
 
@@ -44,6 +45,7 @@ class Server
 
 		Commands *_cmd;							//list of commands
 
+		std::vector<Channel *>	_channels;
 
 		void new_server();
 		void store_pollfd(int socket);
@@ -61,6 +63,9 @@ class Server
 		void new_connection();
 		void message_recieved(int fd);
 		void handle_message(Client *client, std::string message);
+
+		std::vector<Channel *> & getChannels(void);
+		Channel	*getChannel(std::string	&name);
 };
 
 #endif
