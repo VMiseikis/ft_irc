@@ -3,15 +3,20 @@
 
 #define USERLEN 10
 
+#define ERR_UNKNOWNCOMMAND		421
+
 #define ERR_NONICKNAMEGIVEN		431
 #define ERR_ERRONEUSNICKNAME	432
 #define ERR_NICKNAMEINUSE		433
 
+#define ERR_NOTREGISTERED		451
 
 #define ERR_NEEDMOREPARAMS		461
 #define ERR_ALREADYREGISTRED	462
 #define ERR_PASSWDMISMATCH		464
 
+
+#define PINGRESPONCE			999
 
 #include <map>
 #include "client.hpp"
@@ -35,7 +40,9 @@ class Commands
 		void pass_command(Client *client, std::vector<std::string> args);
 		void nick_command(Client *client, std::vector<std::string> args);
 		void user_command(Client *client, std::vector<std::string> args);
-		void	joinCommand(Client *client, std::vector<std::string> args);
+		void ping_command(Client *client, std::vector<std::string> args);
+
+		void join_command(Client *client, std::vector<std::string> args);
 
 
 

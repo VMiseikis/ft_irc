@@ -260,7 +260,9 @@ Client *Server::get_client(std::string name)
 {
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
 		if (it->second->get_nick_name() == name)
+		{
 			return it->second;
+		}
 	return NULL;
 }
 

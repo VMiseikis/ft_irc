@@ -1,0 +1,36 @@
+[2023-01-22T19:58:50+0100]  
+[2023-01-22T19:58:50+0100] ------------- Begin Session -------------
+[2023-01-22T19:58:50+0100]  
+[2023-01-22T19:58:50+0100] Connecting to [10.12.5.1] on port 4242
+[2023-01-22T19:58:50+0100] Connection to host established
+[2023-01-22T19:58:50+0100] Welcome to MultiplayerNodepad Guest
+[2023-01-22T20:05:20+0100] 6 minutes have elapsed since last response from this connection. It's possible the connection is timing out.
+[2023-01-22T20:06:25+0100] Server closed read stream
+[2023-01-22T20:06:50+0100] 8 minutes have elapsed since last response from this connection. Disconnecting due to timeout.
+[2023-01-22T20:06:50+0100] Disconnected
+[2023-01-22T20:06:50+0100]  
+[2023-01-22T20:06:50+0100] ------------- End Session -------------
+[2023-01-22T20:06:50+0100]  
+[2023-01-22T20:25:10+0100]  
+[2023-01-22T20:25:10+0100] ------------- Begin Session -------------
+[2023-01-22T20:25:10+0100]  
+[2023-01-22T20:25:10+0100] Connecting to [10.12.5.1] on port 4242
+[2023-01-22T20:25:10+0100] Connection to host established
+[2023-01-22T20:25:10+0100] Welcome to MultiplayerNodepad Guest
+[2023-01-22T20:31:20+0100] 6 minutes have elapsed since last response from this connection. It's possible the connection is timing out.
+[2023-01-22T20:34:02+0100] Server closed read stream
+[2023-01-22T20:34:04+0100] POSIX Error: Connection reset by peer (54)
+[2023-01-22T20:34:04+0100] Disconnected
+[2023-01-22T20:34:04+0100]  
+[2023-01-22T20:34:04+0100] ------------- End Session -------------
+[2023-01-22T20:34:04+0100]  
+[2023-01-22T21:12:21+0100]  
+[2023-01-22T21:12:21+0100] ------------- Begin Session -------------
+[2023-01-22T21:12:21+0100]  
+[2023-01-22T21:12:21+0100] Connecting to [10.12.5.1] on port 4242
+[2023-01-22T21:12:21+0100] Connection to host established
+[2023-01-22T21:12:21+0100] Welcome to MultiplayerNodepad Guest
+[2023-01-22T21:12:35+0100] Disconnected
+[2023-01-22T21:12:35+0100]  
+[2023-01-22T21:12:35+0100] ------------- End Session -------------
+[2023-01-22T21:12:35+0100]  

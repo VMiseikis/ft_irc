@@ -1,0 +1,26 @@
+[2023-01-22T16:01:48+0100]  
+[2023-01-22T16:01:48+0100] ------------- Begin Session -------------
+[2023-01-22T16:01:48+0100]  
+[2023-01-22T16:01:48+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-22T16:01:48+0100] Topic is keiciam tema
+[2023-01-22T16:01:48+0100] Set by Kolinda on November 20, 2022 at 3:52:03 PM GMT+1
+[2023-01-22T16:01:48+0100] -ChanServ-  Sveiki atvykę į laisvo elgesio kanalą #IRC.
+[2023-01-22T16:01:51+0100] Mode is +CTfjnrt [8j#R2,15m,10n]:10 2:5
+[2023-01-22T16:24:51+0100] uOzka (uid381576@aitvaras-FDD1F32B.uxbridge.irccloud.com) joined the channel
+[2023-01-22T16:24:51+0100] ChanServ sets mode +ao uOzka uOzka
+[2023-01-22T19:21:01+0100]  
+[2023-01-22T19:21:01+0100] ------------- Begin Session -------------
+[2023-01-22T19:21:01+0100]  
+[2023-01-22T19:21:01+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-22T19:21:01+0100] Topic is keiciam tema
+[2023-01-22T19:21:01+0100] Set by Kolinda on November 20, 2022 at 3:52:03 PM GMT+1
+[2023-01-22T19:21:03+0100] -ChanServ-  Sveiki atvykę į laisvo elgesio kanalą #IRC.
+[2023-01-22T19:21:03+0100] Mode is +CTfjnrt [8j#R2,15m,10n]:10 2:5
+[2023-01-22T20:20:42+0100] beda (~niekas@C069E1C6:223D8543:C3212693:IP) joined the channel
+[2023-01-22T21:46:51+0100] ripp3r (~ripp3r@B7DCEB0B.B7FC4992.B73A39F8.IP) left IRC (Ping timeout: 361 seconds)
+[2023-01-22T22:37:50+0100] beda (~niekas@C069E1C6:223D8543:C3212693:IP) left IRC (Atsijungė)
+[2023-01-22T22:41:33+0100] zhee (uid10906@aitvaras-F14C54BD.helmsley.irccloud.com) left IRC (Atsijungė)
+[2023-01-22T22:59:54+0100] Disconnected
+[2023-01-22T22:59:54+0100]  
+[2023-01-22T22:59:54+0100] ------------- End Session -------------
+[2023-01-22T22:59:54+0100]  
