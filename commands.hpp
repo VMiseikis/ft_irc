@@ -35,6 +35,7 @@ class Commands
 		void pass_command(Client *client, std::vector<std::string> args);
 		void nick_command(Client *client, std::vector<std::string> args);
 		void user_command(Client *client, std::vector<std::string> args);
+		void	joinCommand(Client *client, std::vector<std::string> args);
 
 
 

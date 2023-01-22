@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sys/socket.h>
+#include "ft_irc.hpp"
 
 enum client_state { NEW, HANDSHAKE, REGISTERED };
 
@@ -49,5 +50,7 @@ class Client
 
 	
 };
+
+Client	*getClientByNick(std::vector<Client *> &from, std::string nick);
 
 #endif

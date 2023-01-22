@@ -54,3 +54,11 @@ void Client::reply(const std::string &msg)
 	reply.append(msg);
 	send(_fd, reply.c_str(), reply.length(), 0);
 }
+
+Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
+	for (std::vector<Client *>::iterator it = from.begin(); it != from.end(); it++)	{
+		if ((*it)->get_nick_name() == nick)
+			return (*it);
+	}
+	return(NULL);
+}

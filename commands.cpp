@@ -5,6 +5,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("PASS", &Commands::pass_command));
 	_commands.insert(std::make_pair("NICK", &Commands::nick_command));
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
+	_commands.insert(std::make_pair("JOIN", &Commands::joinCommand));
 
 }
 
@@ -98,3 +99,15 @@ void Commands::user_command(Client *client, std::vector<std::string> args)
 
 	//client->set_status(client->get_status() + 1);
 }
+
+void Commands::joinCommand(Client *creator, std::vector< std::string > args)	{
+
+	Channel	*exists;
+	exists = _server->getChannel(args[0]);
+	if (exists)
+		(*exists).addUser(creator);
+	else
+		_server->getChannels().push_back(new Channel(creator, args[0]));
+}
+
+
