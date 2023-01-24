@@ -6,7 +6,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("NICK", &Commands::nick_command));
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
 	_commands.insert(std::make_pair("PING", &Commands::ping_command));
-	_commands.insert(std::make_pair("PONG", &Commands::pong_command));
+
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 
 
@@ -70,7 +70,7 @@ void Commands::pass_command(Client *client, std::vector<std::string>args)
 
 	if (_server->get_password() != args[1])
 		return client->reply(responce_msg(client->get_nick_name(), ERR_PASSWDMISMATCH, ""));
-	std::cout << "PASS name pakeistas i:" << args[1] << "\n";
+	std::cout << "PASS sutampa su:" << args[1] << "\n";
 	client->set_status(client->get_status() + 1);	
 }
 

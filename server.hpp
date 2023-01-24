@@ -21,8 +21,8 @@
 
 
 
-#define IRC_MESSAGE_LENGHT 512
-// #define HOST_NAME_MAX 63
+#define IRC_MESSAGE_LENGHT 64
+// #define HOST_NAME_MAX 64
 
 class Commands;
 
@@ -63,6 +63,8 @@ class Server
 		void new_connection();
 		void message_recieved(int fd);
 		void handle_message(Client *client, std::string message);
+
+		void client_disconnect(std::vector<struct pollfd>::iterator poll_it);
 
 		Client *get_client(std::string name);
 		std::vector<Channel *> & getChannels(void);

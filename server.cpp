@@ -56,7 +56,7 @@ void Server::new_server()
 					will cause the calling process to wait.
 		Requirement from sbject
 	*/
-	if (fcntl(_server, F_SETFL, O_NONBLOCK))
+	if (fcntl(_server, F_SETFL, O_NONBLOCK) < 0)
 		exit(-1); //TODO error handling
 
 	/*
@@ -67,6 +67,7 @@ void Server::new_server()
 						where “Network byte order is big endian, or most significant
 						byte first.” 
 	*/
+	memset(&_address, 0, sizeof(_address));
 	_address.sin_family = AF_INET; 
 	// _address.sin_port = htons(PORT);
 	_address.sin_port = htons(_port);
@@ -122,7 +123,11 @@ void Server::new_connection()
 		if (fcntl(_conn, F_SETFL, O_NONBLOCK))
 			break; 	//TODO error handling
 		
+		// if (fcntl(_conn, F_SETFL, O_NONBLOCK) < 0)
+		// 	exit(-1); //TODO error handling
 		store_pollfd(_conn);
+
+		std::cout << "FD:" << _conn <<std::endl;
 		_clients.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
 		
 		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
@@ -198,36 +203,7 @@ void Server::handle_message(Client *client, std::string message)
 					
 				if (!_cmd->execute_command(client, args[0], args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
 					break ; // broadcast message or handle different way, idk
-				//_cmd->execute_command(this, client, command_name, args);
-			}
-			// if (!client->get_nick_name().empty() && !client->get_user_name().empty() && client->get_status() == HANDSHAKE)
-			// {
-			// 	std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
-			// 	send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
-			// 	client->set_status(REGISTERED);	
-			// }
-
-			// if (client->get_status() == NEW && command_name == "PASS")
-			// {
-			// 	_cmd->execute_command(command_name, args);
-			// 	client->set_status(HANDSHAKE);
-			// }
-			// else if (client->get_status() == HANDSHAKE 
-			// 	&& (command_name == "NICK" || command_name == "USER"))
-			// {
-			// 	_cmd->execute_command(command_name, args);
-			// 	if (!client->get_nick_name().empty() && !client->get_user_name().empty())
-			// 	//  && !client->get_password().empty()) //kol kas nereikalingas nes tikrinam tik serverio passworda
-			// 	{
-			// 		client->set_status(REGISTERED);
-			// 		std::string welcome_message = ":MultiplayerNotepad 001 " + client->get_nick_name() + " :Welcome to MultiplayerNodepad " + client->get_nick_name() + "\r\n";
-			// 		send(client->get_fd(), welcome_message.c_str(), welcome_message.length(), 0);
-			// 	}
-			// }
-			// else if (!_cmd->execute_command(command_name, args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
-			// {
-			// 	// broadcast message or handle different way, idk
-			// }			
+			}			
 		}
 	}
 }
@@ -245,15 +221,27 @@ void Server::message_recieved(int fd)
 	*/
 
 	char buffer[IRC_MESSAGE_LENGHT];
-	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
 
-	if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
+	std::string msg;
+	while (!strstr(buffer, "\r\n"))
 	{
-		try {
-			std::cout << "BUFF>>" << buffer << std::endl;
-			handle_message(_clients.at(fd), buffer);
-		} catch (const std::out_of_range &err) {}
+		memset(&buffer, 0, IRC_MESSAGE_LENGHT);
+		if(recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
+			break ; //TODO error handling
+		msg.append(buffer);
 	}
+	try {
+		std::cout << "BUFF>>" << msg << std::endl;
+		handle_message(_clients.at(fd), msg);
+	} catch (const std::out_of_range &err) {}
+
+	// if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
+	// {
+	// 	try {
+	// 		std::cout << "BUFF>>" << buffer << std::endl;
+	// 		handle_message(_clients.at(fd), buffer);
+	// 	} catch (const std::out_of_range &err) {}
+	// }
 } 
 
 Client *Server::get_client(std::string name)
@@ -266,11 +254,21 @@ Client *Server::get_client(std::string name)
 	return NULL;
 }
 
+void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
+{
+	try {
+		delete _clients.at(it->fd);
+		_clients.erase(it->fd);
+		close(it->fd);
+		_pollfds.erase(it);
+	}
+	catch (const std::out_of_range &err) {}
+}
+
 
 void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
-	
 	while (true)
 	{
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
@@ -278,23 +276,33 @@ void Server::run_server()
 
 		for (it = _pollfds.begin(); it != _pollfds.end(); ++it)
 		{
-			
 			if (it->revents == 0)
 				continue;
-
-			if (it->revents != POLLIN)
+			if ((it->revents & POLLHUP) == POLLHUP)
 			{
-				if (it->revents == POLLNVAL)
-					std::cout << "ERR" << std::endl; 					//TODO error handling (Invalid request: fd not open)
-				else if (it->revents == POLLHUP)
-					std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
-				break ;
+				
+				std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
+				client_disconnect(it);
+				break;
 			}
-
-			if (it->fd == _server)
-				new_connection();
-			else
+			if ((it->revents & POLLIN) == POLLIN)
+			{
+				if (it->fd == _server)
+					new_connection();
 				message_recieved(it->fd);
+			}
+			// if ((it->revents & POLLIN) != POLLIN)
+			// {
+			// 	if ((it->revents & POLLNVAL) == POLLNVAL)
+			// 		std::cout << "ERR" << std::endl; 					//TODO error handling (Invalid request: fd not open)
+			// 	else if ((it->revents & POLLHUP) == POLLHUP)
+			// 		std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
+			// 	break ;
+			// }
+			// if (it->fd == _server)
+			// 	new_connection();
+			// else
+			// 	message_recieved(it->fd);
 		}
 	}
 }
