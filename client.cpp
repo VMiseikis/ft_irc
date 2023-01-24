@@ -34,14 +34,14 @@ void Client::welcome()
 		send(_fd, welcome_message.c_str(), welcome_message.length(), 0);
 		_status++;
 		std::cout << "Issiustas welcome" << "\n";
-	}		
+	}
 }
 
 void Client::reply(const std::string &msg)
 {
-	std::string reply;
+	std::string reply = ":";
 
-	reply = _nick;
+	reply += _nick;
 	if (!_user.empty())
 		reply += "!" + _user;
 	
@@ -53,6 +53,26 @@ void Client::reply(const std::string &msg)
 
 	reply.append(msg);
 	send(_fd, reply.c_str(), reply.length(), 0);
+//	std::cout << reply << std::endl;
+}
+std::string	Client::sendMsg(std::string msg)
+{
+	std::string reply = ":";
+
+	reply += _nick;
+	if (!_user.empty())
+		reply += "!" + _user;
+	
+	if (!_ip.empty())
+		reply += "@" + _ip;
+
+	// if (_port != 0)
+	// 	reply += ":" + [_port];
+
+	reply.append(msg);
+	return (reply + "\r\n");
+//	send(_fd, reply.c_str(), reply.length(), 0);
+	std::cout << reply << std::endl;
 }
 
 Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{

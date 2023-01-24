@@ -24,9 +24,11 @@ std::vector<Client * > & Channel::getUsers(void)	{
 }
 
 void	Channel::addUser(Client	*user)	{
-	if (!getClientByNick(_users, (*user).get_nick_name()))
+	if (!getClientByNick(_users, (*user).get_nick_name()))	{
 		//if user not already there 
 		_users.push_back(user);
+//		user->reply(
+	}
 }
 /*bool	Channel::nameOk(std::string	name)	{
 	if (name.length() > 50 || name.find_first_of(" ,") != std::string::npos)

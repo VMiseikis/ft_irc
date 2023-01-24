@@ -15,6 +15,12 @@
 #define ERR_ALREADYREGISTRED	462
 #define ERR_PASSWDMISMATCH		464
 
+#define	ERR_NORECIPIENT			411
+#define	ERR_CANNOTSENDTOCHAN	404
+#define	ERR_NOSUCHNICK			401	
+#define	ERR_NOTEXTTOSEND		412
+#define	ERR_TOOMANYTARGETS		407
+
 
 #define PINGRESPONCE			999
 
@@ -43,6 +49,8 @@ class Commands
 		void ping_command(Client *client, std::vector<std::string> args);
 
 		void join_command(Client *client, std::vector<std::string> args);
+		void list_command(Client *client, std::vector<std::string> args);
+		void pmsg_command(Client *client, std::vector<std::string> args);
 
 
 

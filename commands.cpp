@@ -6,9 +6,9 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("NICK", &Commands::nick_command));
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
 	_commands.insert(std::make_pair("PING", &Commands::ping_command));
-
-	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
-
+//	_commands.insert(std::make_pair("PONG", &Commands::pong_command));
+//	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
+	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
 
 }
 
@@ -135,14 +135,41 @@ void Commands::ping_command(Client *client, std::vector<std::string> args)
 }
 
 
-void Commands::join_command(Client *creator, std::vector< std::string > args)	{
+/*void Commands::join_command(Client *creator, std::vector< std::string > args)	{
 
+	if (args.empty())
+		return (client->reply(response_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, ""));
 	Channel	*exists;
 	exists = _server->getChannel(args[0]);
-	if (exists)
+	if (exists)	{
 		(*exists).addUser(creator);
+
 	else
 		_server->getChannels().push_back(new Channel(creator, args[0]));
-}
+}*/
+void	Commands::pmsg_command(Client *client, std::vector<std::string> args)	{
+	std::string	msg;
+//	std::cout << "pmsg\n";
+	if (args.size() == 1)	{
+		return client->reply(" 411 : No recipient given\r\n");
+	}
+	if (args.size() == 2)	{
+		return client->reply(" 412 : No no text to send\r\n");
+	}
+	Client	*receiver;
+	receiver = _server->get_client(args[1]);
+	if (receiver)	{
+//		std::cout << receiver->get_nick_name() << std::endl;
+		msg = " " + args[0] + " " + args[1]; 
+		msg = client->sendMsg(msg + " :" + args[2]);
+//		std::cout << msg << std::endl;
+		std::cout << send(receiver->get_fd(), msg.c_str(), msg.length(), 0);
+	}
+	else	{
+		return client->reply(" 401 :No such nick\r\n");
+	}
+	
+}	
+
 
 
