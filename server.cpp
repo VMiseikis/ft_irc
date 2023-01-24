@@ -195,7 +195,7 @@ void Server::handle_message(Client *client, std::string message)
 			{
 				if (args[0] == "CAP")
 					continue ;
-					
+				std::cout << args[0] << std::endl;		
 				if (!_cmd->execute_command(client, args[0], args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
 					break ; // broadcast message or handle different way, idk
 				//_cmd->execute_command(this, client, command_name, args);

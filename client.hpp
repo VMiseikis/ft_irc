@@ -20,6 +20,7 @@ class Client
 		std::string _nick;
 		std::string _pass;
 
+//		std::string	_mode;
 
 	public:
 		Client(int fd, std::string ip, int port);
@@ -46,8 +47,10 @@ class Client
 		bool is_auth();
 		bool is_registered();
 
-		void reply(const std::string &msg);
+//		bool is_operator();
 
+		void reply(const std::string &msg);
+		std::string	sendMsg(std::string msg);
 	
 };
 
