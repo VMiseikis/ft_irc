@@ -29,6 +29,7 @@ class Commands;
 class Server
 {
 	private:
+
 		struct sockaddr_in _address;
 		int _server;
 		int _port;
@@ -51,6 +52,8 @@ class Server
 		void store_pollfd(int socket);
 
 	public:
+		std::string server_name;
+
 		Server(int port, std::string password);
 		~Server();
 
