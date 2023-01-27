@@ -141,9 +141,9 @@ void Commands::join_command(Client *creator, std::vector<std::string> args)	{
 	Channel	*exists;
 	exists = _server->getChannel(args[1]);
 	if (exists)
-		(*exists).addUser(creator);
+		(*exists).newUser(creator);
 	else
-		_server->getChannels().push_back(new Channel(creator, args[1]));
+		_server->getChannels().push_back(new Channel(_server, creator, args[1]));
 }
 
 void	Commands::pmsg_command(Client *client, std::vector<std::string> args)	{
@@ -163,8 +163,10 @@ void	Commands::pmsg_command(Client *client, std::vector<std::string> args)	{
 			//err_nochan
 //			return ;
 		}
-		std::cout << channel->getName() << std::endl;
-		return channel->broadcast(client, args);
+//		std::cout << channel->getName() << std::endl;
+		msg = ":" +  client->fullID() + " " + args[1] + " " + args[2] + "\r\n";
+		return channel->broadcast(msg);
+//		return channel->broadcast(client, args);
 	}
 		
 Client	*receiver;

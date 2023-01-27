@@ -39,7 +39,7 @@ void Client::welcome()
 
 void Client::reply(const std::string &msg)
 {
-	std::string reply = ":";
+	std::string reply = ":"; ///??????
 
 	reply += _nick;
 	if (!_user.empty())
@@ -55,6 +55,18 @@ void Client::reply(const std::string &msg)
 	send(_fd, reply.c_str(), reply.length(), 0);
 //	std::cout << reply << std::endl;
 }
+
+std::string	Client::fullID(void)	{
+	std::string	id;
+
+	id = _nick;
+	if (!_user.empty())
+		id += "!" + _user;
+	if (!_ip.empty())
+		id += "@" + _ip;
+	return (id);
+}
+
 std::string	Client::sendMsg(std::string msg)
 {
 	std::string reply = ":";
