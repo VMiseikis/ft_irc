@@ -35,9 +35,10 @@ class Server
 		int _port;
 		std::string _password;
 		int _conn;		//connecting client socket
+		std::string _oper_name;
+		std::string _oper_pass;
 
-
-		// struct pollfd _pollfd;
+		struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
 
@@ -54,13 +55,16 @@ class Server
 	public:
 		std::string server_name;
 
+
+
 		Server(int port, std::string password);
 		~Server();
 
 		void get_arguments(std::string line, std::vector<std::string> *args);
 		// void get_arguments(std::string line, std::string command_name, std::vector<std::string> *args);
 		std::string get_password();
-
+		std::string get_oper_name();
+		std::string get_oper_pass();
 
 		void run_server();
 		void new_connection();

@@ -1,0 +1,27 @@
+[2023-01-25T14:40:37+0100]  
+[2023-01-25T14:40:37+0100] ------------- Begin Session -------------
+[2023-01-25T14:40:37+0100]  
+[2023-01-25T14:40:37+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-25T14:40:37+0100] Topic is Rasiote nusipirko katina 😍
+[2023-01-25T14:40:37+0100] Set by uOzka on November 17, 2022 at 5:55:23 AM GMT+1
+[2023-01-25T14:40:37+0100] Mode is +cnrt
+[2023-01-25T15:34:49+0100]  
+[2023-01-25T15:34:49+0100] ------------- Begin Session -------------
+[2023-01-25T15:34:49+0100]  
+[2023-01-25T15:34:49+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-25T15:34:49+0100] Topic is Rasiote nusipirko katina 😍
+[2023-01-25T15:34:49+0100] Set by uOzka on November 17, 2022 at 5:55:23 AM GMT+1
+[2023-01-25T15:34:51+0100] Mode is +cnrt
+[2023-01-25T17:02:08+0100]  
+[2023-01-25T17:02:08+0100] ------------- Begin Session -------------
+[2023-01-25T17:02:08+0100]  
+[2023-01-25T17:02:08+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-25T17:02:08+0100] Topic is Rasiote nusipirko katina 😍
+[2023-01-25T17:02:08+0100] Set by uOzka on November 17, 2022 at 5:55:23 AM GMT+1
+[2023-01-25T17:02:09+0100] Mode is +cnrt
+[2023-01-25T20:40:10+0100] <&meskenas> 0 dalyvavimo
+[2023-01-25T20:40:17+0100] <&meskenas> oh well
+[2023-01-25T20:53:05+0100] Guest15 (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) left IRC (Atsijungė)
+[2023-01-25T20:53:21+0100]  
+[2023-01-25T20:53:21+0100] ------------- End Session -------------
+[2023-01-25T20:53:21+0100]  

@@ -5,7 +5,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("PASS", &Commands::pass_command));
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
 	_commands.insert(std::make_pair("NICK", &Commands::nick_command));
-	
+	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
 	// _commands.insert(std::make_pair("PING", &Commands::pong_command));
 
 //	_commands.insert(std::make_pair("PONG", &Commands::pong_command));
@@ -22,6 +22,11 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		// kolkas nznau kaip atskirti ar tai komanda ar tik kliento message
 		// case ERR_UNKNOWNCOMMAND:
 		// 	return (" 421 " arg + " :Unknown command.\r\n");
+
+		//RPL_YOUREOPER (381)
+		case RPL_YOUREOPER:
+			return (" 381 " + client + " :You are now an IRC operator.\r\n");
+
 		case ERR_NONICKNAMEGIVEN:
 			return (" 431 " + client + " " + arg + " :No nickname give to change to.\r\n");
 		case ERR_ERRONEUSNICKNAME:
@@ -33,7 +38,7 @@ std::string responce_msg(std::string client, int err, std::string arg)
 			return (" 451 " + client + " :You have not registered.\r\n");
 
 		case ERR_NEEDMOREPARAMS:
-			return (" 461 " + client + " " + arg + " :Not enough parameters\r\n");
+			return (" 461 " + client + " " + arg + " :Not enough, or to many parameters\r\n");
 		case ERR_ALREADYREGISTRED:
 			return (" 462 " + client + " :Unauthorized command\r\n");
 		case ERR_PASSWDMISMATCH:
@@ -178,11 +183,15 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 		_server->getChannels().push_back(new Channel(creator, args[0]));
 }*/
 
-void	Commands::pmsg_command(Client *client, std::string cmd, std::string line)
+void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 {
 	size_t i;
 	std::string	msg = "";
 	std::string send_msg;
+
+	if (!client->is_registered() && !client->is_operator())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
 	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
 
 	if (nick.empty())
@@ -200,9 +209,36 @@ void	Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		return client->reply(" 401 :No such nick\r\n");
 	send_msg = " " + cmd + " " + nick + " "; 
 	if (msg[0] != ':')
-		send_msg = client->sendMsg(send_msg + " :" + msg);
+		send_msg = client->sendMsg(send_msg + ":" + msg);
 	else
-		send_msg = client->sendMsg(send_msg + " " + msg);
+		send_msg = client->sendMsg(send_msg + msg);
 	std::cout << send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
-	
+}
+
+
+void Commands::oper_command(Client *client, std::string cmd, std::string line)
+{
+	size_t i;
+
+	if (client->is_operator())
+		return;
+
+	if (!client->is_registered())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
+	std::string name = line.substr(0, line.find_first_of(WHITESPACES));
+	if (name.empty())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+
+	i = line.find_first_not_of(WHITESPACES , name.size());
+	if (i == std::string::npos)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+
+	std::string pass = line.substr(i, line.find_first_of(WHITESPACES, i) - i);
+
+	if (_server->get_oper_name() != name || _server->get_oper_pass() != pass)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_PASSWDMISMATCH, ""));
+
+	client->set_status(client->get_status() + 1);
+	return client->reply(responce_msg(client->get_nick_name(), RPL_YOUREOPER, ""));
 }

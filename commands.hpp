@@ -6,6 +6,8 @@
 
 #define USERLEN 10
 
+#define RPL_YOUREOPER			381
+
 #define ERR_UNKNOWNCOMMAND		421
 
 #define ERR_NONICKNAMEGIVEN		431
@@ -55,6 +57,8 @@ class Commands
 		void user_command(Client *client, std::string cmd, std::string args);
 		void nick_command(Client *client, std::string cmd, std::string args);
 		
+		void oper_command(Client *client, std::string cmd, std::string args);
+
 		// void pong_command(Client *client, std::vector<std::string> args);
 
 		// void join_command(Client *client, std::vector<std::string> args);

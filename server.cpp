@@ -10,6 +10,8 @@
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
 	server_name = "MultiplayerNotepad";
+	_oper_name = "admin";
+	_oper_pass = "admin";
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
 	_conn = -1;
@@ -20,6 +22,8 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 Server::~Server() {}
 
 std::string Server::get_password() { return _password; }
+std::string Server::get_oper_name() { return _oper_name; }
+std::string Server::get_oper_pass() { return _oper_pass; }
 
 void Server::new_server()
 {
@@ -96,7 +100,6 @@ void Server::new_server()
 
 void Server::store_pollfd(int socket)
 {
-	struct pollfd _pollfd;
 	memset(&_pollfd, 0, sizeof(_pollfd));
 	_pollfd.fd = socket;
 	_pollfd.events = POLLIN;
@@ -185,9 +188,6 @@ void Server::handle_message(Client *client, std::string message)
 	}
 }
 
-
-
-
 void Server::message_recieved(int fd)
 {
 	/*
@@ -200,20 +200,18 @@ void Server::message_recieved(int fd)
 		command and its parameters.
 	*/
 
-	size_t count = 0;
 	std::string msg;
 
 	char buffer[IRC_MESSAGE_LENGHT];
-	while (!strstr(buffer, "\r\n"))
+	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
+	while(!strstr(buffer, "\r\n"))
 	{
 		memset(&buffer, 0, IRC_MESSAGE_LENGHT);
-		count = recv(fd, buffer, IRC_MESSAGE_LENGHT - 1, 0);
-		if(count < 0)
-			break ; //TODO error handling
-		buffer[count] = '\0';
+		if(recv(fd, &buffer, IRC_MESSAGE_LENGHT - 1, 0) < 0)
+			break ;
 		msg.append(buffer);
 	}
-	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
+
 	try {
 		std::cout << "BUFF>>" << msg << std::endl;
 		handle_message(_clients.at(fd), msg);
@@ -262,7 +260,13 @@ void Server::run_server()
 		{
 			if (it->revents == 0)
 				continue;
-			if ((it->revents & POLLIN) == POLLIN)
+
+			if ((it->revents & POLLHUP) == POLLHUP)
+			{
+				std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
+				client_disconnect(it);
+				break;
+			} else if ((it->revents & POLLIN) == POLLIN)
 			{
 				if (it->fd == _server)
 				{
@@ -271,12 +275,6 @@ void Server::run_server()
 				}
 				message_recieved(it->fd);
 			} 
-			else if ((it->revents & POLLHUP) == POLLHUP)
-			{
-				std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
-				client_disconnect(it);
-				break;
-			}
 		}
 	}
 }

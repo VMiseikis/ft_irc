@@ -1,0 +1,32 @@
+[2023-01-25T14:40:23+0100]  
+[2023-01-25T14:40:23+0100] ------------- Begin Session -------------
+[2023-01-25T14:40:23+0100]  
+[2023-01-25T14:40:23+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-25T14:40:23+0100] Topic is keiciam tema
+[2023-01-25T14:40:23+0100] Set by Kolinda on November 20, 2022 at 3:52:03 PM GMT+1
+[2023-01-25T14:40:36+0100] -ChanServ-  Sveiki atvykę į laisvo elgesio kanalą #IRC.
+[2023-01-25T14:40:36+0100] Mode is +CTfjnrt [8j#R2,15m,10n]:10 2:5
+[2023-01-25T15:34:56+0100]  
+[2023-01-25T15:34:56+0100] ------------- Begin Session -------------
+[2023-01-25T15:34:56+0100]  
+[2023-01-25T15:34:56+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-25T15:34:56+0100] Topic is keiciam tema
+[2023-01-25T15:34:56+0100] Set by Kolinda on November 20, 2022 at 3:52:03 PM GMT+1
+[2023-01-25T15:34:56+0100] Mode is +CTfjnrt [8j#R2,15m,10n]:10 2:5
+[2023-01-25T15:34:57+0100] -ChanServ-  Sveiki atvykę į laisvo elgesio kanalą #IRC.
+[2023-01-25T16:02:23+0100] ripp3r (~ripp3r@B7DCEB0B.B7FC4992.B73A39F8.IP) left IRC (Connection reset by peer)
+[2023-01-25T16:02:56+0100] ripp3r (~ripp3r@B7DCEB0B.B7FC4992.B73A39F8.IP) joined the channel
+[2023-01-25T16:02:56+0100] ChanServ sets mode +ao ripp3r ripp3r
+[2023-01-25T17:02:12+0100]  
+[2023-01-25T17:02:12+0100] ------------- Begin Session -------------
+[2023-01-25T17:02:12+0100]  
+[2023-01-25T17:02:12+0100] MGS (~textual@8A95DEC2.CC0C06E0.DC25739B.IP) joined the channel
+[2023-01-25T17:02:12+0100] Topic is keiciam tema
+[2023-01-25T17:02:12+0100] Set by Kolinda on November 20, 2022 at 3:52:03 PM GMT+1
+[2023-01-25T17:02:12+0100] Mode is +CTfjnrt [8j#R2,15m,10n]:10 2:5
+[2023-01-25T17:02:12+0100] -ChanServ-  Sveiki atvykę į laisvo elgesio kanalą #IRC.
+[2023-01-25T17:16:43+0100] Lielupe (uid27551@aitvaras-5B8EB397.lymington.irccloud.com) left IRC (Atsijungė)
+[2023-01-25T20:44:38+0100] ripp3r (~ripp3r@B7DCEB0B.B7FC4992.B73A39F8.IP) left IRC (Atsijungė)
+[2023-01-25T20:53:21+0100]  
+[2023-01-25T20:53:21+0100] ------------- End Session -------------
+[2023-01-25T20:53:21+0100]  
