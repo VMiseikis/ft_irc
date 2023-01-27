@@ -33,7 +33,7 @@ class	Channel	{
 		bool	isChanOp(Client *client);
 
 //		void	broadcast(Client *sender, std::vector<std::string> args);
-		void	broadcast(std::string msg);
+		void	broadcast(Client *client, std::string msg);
 		void	newUser(Client *user);
 };
 

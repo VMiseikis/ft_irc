@@ -21,7 +21,7 @@
 
 
 
-#define IRC_MESSAGE_LENGHT 64
+#define IRC_MESSAGE_LENGHT 100
 // #define HOST_NAME_MAX 64
 
 class Commands;
@@ -30,6 +30,7 @@ class	Channel;
 class Server
 {
 	private:
+
 		struct sockaddr_in _address;
 		int _server;
 		int _port;
@@ -38,6 +39,8 @@ class Server
 
 		std::string	_name;
 		struct pollfd _pollfd;
+
+		// struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
 
@@ -52,6 +55,8 @@ class Server
 		void store_pollfd(int socket);
 
 	public:
+		std::string server_name;
+
 		Server(int port, std::string password);
 		~Server();
 

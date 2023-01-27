@@ -9,6 +9,7 @@
 
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
+	server_name = "MultiplayerNotepad";
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
 	_conn = -1;
@@ -89,11 +90,14 @@ void Server::new_server()
 		exit(-1); //TODO error handling
 
 	store_pollfd(_server);
+	// struct pollfd _pollfd = {_server, POLLIN, 0};
+	// _pollfds.push_back(_pollfd);
 	
 }
 
 void Server::store_pollfd(int socket)
 {
+	struct pollfd _pollfd;
 	memset(&_pollfd, 0, sizeof(_pollfd));
 	_pollfd.fd = socket;
 	_pollfd.events = POLLIN;
@@ -124,8 +128,6 @@ void Server::new_connection()
 		if (fcntl(_conn, F_SETFL, O_NONBLOCK))
 			break; 	//TODO error handling
 		
-		// if (fcntl(_conn, F_SETFL, O_NONBLOCK) < 0)
-		// 	exit(-1); //TODO error handling
 		store_pollfd(_conn);
 
 		std::cout << "FD:" << _conn <<std::endl;
@@ -153,61 +155,39 @@ void Server::get_arguments(std::string line, std::vector<std::string> *args)
 		(*args).push_back(line.substr(i, line.find(' ', i) - i));
 		i += (*args).back().length();
 	}
-
-	// for (size_t i = 0; i < line.length(); )
-	// {
-	// 	i = line.find_first_not_of(' ' , i);
-	// 	if (i == std::string::npos)
-	// 		break;
-	// 	(*args).push_back(line.substr(i, line.find(' ', i) - i));
-	// 	i += (*args).back().length();
-	// }
-
-
-	// for (size_t i = command_name.length(); i < line.length(); )
-	// {
-	// 	i = line.find_first_not_of(' ' , i);
-	// 	if (line[i] == ':')
-	// 	{
-	// 		i = line.find_first_not_of(' ' , i + 1);
-	// 		(*args).push_back(line.substr(i, line.size()));
-	// 		break;
-	// 	}
-	// 	(*args).push_back(line.substr(i, line.find(' ', i) - i));
-	// 	i += (*args).back().length();
-	// }
 }
 
 void Server::handle_message(Client *client, std::string message)
 {
+	size_t begin, end;
 	std::stringstream ss(message);
 	std::string line;
 	std::vector<std::string> args;
-	(void) client;
-		
+
 	if (!message.empty())
 	{
 		while (std::getline(ss, line))
 		{
-			if (line.back() == '\r')
-				line.pop_back();
-
-			for (int i = 0; line[i]; i++)	
-				if (!isprint(line[i]))
-					break ; 				//TODO handle incorect password format
-
-			get_arguments(line, &args);
-			if (!args.empty())
+			begin = line.find_first_not_of(WHITESPACES);
+			end = line.find_last_not_of(WHITESPACES) + 1;
+			if(begin != std::string::npos && end != std::string::npos)
+				line = line.substr(begin, end);
+			else
+				line = "";
+					
+			if (!line.empty())
 			{
-				if (args[0] == "CAP")
-					continue ;
-				std::cout << args[0] << std::endl;		
-				if (!_cmd->execute_command(client, args[0], args)) //jeigu tokios komandos neradome, reiskia, kad tai tik paprasta zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
-					break ; // broadcast message or handle different way, idk
-			}			
+				for (int i = 0; line[i]; i++)	
+					if (!isprint(line[i]))
+						break ; 				//TODO handle incorect password format
+				_cmd->execute_command(client, line);	
+			}
 		}
 	}
 }
+
+
+
 
 void Server::message_recieved(int fd)
 {
@@ -221,16 +201,20 @@ void Server::message_recieved(int fd)
 		command and its parameters.
 	*/
 
-	char buffer[IRC_MESSAGE_LENGHT];
-
+	size_t count = 0;
 	std::string msg;
+
+	char buffer[IRC_MESSAGE_LENGHT];
 	while (!strstr(buffer, "\r\n"))
 	{
 		memset(&buffer, 0, IRC_MESSAGE_LENGHT);
-		if(recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
+		count = recv(fd, buffer, IRC_MESSAGE_LENGHT - 1, 0);
+		if(count < 0)
 			break ; //TODO error handling
+		buffer[count] = '\0';
 		msg.append(buffer);
 	}
+	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
 	try {
 		std::cout << "BUFF>>" << msg << std::endl;
 		handle_message(_clients.at(fd), msg);
@@ -279,31 +263,21 @@ void Server::run_server()
 		{
 			if (it->revents == 0)
 				continue;
-			if ((it->revents & POLLHUP) == POLLHUP)
+			if ((it->revents & POLLIN) == POLLIN)
 			{
-				
+				if (it->fd == _server)
+				{
+					new_connection();
+					break;
+				}
+				message_recieved(it->fd);
+			} 
+			else if ((it->revents & POLLHUP) == POLLHUP)
+			{
 				std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
 				client_disconnect(it);
 				break;
 			}
-			if ((it->revents & POLLIN) == POLLIN)
-			{
-				if (it->fd == _server)
-					new_connection();
-				message_recieved(it->fd);
-			}
-			// if ((it->revents & POLLIN) != POLLIN)
-			// {
-			// 	if ((it->revents & POLLNVAL) == POLLNVAL)
-			// 		std::cout << "ERR" << std::endl; 					//TODO error handling (Invalid request: fd not open)
-			// 	else if ((it->revents & POLLHUP) == POLLHUP)
-			// 		std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
-			// 	break ;
-			// }
-			// if (it->fd == _server)
-			// 	new_connection();
-			// else
-			// 	message_recieved(it->fd);
 		}
 	}
 }

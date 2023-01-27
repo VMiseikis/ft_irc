@@ -53,7 +53,8 @@ void	Channel::newUser(Client	*client)	{
 	std::string msg = client->fullID();
 	msg += " JOIN " + _name + "\r\n";
 	std::cout << msg << std::endl;
-	broadcast(msg);
+	broadcast(client, msg);
+	send(client->get_fd(), msg.c_str(), msg.length(), 0);
 	if (!_topic.empty())	{
 		msg = ":" + _server->getName() + " 332 " + client->get_nick_name();
 		msg += " " + _name + " :" + _topic + "\r\n";
@@ -61,9 +62,12 @@ void	Channel::newUser(Client	*client)	{
 	}
 }
 
-void	Channel::broadcast(std::string msg)	{
+void	Channel::broadcast(Client *client, std::string msg)	{
 	std::cout << "broadcast\n";
+	int fd = client->get_fd();
 	for (int i = 0; i < _users.size(); i++)	{
+		if (_users[i]->get_fd() == fd) 
+			continue ;
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
 	}
 }
