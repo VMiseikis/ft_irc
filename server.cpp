@@ -9,7 +9,6 @@
 
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
-	server_name = "MultiplayerNotepad";
 	_oper_name = "admin";
 	_oper_pass = "admin";
 	memset(&_address, 0, sizeof(_address));
@@ -17,6 +16,7 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 	_conn = -1;
 	new_server();
 	_cmd = new Commands(this);
+	_name = "MultiplayerNotepad";
 }
 
 Server::~Server() {}
@@ -289,4 +289,7 @@ Channel	*Server::getChannel(std::string &name)	{
 			return (*it);
 	}
 	return (NULL);
+}
+std::string	Server::getName(void)	{
+	return (_name);
 }

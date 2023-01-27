@@ -25,6 +25,7 @@
 // #define HOST_NAME_MAX 64
 
 class Commands;
+class	Channel;
 
 class Server
 {
@@ -38,7 +39,10 @@ class Server
 		std::string _oper_name;
 		std::string _oper_pass;
 
+		std::string	_name;
 		struct pollfd _pollfd;
+
+		// struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
 
@@ -53,10 +57,6 @@ class Server
 		void store_pollfd(int socket);
 
 	public:
-		std::string server_name;
-
-
-
 		Server(int port, std::string password);
 		~Server();
 
@@ -66,6 +66,7 @@ class Server
 		std::string get_oper_name();
 		std::string get_oper_pass();
 
+		std::string	getName(void);
 		void run_server();
 		void new_connection();
 		void message_recieved(int fd);

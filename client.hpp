@@ -50,6 +50,7 @@ class Client
 
 		void reply(const std::string &msg);
 		std::string	sendMsg(std::string msg);
+		std::string	fullID(void);
 	
 };
 

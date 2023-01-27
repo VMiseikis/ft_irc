@@ -21,6 +21,7 @@
 #define ERR_PASSWDMISMATCH		464
 
 #define	ERR_NORECIPIENT			411
+#define ERR_NOSUCHCHANNEL		403
 #define	ERR_CANNOTSENDTOCHAN	404
 #define	ERR_NOSUCHNICK			401	
 #define	ERR_NOTEXTTOSEND		412
@@ -60,11 +61,9 @@ class Commands
 		void oper_command(Client *client, std::string cmd, std::string args);
 
 		// void pong_command(Client *client, std::vector<std::string> args);
-
-		// void join_command(Client *client, std::vector<std::string> args);
-		// void list_command(Client *client, std::vector<std::string> args);
+		void join_command(Client *client, std::string cmd, std::string args);
 		void pmsg_command(Client *client, std::string cmd, std::string args);
-
+		// void list_command(Client *client, std::vector<std::string> args);
 
 
 };

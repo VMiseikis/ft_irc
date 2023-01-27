@@ -9,8 +9,7 @@ Commands::Commands(Server *server) : _server(server)
 	// _commands.insert(std::make_pair("PING", &Commands::pong_command));
 
 //	_commands.insert(std::make_pair("PONG", &Commands::pong_command));
-//	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
-
+	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
 
 }
@@ -170,18 +169,22 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 	}
 }
 
-/*void Commands::join_command(Client *creator, std::vector< std::string > args)	{
-
+void Commands::join_command(Client *creator, std::string cmd, std::string args)	{
 	if (args.empty())
-		return (client->reply(response_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, ""));
+		return creator->reply(" 462 : Need more parameters.\r\n");
 	Channel	*exists;
-	exists = _server->getChannel(args[0]);
-	if (exists)	{
-		(*exists).addUser(creator);
-
-	else
-		_server->getChannels().push_back(new Channel(creator, args[0]));
-}*/
+	args = args.substr(0, args.find_first_of(WHITESPACES));
+	exists = _server->getChannel(args);
+	if (exists)
+		(*exists).newUser(creator);
+	else	{
+		_server->getChannels().push_back(new Channel(_server, creator, args));
+	std::string msg = creator->fullID();
+	msg += " JOIN " + args + "\r\n";
+	std::cout << msg << std::endl;
+	_server->getChannels()[0]->broadcast(msg);
+	}
+}
 
 void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 {
@@ -196,23 +199,33 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 
 	if (nick.empty())
 		return client->reply(" 411 : No recipient given\r\n");
-
 	i = line.find_first_not_of(WHITESPACES, nick.size());
 	if (i != std::string::npos)
 		msg = line.substr(i, line.size());
-
 	if (msg.empty())
 		return client->reply(" 412 : No text to send\r\n");
-
-	Client *receiver = _server->get_client(nick);
-	if (!receiver)
-		return client->reply(" 401 :No such nick\r\n");
-	send_msg = " " + cmd + " " + nick + " "; 
-	if (msg[0] != ':')
-		send_msg = client->sendMsg(send_msg + ":" + msg);
-	else
-		send_msg = client->sendMsg(send_msg + msg);
-	std::cout << send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
+	if (nick[0] != '#')	{
+		Client *receiver = _server->get_client(nick);
+		if (!receiver)
+			return client->reply(" 401 :No such nick\r\n");
+		send_msg = " " + cmd + " " + nick + " "; 
+		if (msg[0] != ':')
+			send_msg = client->sendMsg(send_msg + " :" + msg);
+		else
+			send_msg = client->sendMsg(send_msg + " " + msg);
+		send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
+	}
+	else	{
+		Channel	*channel;
+		channel = _server->getChannel(nick);
+		if (!channel)	{
+			return client->reply(" 403 :No such channel\r\n");
+		}
+//		std::cout << channel->getName() << std::endl;
+		msg = ":" +  client->fullID() + " " + cmd + " " + line + "\r\n";
+		return channel->broadcast(client, msg);
+//		return channel->broadcast(client, args);
+	}
 }
 
 
