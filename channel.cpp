@@ -2,7 +2,7 @@
 
 Channel::~Channel(void)	{}
 
-Channel::Channel(Client *creator, std::string & name): _name(name)	{
+Channel::Channel(Client *creator, std::string & name): _name(name[0] == '#'? name : "#" + name)	{
 //			if (nameOk(_name))	{
 				_chops.push_back(creator);
 				_users.push_back(creator);
@@ -39,3 +39,32 @@ void	Channel::addUser(Client	*user)	{
 	}
 	return (true);
 }*/
+bool	Channel::isChanOp(Client *client) {
+	if (getClientByNick(_chops, (*client).get_nick_name()))
+		return (true);
+	return (false);
+}
+
+void	Channel::broadcast(Client *sender, std::vector<std::string> args)	{
+	std::cout << "broadcast\n";
+	std::string	msg;
+	if (isChanOp(sender))	{
+		msg = sender->get_nick_name();
+		std::string t;
+		t = sender->get_user_name();
+		if (!t.empty())
+			msg += "!" + t;
+		t = sender->get_ip();
+		if (!t.empty())
+			msg += t;
+		msg += " " + args[0] + " " + args[1] + " " + args[2] + "\r\n";
+		std::cout << msg << std::endl;
+	}
+	else	{
+		msg = " " + args[0] + " " + args[1];
+		msg = sender->sendMsg(msg + " :" + args[2]);
+	}
+	for (int i = 0; i < _users.size(); i++)	{
+		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
+	}
+}

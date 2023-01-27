@@ -13,6 +13,7 @@ class	Channel	{
 		std::string const	_name;	//case insensitive max-50(49)lenght
 							//no ' ' ^G=ASCII 7 ',' 
 							// ':' - Channel mask delimiter
+//		Server					*_server;
 		std::string				_topic;
 		std::vector<Client *>	_chops;//TODO KICK MODE INVITE TOPIC
 		std::vector<Client *>	_users;
@@ -28,9 +29,9 @@ class	Channel	{
 		
 		std::vector<Client * > & getChops(void);
 		std::vector<Client * > & getUsers(void);
+		bool	isChanOp(Client *client);
 
-//		broadcast(std::string const message);
-
+		void	broadcast(Client *sender, std::vector<std::string> args);
 };
 
 

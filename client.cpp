@@ -72,7 +72,7 @@ std::string	Client::sendMsg(std::string msg)
 	reply.append(msg);
 	return (reply + "\r\n");
 //	send(_fd, reply.c_str(), reply.length(), 0);
-	std::cout << reply << std::endl;
+//	std::cout << reply << std::endl;
 }
 
 Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
