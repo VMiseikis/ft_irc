@@ -24,13 +24,13 @@ std::vector<Client * > & Channel::getUsers(void)	{
 	return (_users);
 }
 
-void	Channel::addUser(Client	*user)	{
+/*void	Channel::addUser(Client	*user)	{
 	if (!getClientByNick(_users, (*user).get_nick_name()))	{
 		//if user not already there 
 		_users.push_back(user);
 //		user->reply(
 	}
-}
+}*/
 /*bool	Channel::nameOk(std::string	name)	{
 	if (name.length() > 50 || name.find_first_of(" ,") != std::string::npos)
 		return (false)
@@ -53,15 +53,20 @@ void	Channel::newUser(Client	*client)	{
 	std::string msg = client->fullID();
 	msg += " JOIN " + _name + "\r\n";
 	std::cout << msg << std::endl;
-	broadcast(client, msg);
-	send(client->get_fd(), msg.c_str(), msg.length(), 0);
+	broadcast(msg);
+//	send(client->get_fd(), msg.c_str(), msg.length(), 0);
 	if (!_topic.empty())	{
 		msg = ":" + _server->getName() + " 332 " + client->get_nick_name();
 		msg += " " + _name + " :" + _topic + "\r\n";
 		send(client->get_fd(), msg.c_str(), msg.length(), 0);
 	}
 }
-
+void	Channel::broadcast(std::string msg)	{
+	std::cout << "broadcast visiems kanale\n";
+	for (int i = 0; i < _users.size(); i++)	{
+		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
+	}
+}
 void	Channel::broadcast(Client *client, std::string msg)	{
 	std::cout << "broadcast\n";
 	int fd = client->get_fd();
@@ -71,27 +76,3 @@ void	Channel::broadcast(Client *client, std::string msg)	{
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
 	}
 }
-
-/*void	Channel::broadcast(Client *sender, std::vector<std::string> args)	{
-	std::cout << "broadcast\n";
-	std::string	msg;
-//	if (isChanOp(sender))	{
-//		msg = ":@" + sender->get_nick_name();
-//		std::string t;
-//		t = sender->get_user_name();
-//		if (!t.empty())
-//			msg += "!" + t;
-//		t = sender->get_ip();
-//		if (!t.empty())
-//			msg += t;
-//		msg += " " + args[0] + " " + args[1] + " " + args[2] + "\r\n";
-//		std::cout << msg << std::endl;
-//	}
-//	else	{
-		msg = " " + args[0] + " " + args[1];
-		msg = sender->sendMsg(msg + " :" + args[2]);
-//	}
-	for (int i = 0; i < _users.size(); i++)	{
-		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
-	}
-}*/

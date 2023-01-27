@@ -172,8 +172,13 @@ void Commands::join_command(Client *creator, std::string cmd, std::string args)	
 	exists = _server->getChannel(args);
 	if (exists)
 		(*exists).newUser(creator);
-	else
+	else	{
 		_server->getChannels().push_back(new Channel(_server, creator, args));
+	std::string msg = creator->fullID();
+	msg += " JOIN " + args + "\r\n";
+	std::cout << msg << std::endl;
+	_server->getChannels()[0]->broadcast(msg);
+	}
 }
 
 void	Commands::pmsg_command(Client *client, std::string cmd, std::string line)
