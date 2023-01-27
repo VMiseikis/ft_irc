@@ -188,7 +188,7 @@ void	Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	if (nick.empty())
 		return client->reply(" 411 : No recipient given\r\n");
 
-	i = line.find_first_not_of((WHITESPACES), nick.size());
+	i = line.find_first_not_of(WHITESPACES, nick.size());
 	if (i != std::string::npos)
 		msg = line.substr(i, line.size());
 
@@ -199,10 +199,10 @@ void	Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	if (!receiver)
 		return client->reply(" 401 :No such nick\r\n");
 	send_msg = " " + cmd + " " + nick + " "; 
-	if (msg[0] == ':')
+	if (msg[0] != ':')
 		send_msg = client->sendMsg(send_msg + " :" + msg);
 	else
 		send_msg = client->sendMsg(send_msg + " " + msg);
 	std::cout << send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
 	
-}	
+}

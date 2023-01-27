@@ -21,7 +21,7 @@
 
 
 
-#define IRC_MESSAGE_LENGHT 64
+#define IRC_MESSAGE_LENGHT 100
 // #define HOST_NAME_MAX 64
 
 class Commands;
@@ -37,7 +37,7 @@ class Server
 		int _conn;		//connecting client socket
 
 
-		struct pollfd _pollfd;
+		// struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
 

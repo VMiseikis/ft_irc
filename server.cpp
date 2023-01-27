@@ -89,11 +89,14 @@ void Server::new_server()
 		exit(-1); //TODO error handling
 
 	store_pollfd(_server);
+	// struct pollfd _pollfd = {_server, POLLIN, 0};
+	// _pollfds.push_back(_pollfd);
 	
 }
 
 void Server::store_pollfd(int socket)
 {
+	struct pollfd _pollfd;
 	memset(&_pollfd, 0, sizeof(_pollfd));
 	_pollfd.fd = socket;
 	_pollfd.events = POLLIN;
@@ -159,8 +162,7 @@ void Server::handle_message(Client *client, std::string message)
 	std::stringstream ss(message);
 	std::string line;
 	std::vector<std::string> args;
-	(void) client;
-		
+
 	if (!message.empty())
 	{
 		while (std::getline(ss, line))
@@ -198,16 +200,20 @@ void Server::message_recieved(int fd)
 		command and its parameters.
 	*/
 
-	char buffer[IRC_MESSAGE_LENGHT];
-
+	size_t count = 0;
 	std::string msg;
+
+	char buffer[IRC_MESSAGE_LENGHT];
 	while (!strstr(buffer, "\r\n"))
 	{
 		memset(&buffer, 0, IRC_MESSAGE_LENGHT);
-		if(recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) < 0)
+		count = recv(fd, buffer, IRC_MESSAGE_LENGHT - 1, 0);
+		if(count < 0)
 			break ; //TODO error handling
+		buffer[count] = '\0';
 		msg.append(buffer);
 	}
+	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
 	try {
 		std::cout << "BUFF>>" << msg << std::endl;
 		handle_message(_clients.at(fd), msg);
@@ -256,17 +262,20 @@ void Server::run_server()
 		{
 			if (it->revents == 0)
 				continue;
-			if ((it->revents & POLLHUP) == POLLHUP)
+			if ((it->revents & POLLIN) == POLLIN)
+			{
+				if (it->fd == _server)
+				{
+					new_connection();
+					break;
+				}
+				message_recieved(it->fd);
+			} 
+			else if ((it->revents & POLLHUP) == POLLHUP)
 			{
 				std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
 				client_disconnect(it);
 				break;
-			}
-			if ((it->revents & POLLIN) == POLLIN)
-			{
-				if (it->fd == _server)
-					new_connection();
-				message_recieved(it->fd);
 			}
 		}
 	}
