@@ -21,7 +21,7 @@
 #include <vector>
 #include <map>
 
-class	client;
-class	server;
-class	channel;
+class	Client;
+class	Server;
+class	Channel;
 #endif

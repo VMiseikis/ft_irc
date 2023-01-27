@@ -3,6 +3,7 @@
 
 # include "ft_irc.hpp"
 # include "client.hpp"
+# include "server.hpp"
 
 
 class	Client;
@@ -13,7 +14,7 @@ class	Channel	{
 		std::string const	_name;	//case insensitive max-50(49)lenght
 							//no ' ' ^G=ASCII 7 ',' 
 							// ':' - Channel mask delimiter
-//		Server					*_server;
+		Server					*_server;
 		std::string				_topic;
 		std::vector<Client *>	_chops;//TODO KICK MODE INVITE TOPIC
 		std::vector<Client *>	_users;
@@ -21,7 +22,7 @@ class	Channel	{
 
 //		bool	nameOk(std::string	name);
 	public:
-		Channel(Client *creator, std::string & name);
+		Channel(Server *server, Client *creator, std::string & name);
 		~Channel(void);
 		std::string	const	getName(void) const; 
 		void				addUser(Client	*client);
@@ -31,7 +32,9 @@ class	Channel	{
 		std::vector<Client * > & getUsers(void);
 		bool	isChanOp(Client *client);
 
-		void	broadcast(Client *sender, std::vector<std::string> args);
+//		void	broadcast(Client *sender, std::vector<std::string> args);
+		void	broadcast(std::string msg);
+		void	newUser(Client *user);
 };
 
 

@@ -25,6 +25,7 @@
 // #define HOST_NAME_MAX 64
 
 class Commands;
+class	Channel;
 
 class Server
 {
@@ -35,7 +36,7 @@ class Server
 		std::string _password;
 		int _conn;		//connecting client socket
 
-
+		std::string	_name;
 		struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
@@ -59,6 +60,7 @@ class Server
 		std::string get_password();
 
 
+		std::string	getName(void);
 		void run_server();
 		void new_connection();
 		void message_recieved(int fd);
