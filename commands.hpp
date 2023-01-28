@@ -6,6 +6,8 @@
 
 #define USERLEN 10
 
+
+#define RPL_ISON				303
 #define RPL_YOUREOPER			381
 
 #define ERR_UNKNOWNCOMMAND		421
@@ -59,8 +61,9 @@ class Commands
 		void nick_command(Client *client, std::string cmd, std::string args);
 		
 		void oper_command(Client *client, std::string cmd, std::string args);
+		void ison_command(Client *client, std::string cmd, std::string args);
+		void pong_command(Client *client, std::string cmd, std::string args);
 
-		// void pong_command(Client *client, std::vector<std::string> args);
 		void join_command(Client *client, std::string cmd, std::string args);
 		void pmsg_command(Client *client, std::string cmd, std::string args);
 		// void list_command(Client *client, std::vector<std::string> args);
