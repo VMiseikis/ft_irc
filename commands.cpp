@@ -6,9 +6,10 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
 	_commands.insert(std::make_pair("NICK", &Commands::nick_command));
 	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
-	// _commands.insert(std::make_pair("PING", &Commands::pong_command));
+	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
+	_commands.insert(std::make_pair("PING", &Commands::pong_command));
 
-//	_commands.insert(std::make_pair("PONG", &Commands::pong_command));
+
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
 
@@ -23,6 +24,8 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		// 	return (" 421 " arg + " :Unknown command.\r\n");
 
 		//RPL_YOUREOPER (381)
+		case RPL_ISON:
+			return (" 303 :" + client + "\r\n");
 		case RPL_YOUREOPER:
 			return (" 381 " + client + " :You are now an IRC operator.\r\n");
 
@@ -170,6 +173,7 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 }
 
 void Commands::join_command(Client *creator, std::string cmd, std::string args)	{
+	(void) cmd;
 	if (args.empty())
 		return creator->reply(" 462 : Need more parameters.\r\n");
 	Channel	*exists;
@@ -210,9 +214,9 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 			return client->reply(" 401 :No such nick\r\n");
 		send_msg = " " + cmd + " " + nick + " "; 
 		if (msg[0] != ':')
-			send_msg = client->sendMsg(send_msg + " :" + msg);
+			send_msg = client->sendMsg(send_msg + ":" + msg);
 		else
-			send_msg = client->sendMsg(send_msg + " " + msg);
+			send_msg = client->sendMsg(send_msg + msg);
 		send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
 	}
 	else	{
@@ -254,4 +258,33 @@ void Commands::oper_command(Client *client, std::string cmd, std::string line)
 
 	client->set_status(client->get_status() + 1);
 	return client->reply(responce_msg(client->get_nick_name(), RPL_YOUREOPER, ""));
+}
+
+void Commands::ison_command(Client *client, std::string cmd, std::string line)
+{
+	std::string msg = "";
+	std::vector<std::string> args;
+
+	if (!client->is_registered() && !client->is_operator())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
+	get_arguments(line, &args);
+
+	for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
+		if (_server->get_client(*it))
+			msg += *it + " ";
+		
+	client->reply(responce_msg(msg, RPL_ISON, cmd));
+}
+
+void Commands::pong_command(Client *client, std::string cmd, std::string line)
+{
+	(void) cmd;
+
+	if (!client->is_registered() && !client->is_operator())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
+	std::string msg = "PONG :" + line;
+	client->reply(msg);
+	std::cout << "PONG responce:" << msg << std::endl;
 }

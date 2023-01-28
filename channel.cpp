@@ -63,14 +63,14 @@ void	Channel::newUser(Client	*client)	{
 }
 void	Channel::broadcast(std::string msg)	{
 	std::cout << "broadcast visiems kanale\n";
-	for (int i = 0; i < _users.size(); i++)	{
+	for (unsigned int i = 0; i < _users.size(); i++)	{
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
 	}
 }
 void	Channel::broadcast(Client *client, std::string msg)	{
 	std::cout << "broadcast\n";
 	int fd = client->get_fd();
-	for (int i = 0; i < _users.size(); i++)	{
+	for (unsigned int i = 0; i < _users.size(); i++)	{
 		if (_users[i]->get_fd() == fd) 
 			continue ;
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
