@@ -284,7 +284,5 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	if (!client->is_registered() && !client->is_operator())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
-	std::string msg = "PONG :" + line;
-	client->reply(msg);
-	std::cout << "PONG responce:" << msg << std::endl;
+	client->reply("PONG :" + line + "\r\n");
 }
