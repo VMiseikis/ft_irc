@@ -179,10 +179,7 @@ void Commands::join_command(Client *creator, std::string cmd, std::string args)	
 		(*exists).newUser(creator);
 	else	{
 		_server->getChannels().push_back(new Channel(_server, creator, args));
-	std::string msg = creator->fullID();
-	msg += " JOIN " + args + "\r\n";
-	std::cout << msg << std::endl;
-	_server->getChannels()[0]->broadcast(msg);
+	return _server->getChannels()[0]->newUser(creator);
 	}
 }
 
@@ -223,7 +220,15 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		}
 //		std::cout << channel->getName() << std::endl;
 		msg = ":" +  client->fullID() + " " + cmd + " " + line + "\r\n";
-		return channel->broadcast(client, msg);
+		channel->broadcast(client, msg);
+
+		nick = channel->getTopic();
+	if (!nick.empty())	{
+		msg = ":" + client->fullID() /*_server->getName()*/ + " 332 " + client->get_nick_name();
+		msg += " " + channel->getName() + " :" + nick + "\r\n";
+		send(client->get_fd(), msg.c_str(), msg.length(), 0);
+	}
+		return ;
 //		return channel->broadcast(client, args);
 	}
 }
