@@ -35,6 +35,8 @@ class	Channel	{
 		void	broadcast(Client *client, std::string msg);
 		void	broadcast(std::string msg);
 		void	newUser(Client *user);
+		std::string	getTopic(void);
+		std::string	getNamesList(void);
 };
 
 
