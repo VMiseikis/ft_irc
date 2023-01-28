@@ -11,7 +11,7 @@ class	Client;
 class	Channel	{
 	private:
 		std::string	_prefix; // & = local, #,  + = no modes or op except -t flag, ! = safe Channel  &#+ = std Channels
-		std::string const	_name;	//case insensitive max-50(49)lenght
+		std::string 		_name;	//case insensitive max-50(49)lenght
 							//no ' ' ^G=ASCII 7 ',' 
 							// ':' - Channel mask delimiter
 		Server					*_server;
@@ -31,12 +31,17 @@ class	Channel	{
 		std::vector<Client * > & getChops(void);
 		std::vector<Client * > & getUsers(void);
 		bool	isChanOp(Client *client);
+		bool	isOnChan(Client *client);
 
 		void	broadcast(Client *client, std::string msg);
 		void	broadcast(std::string msg);
 		void	newUser(Client *user);
+
 		std::string	getTopic(void);
 		std::string	getNamesList(void);
+
+		void	depart(Client *client);	
+//		void	update(Client *user);
 };
 
 

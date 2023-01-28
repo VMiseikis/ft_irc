@@ -79,13 +79,8 @@ std::string	Client::sendMsg(std::string msg)
 	if (!_ip.empty())
 		reply += "@" + _ip;
 
-	// if (_port != 0)
-	// 	reply += ":" + [_port];
-
 	reply.append(msg);
 	return (reply + "\r\n");
-//	send(_fd, reply.c_str(), reply.length(), 0);
-//	std::cout << reply << std::endl;
 }
 
 Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
