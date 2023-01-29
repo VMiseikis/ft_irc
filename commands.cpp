@@ -8,7 +8,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
-
+	_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
@@ -67,7 +67,10 @@ void Commands::get_arguments(std::string line, std::vector<std::string> *args)
 			return ;
 		if (line[i] == ':')
 			return (*args).push_back(line.substr(i, line.size()));
-		(*args).push_back(line.substr(i, line.find_first_of(WHITESPACES, i) - i));
+		if (line[i] == '"')
+			(*args).push_back(line.substr(i, line.find_first_of('"', i + 1) - i + 1));
+		else
+			(*args).push_back(line.substr(i, line.find_first_of(WHITESPACES, i) - i));
 		i += (*args).back().length();
 	}
 }
@@ -209,7 +212,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		Client *receiver = _server->get_client(nick);
 		if (!receiver)
 			return client->reply(" 401 :No such nick\r\n");
-		send_msg = " " + cmd + " " + nick + " "; 
+		send_msg = " " + cmd + " " + nick + " ";
 		if (msg[0] != ':')
 			send_msg = client->sendMsg(send_msg + ":" + msg);
 		else
@@ -290,4 +293,35 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
 	client->reply("PONG :" + line + "\r\n");
+}
+
+void Commands::dcc_command(Client *client, std::string cmd, std::string line)
+{
+	(void) client;
+	(void) cmd;
+	(void) line;
+
+	std::vector<std::string> args;
+
+	get_arguments(line, &args);
+
+	std::transform(args[0].begin(), args[0].end(), args[0].begin(), ::towupper);
+	if (args[0] == "SEND")
+	{
+		client->reply(responce_msg(msg, RPL_ISON, cmd));
+	}
+
+
+	// std::cout << "CIA " << std::endl;
+	// for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); it++)
+	// 	std::cout << ">>" << *it << "<<";
+	// std::cout << std::endl;
+	// return;
+
+
+
+	//PRIVMSG Guest59 :DCC SEND "C++ Stroustrup_book.pdf" 3170133662 1115 4375552
+	//DCC SEND filename ip port file size
+	//Data is sent to the client in blocks, each of which the client must acknowledge
+	//by sending the total number of bytes received in the form of a 32-bit network byte order integer
 }
