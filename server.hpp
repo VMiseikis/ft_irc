@@ -77,6 +77,7 @@ class Server
 		Client *get_client(std::string name);
 		std::vector<Channel *> & getChannels(void);
 		Channel	*getChannel(std::string	&name);
+		void	deleteChannel(Channel *channel);
 };
 
 #endif

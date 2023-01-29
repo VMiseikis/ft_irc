@@ -9,7 +9,6 @@ Channel::Channel(Server *server, Client *creator, std::string & name): _name(nam
 	_name = _name.substr(0, _name.find_first_of(WHITESPACES));
 	
 				_chops.push_back(creator);
-//				_users.push_back(creator);
 				_topic = "KOL KAS TIK DEL TESTAVIMO";
 //			}
 }
@@ -115,9 +114,10 @@ void	Channel::depart(Client *client)	{
 	std::vector<Client *>::iterator	it;
 	std::string	name;
 	name = client->get_nick_name();
-	for (it = _chops.begin(); it < _chops.end(); it++)	{
-		if ((*it)->get_nick_name() == name)	{
+	for (it = _chops.begin(); it != _chops.end(); it++)	{
+
 			std::cout << (*it)->get_nick_name() << std::endl;
+		if ((*it)->get_nick_name() == name)	{
 			_chops.erase(it);
 			break ;
 		}
@@ -127,32 +127,37 @@ void	Channel::depart(Client *client)	{
 	std::cout << msg << std::endl;
 	broadcast(msg);
 	for (it = _users.begin(); it < _users.end(); it++)	{
+			std::cout << (*it)->get_nick_name() << std::endl;
 		if ((*it)->get_nick_name() == name)	{
+
 			_users.erase(it);
 			break ;
 		}
 	}
 	if (_users.empty())	{
-		std::vector<Channel *>::iterator it;
-		for (it = _server->getChannels().begin(); it < _server->getChannels().end(); it++)	{
-			if (*it == this)
-				delete *it;
-				_server->getChannels().erase(it);
-			break ;
-		}
+		return _server->deleteChannel(this);
+
 	}
 	else	{
 		if (_chops.empty())
-			_chops.push_back(client);
+			_chops.push_back(*(_users.begin()));
 		std::string	msg;
 		for (unsigned int i = 0; i < _users.size(); i++)	{
 			_users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
 			_users[i]->reply(" 366 " + _users[i]->get_nick_name() + _name + ":End of NAMES list\r\n");
+		}
 //	msg = ":" + client->fullID() + " 353 " + client->get_nick_name();
 //	msg += " = " + _name + getNamesList();
 //	send(client->get_fd(), msg.c_str(), msg.length(), 0);
 //	msg = ":" + client->fullID() + " 366 " + client->get_nick_name();
 //	msg += " " + _name + " :End of NAMES list\r\n";
 		}
+// TETS
+/*for (it = _chops.begin(); it != _chops.end(); it++)	{
+			std::cout << (*it)->get_nick_name() << " chops"<< std::endl;
 	}
+	for (it = _users.begin(); it != _users.end(); it++)	{
+	std::cout << (*it)->get_nick_name() << " users"<< std::endl;
+	}
+	}*/
 }
