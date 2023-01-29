@@ -8,15 +8,17 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
-<<<<<<< HEAD
-	_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 
-=======
+	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 
 	_commands.insert(std::make_pair("PART", &Commands::part_command));
->>>>>>> 555ec5300b7ca5f4aeaef380cf2e0611d1390958
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
+
+
+	// _commands.insert(std::make_pair("QUIT", &Commands::quit_command));
+	// _commands.insert(std::make_pair("SQUIT", &Commands::quit_command));
+	// _commands.insert(std::make_pair("KILL", &Commands::quit_command));
 
 }
 
@@ -310,7 +312,11 @@ void Commands::part_command(Client *creator, std::string cmd, std::string args)	
 	(*exists).depart(creator);
 }
 
+//SQUIT
+//CONNECT
+//KILL
 
+/*
 void Commands::dcc_command(Client *client, std::string cmd, std::string line)
 {
 	(void) client;
@@ -324,7 +330,8 @@ void Commands::dcc_command(Client *client, std::string cmd, std::string line)
 	std::transform(args[0].begin(), args[0].end(), args[0].begin(), ::towupper);
 	if (args[0] == "SEND")
 	{
-		client->reply(responce_msg(msg, RPL_ISON, cmd));
+		// client->reply(responce_msg(msg, RPL_ISON, cmd));
+		client->reply(" DCC ACCEPT");
 	}
 
 
@@ -341,4 +348,6 @@ void Commands::dcc_command(Client *client, std::string cmd, std::string line)
 	//Data is sent to the client in blocks, each of which the client must acknowledge
 	//by sending the total number of bytes received in the form of a 32-bit network byte order integer
 
-}
+	//DCC ACCEPT filename port position
+
+}*/

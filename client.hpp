@@ -19,7 +19,6 @@ class Client
 		std::string	_real;
 		std::string _nick;
 		std::string _pass;
-
 //		std::string	_mode;
 
 	public:

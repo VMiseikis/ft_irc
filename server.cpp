@@ -236,13 +236,14 @@ Client *Server::get_client(std::string name)
 
 void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
-	try {
-		delete _clients.at(it->fd);
-		_clients.erase(it->fd);
-		close(it->fd);
-		_pollfds.erase(it);
-	}
-	catch (const std::out_of_range &err) {}
+	(void) it;
+	// try {
+	// 	delete _clients.at(it->fd);
+	// 	_clients.erase(it->fd);
+	// 	close(it->fd);
+	// 	_pollfds.erase(it);
+	// }
+	// catch (const std::out_of_range &err) {}
 }
 
 
