@@ -289,6 +289,23 @@ Channel	*Server::getChannel(std::string &name)	{
 	}
 	return (NULL);
 }
+void	Server::deleteChannel(Channel *channel)	{
+		std::vector<Channel *>::iterator it;
+		for (it = _channels.begin(); it != _channels.end(); it++)	{
+			if (*it == channel)
+				delete *it;
+				_channels.erase(it);
+			break ;
+		}
+		//tetst
+		if (_channels.empty())
+			std::cout << "no channels exist\n";
+		else	{
+		for (it = _channels.begin(); it != _channels.end(); it++)	{
+			std::cout << (*it)->getName() << " existing servers\n";
+		}
+		}
+	}
 std::string	Server::getName(void)	{
 	return (_name);
 }

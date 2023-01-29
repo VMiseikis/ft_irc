@@ -38,6 +38,7 @@
 #include <map>
 #include "client.hpp"
 #include "server.hpp"
+#include "channel.hpp"
 
 class Server;
 
