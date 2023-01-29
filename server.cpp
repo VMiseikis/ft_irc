@@ -163,7 +163,7 @@ void Server::handle_message(Client *client, std::string message)
 {
 	size_t begin, end;
 	std::stringstream ss(message);
-	std::string line;
+	std::string line = "";
 	std::vector<std::string> args;
 
 	if (!message.empty())
@@ -174,8 +174,8 @@ void Server::handle_message(Client *client, std::string message)
 			end = line.find_last_not_of(WHITESPACES) + 1;
 			if(begin != std::string::npos && end != std::string::npos)
 				line = line.substr(begin, end);
-			else
-				line = "";
+			// else
+			// 	line = "";
 					
 			if (!line.empty())
 			{

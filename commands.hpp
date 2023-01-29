@@ -64,6 +64,7 @@ class Commands
 		void oper_command(Client *client, std::string cmd, std::string args);
 		void ison_command(Client *client, std::string cmd, std::string args);
 		void pong_command(Client *client, std::string cmd, std::string args);
+		void dcc_command(Client *client, std::string cmd, std::string args);
 
 		void join_command(Client *client, std::string cmd, std::string args);
 		void pmsg_command(Client *client, std::string cmd, std::string args);
