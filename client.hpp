@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sys/socket.h>
 #include "ft_irc.hpp"
+#include "channel.hpp"
 
 enum client_state { NEW, HANDSHAKE, REGISTERED, OPERATOR};
 
@@ -20,6 +21,7 @@ class Client
 		std::string _nick;
 		std::string _pass;
 //		std::string	_mode;
+		std::vector<Channel *>	_channels;
 
 	public:
 		Client(int fd, std::string ip, int port);
@@ -50,6 +52,9 @@ class Client
 		void reply(const std::string &msg);
 		std::string	sendMsg(std::string msg);
 		std::string	fullID(void);
+		void	join(Channel *channel);
+		void	part(Channel *channel);
+		void	part(void);
 	
 };
 

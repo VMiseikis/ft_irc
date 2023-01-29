@@ -90,3 +90,23 @@ Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
 	}
 	return(NULL);
 }
+void	Client::join(Channel *channel)	{
+	_channels.push_back(channel);
+}
+void	Client::part(Channel *channel)	{
+	channel->part(this);
+	std::vector<Channel *>::iterator it = _channels.begin();
+	for (; it != _channels.end(); it++)	{
+		if (*it == channel)	{
+			_channels.erase(it);
+			break ;
+		}
+	}
+}
+void	Client::part(void)	{
+	std::vector<Channel *>::iterator it = _channels.begin();
+	for (; it != _channels.end(); it++)	{
+		(*it)->part(this);
+	}
+	_channels.clear();
+}		

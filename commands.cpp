@@ -309,7 +309,8 @@ void Commands::part_command(Client *creator, std::string cmd, std::string args)	
 		return creator->reply(" 403 : No such channel.\r\n");
 	if (!(*exists).isOnChan(creator))
 		return creator->reply(" 442 : Not on channel.\r\n");
-	(*exists).depart(creator);
+	 creator->part(exists);
+	//(*exists).depart(creator);
 }
 
 //SQUIT

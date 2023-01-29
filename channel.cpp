@@ -77,6 +77,7 @@ void	Channel::newUser(Client	*client)	{
 	if (getClientByNick(_users, client->get_nick_name()))
 		return ;
 	_users.push_back(client);
+	client->join(this);
 	std::string msg = ":" + client->fullID();
 	msg += " JOIN :" + _name + "\r\n";
 	std::cout << msg << std::endl;
@@ -110,7 +111,7 @@ void	Channel::broadcast(Client *client, std::string msg)	{
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
 	}
 }
-void	Channel::depart(Client *client)	{
+void	Channel::part(Client *client)	{
 	std::vector<Client *>::iterator	it;
 	std::string	name;
 	name = client->get_nick_name();
@@ -146,12 +147,7 @@ void	Channel::depart(Client *client)	{
 			_users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
 			_users[i]->reply(" 366 " + _users[i]->get_nick_name() + _name + ":End of NAMES list\r\n");
 		}
-//	msg = ":" + client->fullID() + " 353 " + client->get_nick_name();
-//	msg += " = " + _name + getNamesList();
-//	send(client->get_fd(), msg.c_str(), msg.length(), 0);
-//	msg = ":" + client->fullID() + " 366 " + client->get_nick_name();
-//	msg += " " + _name + " :End of NAMES list\r\n";
-		}
+	}
 // TETS
 /*for (it = _chops.begin(); it != _chops.end(); it++)	{
 			std::cout << (*it)->get_nick_name() << " chops"<< std::endl;

@@ -237,6 +237,7 @@ Client *Server::get_client(std::string name)
 void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
 	try {
+		_clients.at(it->fd)->part();
 		delete _clients.at(it->fd);
 		_clients.erase(it->fd);
 		close(it->fd);
