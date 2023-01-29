@@ -14,7 +14,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("PART", &Commands::part_command));
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
-
+	_commands.insert(std::make_pair("TOPIC", &Commands::tpic_command));
 
 	// _commands.insert(std::make_pair("QUIT", &Commands::quit_command));
 	// _commands.insert(std::make_pair("SQUIT", &Commands::quit_command));
@@ -229,9 +229,8 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	else	{
 		Channel	*channel;
 		channel = _server->getChannel(nick);
-		if (!channel)	{
+		if (!channel)
 			return client->reply(" 403 :No such channel\r\n");
-		}
 		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
 			return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
 
@@ -301,7 +300,6 @@ void Commands::part_command(Client *creator, std::string cmd, std::string args)	
 	(void) cmd;
 	if (args.empty())
 		return creator->reply(" 462 : Need more parameters.\r\n");
-	//std::string name = args.substr(0, args.find_first_of(WHITESPACES));
 	Channel	*exists;
 	args = args.substr(0, args.find_first_of(WHITESPACES));
 	exists = _server->getChannel(args);
@@ -310,7 +308,6 @@ void Commands::part_command(Client *creator, std::string cmd, std::string args)	
 	if (!(*exists).isOnChan(creator))
 		return creator->reply(" 442 : Not on channel.\r\n");
 	 creator->part(exists);
-	//(*exists).depart(creator);
 }
 
 //SQUIT
@@ -352,3 +349,26 @@ void Commands::dcc_command(Client *client, std::string cmd, std::string line)
 	//DCC ACCEPT filename port position
 
 }*/
+
+void Commands::tpic_command(Client *client, std::string cmd, std::string args)
+{
+	(void)cmd;
+	size_t i;
+	std::string	msg;
+	if (args.empty())
+		return client->reply(" 462 : Need more parameters.\r\n");
+	std::string name = args.substr(0, args.find_first_of(WHITESPACES));
+	Channel	*channel;
+	channel = _server->getChannel(name);
+	if (!channel)
+		return client->reply(" 403 :No such channel\r\n");
+	if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
+		return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
+	i = args.find_first_not_of(WHITESPACES, name.size());
+	if (i != std::string::npos)
+		msg = args.substr(i, args.size());
+	if (msg.empty())
+		channel->topic(client);
+	else
+		channel->topic(client, msg);
+}
