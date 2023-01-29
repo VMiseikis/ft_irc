@@ -8,8 +8,13 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
+<<<<<<< HEAD
 	_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 
+=======
+
+	_commands.insert(std::make_pair("PART", &Commands::part_command));
+>>>>>>> 555ec5300b7ca5f4aeaef380cf2e0611d1390958
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
 
@@ -186,7 +191,7 @@ void Commands::join_command(Client *creator, std::string cmd, std::string args)	
 		(*exists).newUser(creator);
 	else	{
 		_server->getChannels().push_back(new Channel(_server, creator, args));
-	return _server->getChannels()[0]->newUser(creator);
+	return _server->getChannels().back()->newUser(creator);
 	}
 }
 
@@ -225,18 +230,13 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		if (!channel)	{
 			return client->reply(" 403 :No such channel\r\n");
 		}
+		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
+			return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
+
+		std::cout << line << std::endl;
 //		std::cout << channel->getName() << std::endl;
 		msg = ":" +  client->fullID() + " " + cmd + " " + line + "\r\n";
 		channel->broadcast(client, msg);
-
-		nick = channel->getTopic();
-	if (!nick.empty())	{
-		msg = ":" + client->fullID() /*_server->getName()*/ + " 332 " + client->get_nick_name();
-		msg += " " + channel->getName() + " :" + nick + "\r\n";
-		send(client->get_fd(), msg.c_str(), msg.length(), 0);
-	}
-		return ;
-//		return channel->broadcast(client, args);
 	}
 }
 
@@ -295,6 +295,22 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	client->reply("PONG :" + line + "\r\n");
 }
 
+void Commands::part_command(Client *creator, std::string cmd, std::string args)	{
+	(void) cmd;
+	if (args.empty())
+		return creator->reply(" 462 : Need more parameters.\r\n");
+	//std::string name = args.substr(0, args.find_first_of(WHITESPACES));
+	Channel	*exists;
+	args = args.substr(0, args.find_first_of(WHITESPACES));
+	exists = _server->getChannel(args);
+	if (!exists)
+		return creator->reply(" 403 : No such channel.\r\n");
+	if (!(*exists).isOnChan(creator))
+		return creator->reply(" 442 : Not on channel.\r\n");
+	(*exists).depart(creator);
+}
+
+
 void Commands::dcc_command(Client *client, std::string cmd, std::string line)
 {
 	(void) client;
@@ -324,4 +340,5 @@ void Commands::dcc_command(Client *client, std::string cmd, std::string line)
 	//DCC SEND filename ip port file size
 	//Data is sent to the client in blocks, each of which the client must acknowledge
 	//by sending the total number of bytes received in the form of a 32-bit network byte order integer
+
 }
