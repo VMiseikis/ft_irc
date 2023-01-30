@@ -482,11 +482,24 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 	if (name.empty())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
 
-	Channel *channel = _server->getChannel(name);
-	if (!channel)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, name));
-	
-	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->getName() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
-	client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
+	if (name[0] == '#')
+	{
+		Channel *channel = _server->getChannel(name);
+		if (!channel)
+			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, name));
+
+		for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+			client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->getName() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
+		return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
+	}
+
+	Client *target = _server->get_client(name);
+	if (!target)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, name));
+
+	if (target->get_channels().empty())
+		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " * " + target->get_user_name() + " " + target->get_hostname() + " " + _server->getName() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+	else
+		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->getName() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+	return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
 }

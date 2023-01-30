@@ -36,6 +36,7 @@ class Client
 		std::string get_nick_name();
 		std::string get_password();
 		std::string get_hostname();
+		std::vector<Channel *> get_channels();
 
 		void welcome();
 

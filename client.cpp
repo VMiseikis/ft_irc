@@ -14,6 +14,7 @@ std::string Client::get_real_name() { return _real; }
 std::string Client::get_nick_name() { return _nick; }
 std::string Client::get_password()	{ return _pass; }
 std::string Client::get_hostname()	{ return _hostname; }
+std::vector<Channel *> Client::get_channels() { return _channels; }
 
 void Client::set_status(int status) 			{ _status = status; }
 void Client::set_user_name(std::string user) 	{ _user = user; }
