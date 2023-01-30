@@ -9,6 +9,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
 	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
+	// _commands.insert(std::make_pair("WHO", &Commands::who_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 	_commands.insert(std::make_pair("LIST", &Commands::list_command));
@@ -32,10 +33,26 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		// 	return (" 421 " arg + " :Unknown command.\r\n");
 
 		//RPL_YOUREOPER (381)
+		case RPL_UMODEIS:
+			return (" 221 " + client + " \r\n");
+			 			
+
+
+
 		case RPL_ISON:
-			return (" 303 :" + client + "\r\n");
+			return (" 303 " + client + "\r\n");
+		// case RPL_WHOREPLY:
+		// 	return (" 352 :" + arg + "\r\n");
+
+		case ERR_NOSUCHNICK:
+			return (" 401 " + client + " " + arg + ":No such nick/channel\r\n");
+		case ERR_NOSUCHCHANNEL:
+			return (" 403 " + client + " " + arg + ":No such channel\r\n");
+
+
 		case RPL_YOUREOPER:
 			return (" 381 " + client + " :You are now an IRC operator.\r\n");
+
 
 		case ERR_NONICKNAMEGIVEN:
 			return (" 431 " + client + " " + arg + " :No nickname give to change to.\r\n");
@@ -43,6 +60,10 @@ std::string responce_msg(std::string client, int err, std::string arg)
 			return (" 432 " + client + " " + arg + " :Erroneus nickname.\r\n");
 		case ERR_NICKNAMEINUSE:
 			return (" 433 " + client + " " + arg + " :Nickname is already in use.\r\n");
+
+		case ERR_NOTONCHANNEL:
+			return (" 442 " + client + " " + arg + " :You or target are not on that channel.\r\n");		
+
 
 		case ERR_NOTREGISTERED:
 			return (" 451 " + client + " :You have not registered.\r\n");
@@ -53,6 +74,13 @@ std::string responce_msg(std::string client, int err, std::string arg)
 			return (" 462 " + client + " :Unauthorized command\r\n");
 		case ERR_PASSWDMISMATCH:
 			return (" 464 " + client + " :Password incorrect\r\n");
+
+		case ERR_CHANOPRIVSNEEDED:
+			return (" 482 " + client + " " + arg + " :You're not channel operator\r\n");
+
+
+		case ERR_UMODEUNKNOWNFLAG:
+			return (" 501 " + client + " :Unknown MODE flag\r\n");	
 
 
 		case PINGRESPONCE:
@@ -311,46 +339,6 @@ void Commands::part_command(Client *creator, std::string cmd, std::string args)	
 	 creator->part(exists);
 }
 
-//SQUIT
-//CONNECT
-//KILL
-
-/*
-void Commands::dcc_command(Client *client, std::string cmd, std::string line)
-{
-	(void) client;
-	(void) cmd;
-	(void) line;
-
-	std::vector<std::string> args;
-
-	get_arguments(line, &args);
-
-	std::transform(args[0].begin(), args[0].end(), args[0].begin(), ::towupper);
-	if (args[0] == "SEND")
-	{
-		// client->reply(responce_msg(msg, RPL_ISON, cmd));
-		client->reply(" DCC ACCEPT");
-	}
-
-
-	// std::cout << "CIA " << std::endl;
-	// for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); it++)
-	// 	std::cout << ">>" << *it << "<<";
-	// std::cout << std::endl;
-	// return;
-
-
-
-	//PRIVMSG Guest59 :DCC SEND "C++ Stroustrup_book.pdf" 3170133662 1115 4375552
-	//DCC SEND filename ip port file size
-	//Data is sent to the client in blocks, each of which the client must acknowledge
-	//by sending the total number of bytes received in the form of a 32-bit network byte order integer
-
-	//DCC ACCEPT filename port position
-
-}*/
-
 void Commands::tpic_command(Client *client, std::string cmd, std::string args)
 {
 	(void)cmd;
@@ -450,4 +438,11 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 			}
 		}
 	}
+}
+
+void Commands::who_command(Client *client, std::string cmd, std::string line)
+{
+	(void)client;
+	(void)cmd;
+	(void)line;
 }
