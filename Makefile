@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ajazbuti <ajazbuti@student.42heilbronn.de  +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/02 17:17:14 by ajazbuti          #+#    #+#              #
-#    Updated: 2023/01/30 16:36:26 by ajazbuti         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = test
 
 SRC = main.cpp server.cpp client.cpp channel.cpp commands.cpp
@@ -18,7 +6,7 @@ OBJ = ${SRC:.cpp=.o}
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
 
 all: ${NAME}
 

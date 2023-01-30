@@ -1,7 +1,7 @@
 #include "client.hpp"
 
 
-Client::Client(int fd, std::string ip, int port) : _fd(fd), _port(port), _status(NEW), _ip(ip), _user(), _real(), _nick(), _pass() {}
+Client::Client(int fd, std::string ip, int port, std::string hostname) : _fd(fd), _port(port), _status(NEW), _ip(ip), _user(), _real(), _nick(), _pass(), _hostname(hostname) {}
 
 Client::~Client() {}
 
@@ -13,6 +13,8 @@ std::string Client::get_user_name() { return _user; }
 std::string Client::get_real_name() { return _real; }
 std::string Client::get_nick_name() { return _nick; }
 std::string Client::get_password()	{ return _pass; }
+std::string Client::get_hostname()	{ return _hostname; }
+std::vector<Channel *> Client::get_channels() { return _channels; }
 
 void Client::set_status(int status) 			{ _status = status; }
 void Client::set_user_name(std::string user) 	{ _user = user; }

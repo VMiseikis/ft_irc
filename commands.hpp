@@ -8,8 +8,10 @@
 
 #define RPL_UMODEIS 			221
 #define RPL_ISON				303
+#define RPL_ENDOFWHO			315
 #define RPL_WHOREPLY 			352
-
+#define RPL_NAMREPLY			353
+#define RPL_ENDOFNAMES 			366
 
 #define RPL_YOUREOPER			381
 
@@ -17,11 +19,13 @@
 
 #define ERR_UNKNOWNCOMMAND		421
 
+
 #define ERR_NONICKNAMEGIVEN		431
 #define ERR_ERRONEUSNICKNAME	432
 #define ERR_NICKNAMEINUSE		433
 
 #define ERR_NOTREGISTERED		451
+#define RPL_WHOSPCRPL 			354
 
 #define ERR_NEEDMOREPARAMS		461
 #define ERR_ALREADYREGISTRED	462
@@ -39,6 +43,8 @@
 
 
 #define	ERR_UMODEUNKNOWNFLAG	501
+
+#define MODEREPLY				998
 #define PINGRESPONCE			999
 
 #define WHITESPACES				" \t\f\v\n\r"

@@ -9,7 +9,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
 	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
-	// _commands.insert(std::make_pair("WHO", &Commands::who_command));
+	_commands.insert(std::make_pair("WHO", &Commands::who_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 	_commands.insert(std::make_pair("LIST", &Commands::list_command));
@@ -42,14 +42,27 @@ std::string responce_msg(std::string client, int err, std::string arg)
 
 		case RPL_ISON:
 			return (" 303 " + client + "\r\n");
-		// case RPL_WHOREPLY:
-		// 	return (" 352 :" + arg + "\r\n");
+
+		//"<client> <mask> :End of WHO list"
+		case RPL_ENDOFWHO:
+			return (" 315 :" + client + " " + arg + " :End of WHO list\r\n");
+		//"<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
+		case RPL_WHOREPLY:
+			return (" 352 :" + client + "\r\n");
+
+		case RPL_NAMREPLY:
+			return (" 353 " + client + " " + arg + "\r\n");
+		case RPL_WHOSPCRPL:		
+			return (" 354 " + client + " " + arg + "\r\n");
+
+
+		case RPL_ENDOFNAMES:
+			return (" 366 " + client + arg + "\r\n");
 
 		case ERR_NOSUCHNICK:
 			return (" 401 " + client + " " + arg + ":No such nick/channel\r\n");
 		case ERR_NOSUCHCHANNEL:
-			return (" 403 " + client + " " + arg + ":No such channel\r\n");
-
+			return (" 403 " + client + " " + arg + ":No such channel\r\n");		
 
 		case RPL_YOUREOPER:
 			return (" 381 " + client + " :You are now an IRC operator.\r\n");
@@ -87,6 +100,8 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		case PINGRESPONCE:
 			return (" PONG :" + arg + "\r\n");
 
+		case MODEREPLY:
+			return (arg + "\r\n");
 
 		default:
 			return "";
@@ -338,6 +353,7 @@ void Commands::ison_command(Client *client, std::string cmd, std::string line)
 	client->reply(responce_msg(msg, RPL_ISON, cmd));
 }
 
+
 void Commands::pong_command(Client *client, std::string cmd, std::string line)
 {
 	(void) cmd;
@@ -345,7 +361,7 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	if (!client->is_registered() && !client->is_operator())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
-	client->reply("PONG :" + line + "\r\n");
+	return client->reply(responce_msg("", PINGRESPONCE, line));
 }
 
 void Commands::part_command(Client *client, std::string cmd, std::string args)	{
@@ -407,6 +423,9 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 {
 	std::vector<std::string> args;
 
+	if (!client->is_registered() && !client->is_operator())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
 	get_arguments(line, &args);
 
 	if (args.size() > 0 && args[0][0] =='#')
@@ -443,6 +462,8 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 			else if (plusminus == '\0' && (args[1][i] == '-' || args[1][i] == '+'))
 				plusminus = args[1][i];
 		}
+		if (plusminus == '\0')
+			plusminus = '+';
 		for (int i = 0; mode[i]; i++)
 		{
 			switch (mode[i])
@@ -455,11 +476,15 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 							if ((*it)->get_nick_name() == args[2])
 							{
 								channel->getChops().erase(it);
+								client->reply(responce_msg("", MODEREPLY, " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name()));
 								break ;
 							}
 					}
-					else if ((plusminus == '+' || plusminus == '\0') && !channel->isChanOp(target))
+					else if (plusminus == '+' && !channel->isChanOp(target))
+					{
 						channel->getChops().push_back(target);
+						client->reply(responce_msg("", MODEREPLY, " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name()));
+					}
 					break ;
 				}
 				default:
@@ -471,7 +496,33 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 
 void Commands::who_command(Client *client, std::string cmd, std::string line)
 {
-	(void)client;
-	(void)cmd;
-	(void)line;
+	(void) cmd;
+
+	if (!client->is_registered() && !client->is_operator())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
+	std::string name = line.substr(0, line.find_first_of(WHITESPACES));
+	if (name.empty())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+
+	if (name[0] == '#')
+	{
+		Channel *channel = _server->getChannel(name);
+		if (!channel)
+			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, name));
+
+		for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+			client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->getName() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
+		return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
+	}
+
+	Client *target = _server->get_client(name);
+	if (!target)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, name));
+
+	if (target->get_channels().empty())
+		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " * " + target->get_user_name() + " " + target->get_hostname() + " " + _server->getName() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+	else
+		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->getName() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+	return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
 }

@@ -20,11 +20,11 @@ class Client
 		std::string	_real;
 		std::string _nick;
 		std::string _pass;
-//		std::string	_mode;
+		std::string _hostname;
 		std::vector<Channel *>	_channels;
 
 	public:
-		Client(int fd, std::string ip, int port);
+		Client(int fd, std::string ip, int port, std::string hostname);
 		~Client();
 
 		int get_fd();
@@ -35,6 +35,8 @@ class Client
 		std::string get_real_name();
 		std::string get_nick_name();
 		std::string get_password();
+		std::string get_hostname();
+		std::vector<Channel *> get_channels();
 
 		void welcome();
 
