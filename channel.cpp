@@ -143,15 +143,47 @@ void	Channel::part(Client *client)	{
 			_users[i]->reply(" 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list\r\n");
 		}
 	}
-// TETS
-/*for (it = _chops.begin(); it != _chops.end(); it++)	{
-			std::cout << (*it)->get_nick_name() << " chops"<< std::endl;
-	}
-	for (it = _users.begin(); it != _users.end(); it++)	{
-	std::cout << (*it)->get_nick_name() << " users"<< std::endl;
-	}
-	}*/
 }
+
+void	Channel::dc(Client *client)	{
+	std::vector<Client *>::iterator	it;
+	std::string	name;
+	name = client->get_nick_name();
+	for (it = _chops.begin(); it != _chops.end(); it++)	{
+
+			std::cout << (*it)->get_nick_name() << std::endl;
+		if ((*it)->get_nick_name() == name)	{
+			_chops.erase(it);
+			break ;
+		}
+	}
+		for (it = _users.begin(); it < _users.end(); it++)	{
+			std::cout << (*it)->get_nick_name() << std::endl;
+		if ((*it)->get_nick_name() == name)	{
+
+			_users.erase(it);
+			break ;
+		}
+	}
+	if (_users.empty())	{
+		return _server->deleteChannel(this);
+
+	}
+	else	{
+		std::string msg = ":" + client->fullID();
+		msg += " PART :" + _name + "\r\n";
+		std::cout << msg << std::endl;
+		broadcast(msg);
+		if (_chops.empty())
+			_chops.push_back(*(_users.begin()));
+//		std::string	msg;
+		for (unsigned int i = 0; i < _users.size(); i++)	{
+			_users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
+			_users[i]->reply(" 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list\r\n");
+		}
+	}
+}
+
 void	Channel::topic(Client *client)	{
 	if (_topic.empty())
 		return client->reply(" 331 " + client->get_nick_name() + " "+ _name + " :No topic\r\n");
