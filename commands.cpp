@@ -8,6 +8,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
+	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 	_commands.insert(std::make_pair("LIST", &Commands::list_command));
@@ -383,4 +384,70 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + std::to_string((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
 	}
 	return client->reply(" 323 " + client->get_nick_name() + ": No more channels.\r\n");
+}
+
+void Commands::mode_command(Client *client, std::string cmd, std::string line)
+{
+	std::vector<std::string> args;
+
+	get_arguments(line, &args);
+
+	if (args.size() > 0 && args[0][0] =='#')
+	{
+		if (args.size() == 1)
+			return client->reply(responce_msg(client->get_nick_name(), RPL_UMODEIS, ""));
+
+		if (args.size() < 3)
+			return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+
+		Channel *channel = _server->getChannel(args[0]);
+		if (!channel)
+			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, args[0]));
+
+		Client *target = _server->get_client(args[2]);
+		if (!target)
+			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, args[2]));
+
+		if (!channel->isOnChan(client) || !channel->isOnChan(target))
+			return client->reply(responce_msg(client->get_nick_name(), ERR_NOTONCHANNEL, args[0]));
+
+		if (!channel->isChanOp(client))
+		{
+			std::cout << responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]) << std::endl;
+			return client->reply(responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]));
+		}
+
+		char plusminus = '\0';
+		std::string mode = "";
+		for (int i = 0; args[1][i]; i++)
+		{
+			if (iswalpha(args[1][i]) && mode.find_first_of(args[1][i]) == std::string::npos)
+				mode.push_back(args[1][i]);
+			else if (plusminus == '\0' && (args[1][i] == '-' || args[1][i] == '+'))
+				plusminus = args[1][i];
+		}
+		for (int i = 0; mode[i]; i++)
+		{
+			switch (mode[i])
+			{
+				case 'o':
+				{
+					if (plusminus == '-' && channel->isChanOp(target))
+					{
+						for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it)
+							if ((*it)->get_nick_name() == args[2])
+							{
+								channel->getChops().erase(it);
+								break ;
+							}
+					}
+					else if ((plusminus == '+' || plusminus == '\0') && !channel->isChanOp(target))
+						channel->getChops().push_back(target);
+					break ;
+				}
+				default:
+					return client->reply(responce_msg(client->get_nick_name(), ERR_UMODEUNKNOWNFLAG, ""));
+			}
+		}
+	}
 }

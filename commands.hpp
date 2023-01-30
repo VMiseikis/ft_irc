@@ -6,9 +6,14 @@
 
 #define USERLEN 10
 
-
+#define RPL_UMODEIS 			221
 #define RPL_ISON				303
+#define RPL_WHOREPLY 			352
+
+
 #define RPL_YOUREOPER			381
+
+#define ERR_NOSUCHNICK 			401
 
 #define ERR_UNKNOWNCOMMAND		421
 
@@ -29,7 +34,11 @@
 #define	ERR_NOTEXTTOSEND		412
 #define	ERR_TOOMANYTARGETS		407
 
+#define ERR_NOTONCHANNEL 		442
+#define ERR_CHANOPRIVSNEEDED 	482
 
+
+#define	ERR_UMODEUNKNOWNFLAG	501
 #define PINGRESPONCE			999
 
 #define WHITESPACES				" \t\f\v\n\r"
@@ -64,6 +73,7 @@ class Commands
 		void oper_command(Client *client, std::string cmd, std::string args);
 		void ison_command(Client *client, std::string cmd, std::string args);
 		void pong_command(Client *client, std::string cmd, std::string args);
+		void mode_command(Client *client, std::string cmd, std::string args);
 		// void dcc_command(Client *client, std::string cmd, std::string args);
 
 		void join_command(Client *client, std::string cmd, std::string args);
