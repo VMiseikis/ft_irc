@@ -3,8 +3,8 @@
 Channel::~Channel(void)	{}
 
 Channel::Channel(Server *server, Client *creator, std::string & name): _name(name), _server(server)	{
-	if (_name[0] != '#')
-		_name = "#" + _name;
+//	if (_name[0] != '#')
+//		_name = "#" + _name;
 	_chops.push_back(creator);
 }
 
@@ -75,13 +75,19 @@ void	Channel::newUser(Client	*client)	{
 	client->join(this);
 	std::string msg = ":" + client->fullID();
 	msg += " JOIN :" + _name + "\r\n";
-//	std::cout << msg << std::endl;
+	std::cout << msg << std::endl;
 	broadcast(msg);
-//	topic(client);
-	msg = " 353 " + client->get_nick_name() + " = " + _name + getNamesList();
+	topic(client);
+msg = ":" + client->fullID() + " 353 " + client->get_nick_name();
+	msg += " = " + _name + getNamesList();
+	send(client->get_fd(), msg.c_str(), msg.length(), 0);
+	msg = ":" + client->fullID() + " 366 " + client->get_nick_name();
+	msg += " " + _name + " :End of /NAMES list\r\n";
+	send(client->get_fd(), msg.c_str(), msg.length(), 0);
+/*	msg = " 353 " + client->get_nick_name() + " = " + _name + getNamesList();
 	client->reply(msg);
 	msg = " 366 " + client->get_nick_name() + " " + _name + " :End of /NAMES list\r\n";
-	client->reply(msg);
+	client->reply(msg);*/
 }
 
 void	Channel::broadcast(std::string msg)	{

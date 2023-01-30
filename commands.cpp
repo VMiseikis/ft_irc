@@ -8,7 +8,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("OPER", &Commands::oper_command));
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
-	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
+//	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 	_commands.insert(std::make_pair("LIST", &Commands::list_command));
@@ -185,16 +185,38 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 
 void Commands::join_command(Client *creator, std::string cmd, std::string args)	{
 	(void) cmd;
+	std::vector<std::string>	names;
 	if (args.empty())
 		return creator->reply(" 462 : Need more parameters.\r\n");
+	size_t i = args.find(',', 0);
+	if (i == std::string::npos)
+		names.push_back(args);
+	else	{
+		while (i != std::string::npos)	{
+			names.push_back(args.substr(0, i));
+			args = args.substr(i + 1);
+			if (args[0] != '#')
+				break ;
+			i = args.find(',', 0);
+			if (i == std::string::npos)
+				names.push_back(args);
+		}
+	}
+	for (unsigned int i = 0; i < names.size(); i++)	{
+		if (!i)	{
+			if (names[i][i] != '#')
+				names[i] = "#" + names[i];
+		}
+	//	std::cout << " NAME[" << i << "] " << names[i] << std::endl;
 	Channel	*exists;
-	args = args.substr(0, args.find_first_of(WHITESPACES));
-	exists = _server->getChannel(args);
+//	args = args.substr(0, args.find_first_of(WHITESPACES));
+	exists = _server->getChannel(names[i]);
 	if (exists)
 		(*exists).newUser(creator);
 	else	{
-		_server->getChannels().push_back(new Channel(_server, creator, args));
-	return _server->getChannels().back()->newUser(creator);
+		_server->getChannels().push_back(new Channel(_server, creator, names[i]));
+		/*return*/ _server->getChannels().back()->newUser(creator);
+	}
 	}
 }
 
