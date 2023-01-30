@@ -104,10 +104,10 @@ void	Client::part(Channel *channel)	{
 		}
 	}
 }
-void	Client::part(void)	{
+void	Client::dc(void)	{
 	std::vector<Channel *>::iterator it = _channels.begin();
 	for (; it != _channels.end(); it++)	{
-		(*it)->part(this);
+		(*it)->dc(this);
 	}
 	_channels.clear();
 }		

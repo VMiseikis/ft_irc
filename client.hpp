@@ -54,7 +54,7 @@ class Client
 		std::string	fullID(void);
 		void	join(Channel *channel);
 		void	part(Channel *channel);
-		void	part(void);
+		void	dc(void);
 	
 };
 

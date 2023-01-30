@@ -40,7 +40,8 @@ class	Channel	{
 		std::string	getTopic(void);
 		std::string	getNamesList(void);
 
-		void	part(Client *client);	
+		void	part(Client *client);
+		void	dc(Client *client);
 		void	topic(Client *client);
 		void	topic(Client *client, std::string topic);
 //		void	update(Client *user);

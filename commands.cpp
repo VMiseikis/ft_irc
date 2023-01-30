@@ -325,18 +325,20 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	client->reply("PONG :" + line + "\r\n");
 }
 
-void Commands::part_command(Client *creator, std::string cmd, std::string args)	{
+void Commands::part_command(Client *client, std::string cmd, std::string args)	{
 	(void) cmd;
+	if (client->get_status() < REGISTERED)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
 	if (args.empty())
-		return creator->reply(" 462 : Need more parameters.\r\n");
+		return client->reply(" 462 : Need more parameters.\r\n");
 	Channel	*exists;
 	args = args.substr(0, args.find_first_of(WHITESPACES));
 	exists = _server->getChannel(args);
 	if (!exists)
-		return creator->reply(" 403 : No such channel.\r\n");
-	if (!(*exists).isOnChan(creator))
-		return creator->reply(" 442 : Not on channel.\r\n");
-	 creator->part(exists);
+		return client->reply(" 403 : No such channel.\r\n");
+	if (!(*exists).isOnChan(client))
+		return client->reply(" 442 : Not on channel.\r\n");
+	 client->part(exists);
 }
 
 void Commands::tpic_command(Client *client, std::string cmd, std::string args)
@@ -344,6 +346,8 @@ void Commands::tpic_command(Client *client, std::string cmd, std::string args)
 	(void)cmd;
 	size_t i;
 	std::string	msg;
+	if (client->get_status() < REGISTERED)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
 	if (args.empty())
 		return client->reply(" 462 : Need more parameters.\r\n");
 	std::string name = args.substr(0, args.find_first_of(WHITESPACES));
@@ -365,6 +369,8 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 {
 	(void)cmd;
 	(void)args;
+	if (client->get_status() < REGISTERED)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
 	if (_server->getChannels().empty())
 		return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
 	std::vector<Channel *>::iterator it = _server->getChannels().begin();
