@@ -106,6 +106,8 @@ void	Channel::broadcast(Client *client, std::string msg)	{
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
 	}
 }
+
+
 void	Channel::part(Client *client)	{
 	std::vector<Client *>::iterator	it;
 	std::string	name;

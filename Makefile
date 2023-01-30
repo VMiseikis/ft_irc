@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ajazbuti <ajazbuti@student.42heilbronn.de  +#+  +:+       +#+         #
+#    By: vmiseiki <vmiseiki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 17:17:14 by ajazbuti          #+#    #+#              #
-#    Updated: 2023/01/29 16:53:01 by ajazbuti         ###   ########.fr        #
+#    Updated: 2023/01/30 20:27:18 by vmiseiki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ = ${SRC:.cpp=.o}
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
 
 all: ${NAME}
 

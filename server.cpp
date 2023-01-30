@@ -131,9 +131,11 @@ void Server::new_connection()
 			break; 	//TODO error handling
 		
 		store_pollfd(_conn);
+		char hostname[NI_MAXHOST];
+		getnameinfo((struct sockaddr *) &client_address, sizeof(client_address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV); //TODO != 0 error handling
 
 		std::cout << "FD:" << _conn <<std::endl;
-		_clients.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port))));
+		_clients.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), hostname)));
 		
 		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
 	}
