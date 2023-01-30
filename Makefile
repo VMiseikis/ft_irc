@@ -6,7 +6,7 @@
 #    By: ajazbuti <ajazbuti@student.42heilbronn.de  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 17:17:14 by ajazbuti          #+#    #+#              #
-#    Updated: 2023/01/29 16:53:01 by ajazbuti         ###   ########.fr        #
+#    Updated: 2023/01/30 16:36:26 by ajazbuti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ = ${SRC:.cpp=.o}
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 
 all: ${NAME}
 
