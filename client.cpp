@@ -53,8 +53,9 @@ void Client::reply(const std::string &msg)
 	// 	reply += ":" + [_port];
 
 	reply.append(msg);
+
+	std::cout << reply << std::endl;
 	send(_fd, reply.c_str(), reply.length(), 0);
-//	std::cout << reply << std::endl;
 }
 
 std::string	Client::fullID(void)	{

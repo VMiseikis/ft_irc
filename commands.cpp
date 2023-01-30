@@ -10,7 +10,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
-
+	_commands.insert(std::make_pair("LIST", &Commands::list_command));
 	_commands.insert(std::make_pair("PART", &Commands::part_command));
 	_commands.insert(std::make_pair("JOIN", &Commands::join_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
@@ -371,4 +371,16 @@ void Commands::tpic_command(Client *client, std::string cmd, std::string args)
 		channel->topic(client);
 	else
 		channel->topic(client, msg);
+}
+void Commands::list_command(Client *client, std::string cmd, std::string args)
+{
+	(void)cmd;
+	(void)args;
+	if (_server->getChannels().empty())
+		return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
+	std::vector<Channel *>::iterator it = _server->getChannels().begin();
+	for (; it != _server->getChannels().end(); it++)	{
+		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + std::to_string((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
+	}
+	return client->reply(" 323 " + client->get_nick_name() + ": No more channels.\r\n");
 }

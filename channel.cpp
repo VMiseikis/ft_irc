@@ -167,6 +167,5 @@ void	Channel::topic(Client *client, std::string topic)	{
 	for (unsigned int i = 0; i < _users.size(); i++)	{
 		_users[i]->reply(topic);
 	}
-//	broadcast(topic);
-	//client->reply(topic);
 }
+
