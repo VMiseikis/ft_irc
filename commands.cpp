@@ -230,6 +230,8 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 
 void Commands::join_command(Client *creator, std::string cmd, std::string args)	{
 	(void) cmd;
+	if (creator->get_status() < REGISTERED)
+		return creator->reply(responce_msg(creator->get_nick_name(), ERR_NOTREGISTERED, ""));
 	std::vector<std::string>	names;
 	if (args.empty())
 		return creator->reply(" 462 : Need more parameters.\r\n");
