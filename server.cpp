@@ -236,6 +236,15 @@ Client *Server::get_client(std::string name)
 	return NULL;
 }
 
+void	Server::clientQuit(int clientFd)	{
+	std::vector<struct pollfd>::iterator it;
+	for (it = _pollfds.begin(); it != _pollfds.end(); it++)	{
+		std::cout << " QUIT pollfs " << it->fd << std::endl;
+		if ((*it).fd == clientFd)
+			return (client_disconnect(it));
+	}
+}
+
 void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
 	try {
@@ -275,6 +284,7 @@ void Server::run_server()
 					break;
 				}
 				message_recieved(it->fd);
+				break ;
 			} 
 		}
 	}
@@ -303,9 +313,9 @@ void	Server::deleteChannel(Channel *channel)	{
 		if (_channels.empty())
 			std::cout << "no channels exist\n";
 		else	{
-		for (it = _channels.begin(); it != _channels.end(); it++)	{
-			std::cout << (*it)->getName() << " existing servers\n";
-		}
+			for (it = _channels.begin(); it != _channels.end(); it++)	{
+				std::cout << (*it)->getName() << " existing servers\n";
+			}
 		}
 	}
 std::string	Server::getName(void)	{
