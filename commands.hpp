@@ -87,10 +87,9 @@ class Commands
 		void part_command(Client *client, std::string cmd, std::string args);
 		void tpic_command(Client *client, std::string cmd, std::string args);
 		void list_command(Client *client, std::string cmd, std::string args);
-
+		void quit_command(Client *client, std::string cmd, std::string args);
 
 		//reikia implementint
-		// void quit_command(Client *client, std::string cmd, std::string args);
 		// void squit_command(Client *client, std::string cmd, std::string args);
 		// void kill_command(Client *client, std::string cmd, std::string args);
 };

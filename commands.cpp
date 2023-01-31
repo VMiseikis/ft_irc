@@ -19,8 +19,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
 	_commands.insert(std::make_pair("NOTICE", &Commands::pmsg_command));
 	_commands.insert(std::make_pair("TOPIC", &Commands::tpic_command));
-
-	// _commands.insert(std::make_pair("QUIT", &Commands::quit_command));
+	_commands.insert(std::make_pair("QUIT", &Commands::quit_command));
 	// _commands.insert(std::make_pair("SQUIT", &Commands::quit_command));
 	// _commands.insert(std::make_pair("KILL", &Commands::quit_command));
 
@@ -569,4 +568,18 @@ void Commands::kick_command(Client *client, std::string cmd, std::string line)
 		else
 			(*it)->reply(" KICK " + args[0] + " " + args[1] + "\r\n");
 	}
+}
+
+void Commands::quit_command(Client *client, std::string cmd, std::string args)	{
+//	(void) cmd;
+//	if (client->get_status() < REGISTERED)
+//		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
+	(void)args;
+//	if (args.empty())
+//		return client->reply(" 462 : Need more parameters.\r\n");
+	client->reply( " " + cmd + " :Bye Irc");
+	std::cout << client->get_fd() << "quiting fd\n";
+	_server->clientQuit(client->get_fd());
+//	client->part(exists);
+
 }

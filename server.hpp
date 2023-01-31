@@ -73,11 +73,11 @@ class Server
 		void handle_message(Client *client, std::string message);
 
 		void client_disconnect(std::vector<struct pollfd>::iterator poll_it);
-
 		Client *get_client(std::string name);
 		std::vector<Channel *> & getChannels(void);
 		Channel	*getChannel(std::string	&name);
 		void	deleteChannel(Channel *channel);
+		void	clientQuit(int clientFd);	
 };
 
 #endif
