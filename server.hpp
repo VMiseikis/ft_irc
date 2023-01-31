@@ -36,8 +36,8 @@ class Server
 		int _port;
 		std::string _password;
 		int _conn;		//connecting client socket
-		std::string _oper_name;
-		std::string _oper_pass;
+		std::string _admin_name;
+		std::string _admin_pass;
 
 		std::string	_name;
 		struct pollfd _pollfd;
@@ -63,8 +63,8 @@ class Server
 		void get_arguments(std::string line, std::vector<std::string> *args);
 		// void get_arguments(std::string line, std::string command_name, std::vector<std::string> *args);
 		std::string get_password();
-		std::string get_oper_name();
-		std::string get_oper_pass();
+		std::string get_admin_name();
+		std::string get_admin_pass();
 
 		std::string	getName(void);
 		void run_server();

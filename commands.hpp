@@ -44,8 +44,7 @@
 
 #define	ERR_UMODEUNKNOWNFLAG	501
 
-#define MODEREPLY				998
-#define PINGRESPONCE			999
+#define	ERR_NOCHANELNAME		999
 
 #define WHITESPACES				" \t\f\v\n\r"
 
@@ -80,6 +79,7 @@ class Commands
 		void ison_command(Client *client, std::string cmd, std::string args);
 		void pong_command(Client *client, std::string cmd, std::string args);
 		void mode_command(Client *client, std::string cmd, std::string args);
+		void kick_command(Client *client, std::string cmd, std::string args);
 		void who_command(Client *client, std::string cmd, std::string args);
 
 		void join_command(Client *client, std::string cmd, std::string args);

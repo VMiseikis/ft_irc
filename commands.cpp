@@ -9,6 +9,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("ISON", &Commands::ison_command));
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
 	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
+	_commands.insert(std::make_pair("KICK", &Commands::kick_command));
 	_commands.insert(std::make_pair("WHO", &Commands::who_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
@@ -97,12 +98,9 @@ std::string responce_msg(std::string client, int err, std::string arg)
 			return (" 501 " + client + " :Unknown MODE flag\r\n");	
 
 
-		case PINGRESPONCE:
-			return (" PONG :" + arg + "\r\n");
 
-		case MODEREPLY:
-			return (arg + "\r\n");
-
+		case ERR_NOCHANELNAME:
+			return (client + ":This command can only be used with a channel\r\n");
 		default:
 			return "";
 	}
@@ -308,7 +306,6 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	}
 }
 
-
 void Commands::oper_command(Client *client, std::string cmd, std::string line)
 {
 	size_t i;
@@ -329,7 +326,7 @@ void Commands::oper_command(Client *client, std::string cmd, std::string line)
 
 	std::string pass = line.substr(i, line.find_first_of(WHITESPACES, i) - i);
 
-	if (_server->get_oper_name() != name || _server->get_oper_pass() != pass)
+	if (_server->get_admin_name() != name || _server->get_admin_pass() != pass)
 		return client->reply(responce_msg(client->get_nick_name(), ERR_PASSWDMISMATCH, ""));
 
 	client->set_status(client->get_status() + 1);
@@ -341,7 +338,7 @@ void Commands::ison_command(Client *client, std::string cmd, std::string line)
 	std::string msg = "";
 	std::vector<std::string> args;
 
-	if (!client->is_registered() && !client->is_operator())
+	if (!client->is_registered())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
 	get_arguments(line, &args);
@@ -361,7 +358,7 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	if (!client->is_registered() && !client->is_operator())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
-	return client->reply(responce_msg("", PINGRESPONCE, line));
+	return client->reply(" PONG :" + line + "\r\n");
 }
 
 void Commands::part_command(Client *client, std::string cmd, std::string args)	{
@@ -423,7 +420,7 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 {
 	std::vector<std::string> args;
 
-	if (!client->is_registered() && !client->is_operator())
+	if (!client->is_registered())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
 	get_arguments(line, &args);
@@ -448,10 +445,7 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 			return client->reply(responce_msg(client->get_nick_name(), ERR_NOTONCHANNEL, args[0]));
 
 		if (!channel->isChanOp(client))
-		{
-			std::cout << responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]) << std::endl;
 			return client->reply(responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]));
-		}
 
 		char plusminus = '\0';
 		std::string mode = "";
@@ -476,15 +470,13 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 							if ((*it)->get_nick_name() == args[2])
 							{
 								channel->getChops().erase(it);
-								client->reply(responce_msg("", MODEREPLY, " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name()));
 								break ;
 							}
 					}
 					else if (plusminus == '+' && !channel->isChanOp(target))
-					{
 						channel->getChops().push_back(target);
-						client->reply(responce_msg("", MODEREPLY, " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name()));
-					}
+					for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+						(*it)->reply(" MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name() + "\r\n");
 					break ;
 				}
 				default:
@@ -498,7 +490,7 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 {
 	(void) cmd;
 
-	if (!client->is_registered() && !client->is_operator())
+	if (!client->is_registered())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
 	std::string name = line.substr(0, line.find_first_of(WHITESPACES));
@@ -525,4 +517,56 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 	else
 		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->getName() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
 	return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
+}
+
+void Commands::kick_command(Client *client, std::string cmd, std::string line)
+{
+	(void) cmd;
+	(void) client;
+	(void) line;
+
+	std::vector<std::string> args;
+
+	if (!client->is_registered())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+
+	get_arguments(line, &args);
+
+	if (args.size() < 2)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+
+	if (args[0][0] != '#')
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOCHANELNAME, ""));
+
+	Channel *channel = _server->getChannel(args[0]);
+	if (!channel)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, args[0]));
+
+	if (!channel->isChanOp(client))
+		return client->reply(responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]));
+
+	Client *target = _server->get_client(args[1]);
+	if (!target)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, args[1]));
+
+	for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it)
+		if ((*it)->get_nick_name() == args[1])
+		{
+			channel->getChops().erase(it);
+			break;
+		}
+	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+		if ((*it)->get_nick_name() == args[1])
+		{
+			channel->getUsers().erase(it);
+			break;
+		}
+
+	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+	{
+		if (args.size() == 3 && !args[2].empty())
+			(*it)->reply(" KICK " + args[0] + " " + args[1] + " " + args[2] + "\r\n");
+		else
+			(*it)->reply(" KICK " + args[0] + " " + args[1] + "\r\n");
+	}
 }

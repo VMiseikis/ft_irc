@@ -9,8 +9,8 @@
 
 Server::Server(int port, std::string password) : _port(port), _password(password)
 {
-	_oper_name = "admin";
-	_oper_pass = "admin";
+	_admin_name = "admin";
+	_admin_pass = "pass";
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
 	_conn = -1;
@@ -22,8 +22,8 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 Server::~Server() {}
 
 std::string Server::get_password() { return _password; }
-std::string Server::get_oper_name() { return _oper_name; }
-std::string Server::get_oper_pass() { return _oper_pass; }
+std::string Server::get_admin_name() { return _admin_name; }
+std::string Server::get_admin_pass() { return _admin_pass; }
 
 void Server::new_server()
 {
