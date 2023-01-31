@@ -6,7 +6,7 @@
 #include "ft_irc.hpp"
 #include "channel.hpp"
 
-enum client_state { NEW, HANDSHAKE, REGISTERED, OPERATOR};
+enum client_state { NEW, HANDSHAKE, REGISTERED, ADMIN};
 
 
 class Client
@@ -49,7 +49,7 @@ class Client
 		bool is_new();
 		bool is_auth();
 		bool is_registered();
-		bool is_operator();
+		bool is_admin();
 
 		void reply(const std::string &msg);
 		std::string	sendMsg(std::string msg);

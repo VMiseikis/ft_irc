@@ -25,7 +25,7 @@ void Client::set_password(std::string pass)  	{ _pass = pass; }
 bool Client::is_new() 			{ return (_status == NEW); }
 bool Client::is_auth() 			{ return (_status == HANDSHAKE); }
 bool Client::is_registered() 	{ return (_status == REGISTERED); }
-bool Client::is_operator() 		{ return (_status == OPERATOR); }
+bool Client::is_admin() 		{ return (_status == ADMIN); }
 
 
 void Client::welcome()

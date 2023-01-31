@@ -11,6 +11,8 @@
 #define RPL_ENDOFWHO			315
 #define RPL_WHOREPLY 			352
 #define RPL_NAMREPLY			353
+#define RPL_KILLDONE			361
+
 #define RPL_ENDOFNAMES 			366
 
 #define RPL_YOUREOPER			381
@@ -39,8 +41,9 @@
 #define	ERR_TOOMANYTARGETS		407
 
 #define ERR_NOTONCHANNEL 		442
-#define ERR_CHANOPRIVSNEEDED 	482
 
+#define ERR_NOPRIVILEGES 		481
+#define ERR_CHANOPRIVSNEEDED 	482
 
 #define	ERR_UMODEUNKNOWNFLAG	501
 
@@ -80,6 +83,7 @@ class Commands
 		void pong_command(Client *client, std::string cmd, std::string args);
 		void mode_command(Client *client, std::string cmd, std::string args);
 		void kick_command(Client *client, std::string cmd, std::string args);
+		void kill_command(Client *client, std::string cmd, std::string args);
 		void who_command(Client *client, std::string cmd, std::string args);
 
 		void join_command(Client *client, std::string cmd, std::string args);

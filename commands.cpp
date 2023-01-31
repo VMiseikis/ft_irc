@@ -10,6 +10,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("PING", &Commands::pong_command));
 	_commands.insert(std::make_pair("MODE", &Commands::mode_command));
 	_commands.insert(std::make_pair("KICK", &Commands::kick_command));
+	_commands.insert(std::make_pair("KILL", &Commands::kill_command));
 	_commands.insert(std::make_pair("WHO", &Commands::who_command));
 
 	//_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
@@ -63,6 +64,8 @@ std::string responce_msg(std::string client, int err, std::string arg)
 			return (" 401 " + client + " " + arg + ":No such nick/channel\r\n");
 		case ERR_NOSUCHCHANNEL:
 			return (" 403 " + client + " " + arg + ":No such channel\r\n");		
+		case RPL_KILLDONE:
+			return (" 361 " + client + " " + arg + "\r\n");
 
 		case RPL_YOUREOPER:
 			return (" 381 " + client + " :You are now an IRC operator.\r\n");
@@ -89,10 +92,11 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		case ERR_PASSWDMISMATCH:
 			return (" 464 " + client + " :Password incorrect\r\n");
 
+		case ERR_NOPRIVILEGES:
+			return (" 481 " + client + " :Permission Denied- You're not an IRC operator\r\n");
+
 		case ERR_CHANOPRIVSNEEDED:
 			return (" 482 " + client + " " + arg + " :You're not channel operator\r\n");
-
-
 		case ERR_UMODEUNKNOWNFLAG:
 			return (" 501 " + client + " :Unknown MODE flag\r\n");	
 
@@ -267,7 +271,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	std::string	msg = "";
 	std::string send_msg;
 
-	if (!client->is_registered() && !client->is_operator())
+	if (!client->is_registered() && !client->is_admin())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
 	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
@@ -309,7 +313,7 @@ void Commands::oper_command(Client *client, std::string cmd, std::string line)
 {
 	size_t i;
 
-	if (client->is_operator())
+	if (client->is_admin())
 		return;
 
 	if (!client->is_registered())
@@ -354,7 +358,7 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 {
 	(void) cmd;
 
-	if (!client->is_registered() && !client->is_operator())
+	if (!client->is_registered() && !client->is_admin())
 		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
 
 	return client->reply(" PONG :" + line + "\r\n");
@@ -566,7 +570,7 @@ void Commands::kick_command(Client *client, std::string cmd, std::string line)
 		if (args.size() == 3 && !args[2].empty())
 			(*it)->reply(" KICK " + args[0] + " " + args[1] + " " + args[2] + "\r\n");
 		else
-			(*it)->reply(" KICK " + args[0] + " " + args[1] + "\r\n");
+			(*it)->reply(" KICK " + args[0] + " " + args[1] + " Your behavior is not conducive to the desired environment.\r\n");
 	}
 }
 
@@ -582,4 +586,22 @@ void Commands::quit_command(Client *client, std::string cmd, std::string args)	{
 	_server->clientQuit(client->get_fd());
 //	client->part(exists);
 
+}
+
+void Commands::kill_command(Client *client, std::string cmd, std::string line)
+{
+	if (!client->is_admin())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOPRIVILEGES, ""));
+	
+	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
+
+	if (nick.empty())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+
+	Client *target = _server->get_client(nick);
+	if (!target)
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, nick));
+	target->reply(responce_msg("", RPL_KILLDONE, nick + " :Your behavior is not conducive to the desired environment"));
+
+	quit_command(target, "QUIT", "");
 }
