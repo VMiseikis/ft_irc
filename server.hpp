@@ -30,7 +30,6 @@ class	Channel;
 class Server
 {
 	private:
-
 		struct sockaddr_in _address;
 		int _server;
 		int _port;
@@ -56,6 +55,8 @@ class Server
 		void new_server();
 		void store_pollfd(int socket);
 
+		static bool		_on;
+
 	public:
 		Server(int port, std::string password);
 		~Server();
@@ -78,6 +79,10 @@ class Server
 		Channel	*getChannel(std::string	&name);
 		void	deleteChannel(Channel *channel);
 		void	clientQuit(int clientFd);	
+		static void	turnOff(int s);
+		static bool	isOn(void);
+		void	wall(std::string msg);
 };
 
+//typedef void (Server::*pFn)(int s);
 #endif

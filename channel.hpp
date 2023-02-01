@@ -10,23 +10,16 @@ class	Client;
 
 class	Channel	{
 	private:
-		std::string	_prefix; // & = local, #,  + = no modes or op except -t flag, ! = safe Channel  &#+ = std Channels
-		std::string 		_name;	//case insensitive max-50(49)lenght
-							//no ' ' ^G=ASCII 7 ',' 
-							// ':' - Channel mask delimiter
+		std::string 		_name;
 		Server					*_server;
 		std::string				_topic;
 		std::vector<Client *>	_chops;//TODO KICK MODE INVITE TOPIC
 		std::vector<Client *>	_users;
-		//std::vector<Client *>	_invite;
-
-//		bool	nameOk(std::string	name);
 	public:
 		Channel(Server *server, Client *creator, std::string & name);
 		~Channel(void);
 		std::string	const	getName(void) const; 
 		void				addUser(Client	*client);
-		bool				setTopic(std::string topic);
 		
 		std::vector<Client * > & getChops(void);
 		std::vector<Client * > & getUsers(void);
@@ -44,8 +37,6 @@ class	Channel	{
 		void	dc(Client *client);
 		void	topic(Client *client);
 		void	topic(Client *client, std::string topic);
-//		void	update(Client *user);
 };
-
 
 #endif

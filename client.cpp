@@ -3,7 +3,10 @@
 
 Client::Client(int fd, std::string ip, int port, std::string hostname) : _fd(fd), _port(port), _status(NEW), _ip(ip), _user(), _real(), _nick(), _pass(), _hostname(hostname) {}
 
-Client::~Client() {}
+Client::~Client() {
+	close(_fd);
+}
+
 
 int Client::get_fd()	{ return _fd; }
 int Client::get_port()	{ return _port; }

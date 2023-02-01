@@ -21,10 +21,14 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("NOTICE", &Commands::pmsg_command));
 	_commands.insert(std::make_pair("TOPIC", &Commands::tpic_command));
 	_commands.insert(std::make_pair("QUIT", &Commands::quit_command));
+	_commands.insert(std::make_pair("SQUIT", &Commands::squi_command));
+	_commands.insert(std::make_pair("WALL", &Commands::wall_command));
 	// _commands.insert(std::make_pair("SQUIT", &Commands::quit_command));
 	// _commands.insert(std::make_pair("KILL", &Commands::quit_command));
 
 }
+
+Commands::~Commands(void){}
 
 std::string responce_msg(std::string client, int err, std::string arg)
 {
@@ -294,6 +298,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 			send_msg = client->sendMsg(send_msg + ":" + msg);
 		else
 			send_msg = client->sendMsg(send_msg + msg);
+		std::cout << send_msg << std::endl;
 		send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
 	}
 	else	{
@@ -583,8 +588,8 @@ void Commands::quit_command(Client *client, std::string cmd, std::string args)	{
 	(void)args;
 //	if (args.empty())
 //		return client->reply(" 462 : Need more parameters.\r\n");
-	client->reply( " " + cmd + " :Bye Irc");
-	std::cout << client->get_fd() << "quiting fd\n";
+	client->reply( " " + cmd + " " + client->get_nick_name() +  " :Bye Irc");
+//	std::cout << client->get_fd() << " quitting fd\n";
 	_server->clientQuit(client->get_fd());
 //	client->part(exists);
 
@@ -606,4 +611,21 @@ void Commands::kill_command(Client *client, std::string cmd, std::string line)
 	target->reply(responce_msg("", RPL_KILLDONE, nick + " :Your behavior is not conducive to the desired environment"));
 
 	quit_command(target, "QUIT", "");
+}
+
+void Commands::squi_command(Client *client, std::string cmd, std::string args)	{
+	if (!client->is_admin())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOPRIVILEGES, ""));
+	(void) cmd;
+	(void)args;
+	_server->wall("Server is going down now.");
+	Server::turnOff(1);
+}
+
+void Commands::wall_command(Client *client, std::string cmd, std::string args)	{
+	if (!client->is_admin())
+		return client->reply(responce_msg(client->get_nick_name(), ERR_NOPRIVILEGES, ""));
+	(void) cmd;
+//	(void)args;
+	_server->wall(args);
 }

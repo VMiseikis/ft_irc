@@ -1,4 +1,6 @@
 #include "server.hpp"
+#include "stdio.h"
+#include "errno.h"
 
 //Reikia default porta tureti nusirodziu, del viso pikto
 //#define PORT 	4242		// server reachable via this port
@@ -7,7 +9,7 @@
 
 
 
-Server::Server(int port, std::string password) : _port(port), _password(password)
+Server::Server(int port, std::string password) : _port(port), _password(password) 
 {
 	_admin_name = "admin";
 	_admin_pass = "pass";
@@ -19,7 +21,21 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 	_name = "MultiplayerNotepad";
 }
 
-Server::~Server() {}
+Server::~Server() {
+
+	delete _cmd;
+	if (!_channels.empty())	{
+		for (std::vector<Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)	{
+			delete *it;
+		}
+	}	
+	if (!_clients.empty())	{
+		for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
+			delete it->second;
+		}
+	}
+	close(_server);
+}
 
 std::string Server::get_password() { return _password; }
 std::string Server::get_admin_name() { return _admin_name; }
@@ -38,7 +54,8 @@ void Server::new_server()
 
 	_server = socket(AF_INET, SOCK_STREAM, 0);
 	if (_server < 0)
-		exit(-1); //TODO error handling
+		throw (std::range_error("Server failed to get a socket"));
+//		exit(-1); //TODO error handling
 	
 	/*
 		SOL_SOCKET		- When retrieving a socket option, or setting it, you specify the option name
@@ -53,7 +70,8 @@ void Server::new_server()
 
 	const int enable = 1;
 	if (setsockopt(_server, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
-		exit(-1); //TODO error handling
+		throw (std::range_error("Failed to set socket options"));
+	//	exit(-1); //TODO error handling
 	/*
 		F_SETFL		- Set the file status flags.
 		O_NONBLOCK	- When possible, the file is opened in nonblocking mode. 
@@ -62,7 +80,8 @@ void Server::new_server()
 		Requirement from sbject
 	*/
 	if (fcntl(_server, F_SETFL, O_NONBLOCK) < 0)
-		exit(-1); //TODO error handling
+		throw (std::range_error("Failed to set nonblocking"));
+//		exit(-1); //TODO error handling
 
 	/*
 		define address structure
@@ -81,7 +100,8 @@ void Server::new_server()
 	
 	//Bind socket to the IP address and port
 	if (bind(_server, (sockaddr *)&_address, sizeof(_address)) < 0)
-		exit(-1); //TODO error handling
+		throw (std::range_error("Failed to bind address to socket"));
+//		exit(-1); //TODO error handling
 
 	/*
 		listen() marks the socket referred to by sockfd as a passive
@@ -90,7 +110,8 @@ void Server::new_server()
 	*/
 
 	if (listen(_server, BACKLOG) < 0)
-		exit(-1); //TODO error handling
+		throw (std::range_error("Failed to start listening"));
+//		exit(-1); //TODO error handling
 
 	store_pollfd(_server);
 	// struct pollfd _pollfd = {_server, POLLIN, 0};
@@ -239,7 +260,7 @@ Client *Server::get_client(std::string name)
 void	Server::clientQuit(int clientFd)	{
 	std::vector<struct pollfd>::iterator it;
 	for (it = _pollfds.begin(); it != _pollfds.end(); it++)	{
-		std::cout << " QUIT pollfs " << it->fd << std::endl;
+//		std::cout << " QUIT pollfs " << it->fd << std::endl;
 		if ((*it).fd == clientFd)
 			return (client_disconnect(it));
 	}
@@ -251,7 +272,7 @@ void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 		_clients.at(it->fd)->dc();
 		delete _clients.at(it->fd);
 		_clients.erase(it->fd);
-		close(it->fd);
+//		close(it->fd);
 		_pollfds.erase(it);
 	}
 	catch (const std::out_of_range &err) {}
@@ -261,11 +282,13 @@ void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
-	while (true)
+	while (isOn())
 	{
-		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
-			std::cout << "ERR POLL" << std::endl;					//TODO handle poll error
-
+//		signal(SIGINT, SIG_IGN);
+		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)	{
+			std::cout << strerror(errno) << std::endl;
+			std::cout << " CIA ? ERR POLL" << std::endl;					//TODO handle poll error
+		}
 		for (it = _pollfds.begin(); it != _pollfds.end(); ++it)
 		{
 			if (it->revents == 0)
@@ -288,6 +311,8 @@ void Server::run_server()
 			} 
 		}
 	}
+	//server is going down msg
+
 }
 
 std::vector<Channel *> & Server::getChannels(void)	{
@@ -309,15 +334,36 @@ void	Server::deleteChannel(Channel *channel)	{
 				_channels.erase(it);
 			break ;
 		}
-		//tetst
+/*		//tetst
 		if (_channels.empty())
 			std::cout << "no channels exist\n";
 		else	{
 			for (it = _channels.begin(); it != _channels.end(); it++)	{
 				std::cout << (*it)->getName() << " existing servers\n";
 			}
-		}
+		}*/
 	}
 std::string	Server::getName(void)	{
 	return (_name);
 }
+
+bool	Server::isOn(void)	{
+	return (Server::_on);
+}
+
+ void	Server::turnOff(int s)	{
+	if (s)
+		Server::_on = false;
+}
+
+void	Server::wall(std::string msg)	{
+	std::map<int, Client *>::iterator it;
+	for (it = _clients.begin(); it != _clients.end(); it ++)	{
+		std::string message = ":" + _name + " PRIVMSG ";
+//		std::string message = ":" + _name + " NOTICE ";
+		message += it->second->get_nick_name() + " :" + msg + "\r\n";
+		send(it->first, message.c_str(), message.length(), 0);
+	}
+}
+		
+bool	Server::_on = true; 
