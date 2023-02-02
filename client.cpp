@@ -1,12 +1,8 @@
 #include "client.hpp"
 
-
 Client::Client(int fd, std::string ip, int port, std::string hostname) : _fd(fd), _port(port), _status(NEW), _ip(ip), _user(), _real(), _nick(), _pass(), _hostname(hostname) {}
 
-Client::~Client() {
-	close(_fd);
-}
-
+Client::~Client() { close(_fd); }
 
 int Client::get_fd()	{ return _fd; }
 int Client::get_port()	{ return _port; }
@@ -24,6 +20,7 @@ void Client::set_user_name(std::string user) 	{ _user = user; }
 void Client::set_real_name(std::string real)	{ _real = real; }
 void Client::set_nick_name(std::string nick) 	{ _nick = nick; }
 void Client::set_password(std::string pass)  	{ _pass = pass; }
+void Client::set_hostname(std::string host)  	{ _hostname = host; }
 
 bool Client::is_new() 			{ return (_status == NEW); }
 bool Client::is_auth() 			{ return (_status == HANDSHAKE); }

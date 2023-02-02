@@ -1,10 +1,8 @@
-#ifndef Channel_HPP
-#define Channel_HPP
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-# include "ft_irc.hpp"
-# include "client.hpp"
-# include "server.hpp"
-
+#include "client.hpp"
+#include "server.hpp"
 
 class	Client;
 
@@ -17,7 +15,7 @@ class	Channel	{
 		std::vector<Client *>	_users;
 	public:
 		Channel(Server *server, Client *creator, std::string & name);
-		~Channel(void);
+		~Channel();
 		std::string	const	getName(void) const; 
 		void				addUser(Client	*client);
 		
@@ -37,6 +35,8 @@ class	Channel	{
 		void	dc(Client *client);
 		void	topic(Client *client);
 		void	topic(Client *client, std::string topic);
+
+		void delete_channel(Channel *channel);
 };
 
 #endif

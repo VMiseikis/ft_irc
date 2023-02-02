@@ -1,9 +1,7 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
-#include <iostream>
-#include <sys/socket.h>
-#include "ft_irc.hpp"
+#include "server.hpp"
 #include "channel.hpp"
 
 enum client_state { NEW, HANDSHAKE, REGISTERED, ADMIN};
@@ -45,6 +43,7 @@ class Client
 		void set_real_name(std::string real);
 		void set_nick_name(std::string nick);
 		void set_password(std::string pass);
+		void set_hostname(std::string host);
 
 		bool is_new();
 		bool is_auth();

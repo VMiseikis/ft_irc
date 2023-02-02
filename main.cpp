@@ -5,14 +5,8 @@ static void nichtGut(std::string msg)	{
 	std::cout << msg << std::endl;
 }
 
-
-/*static void	check(void)	{
-	system ("leaks ircserv");
-}*/
-
 int main(int argc, char **argv)
 {
-//	atexit(check);
 	if (argc != 3)	{
 		nichtGut("Usage: <ircserv> <port> <password>");
 		return (0);
@@ -34,13 +28,16 @@ int main(int argc, char **argv)
 			return (0);
 		}
 	}
-	try {
+
+	try
+	{
 		Server srv(port, argv[2]);
-		signal(SIGINT, Server::turnOff);
+		signal(SIGINT, Server::turn_off);
 		srv.run_server();
 		return (0);
 	}
-	catch (std::exception &e)	{
+	catch (std::exception &e)
+	{
 		std::cerr << e.what() << std::endl;
 		return (1);
 	}

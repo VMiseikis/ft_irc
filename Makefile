@@ -6,7 +6,9 @@ OBJ = ${SRC:.cpp=.o}
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -std=c++98
+
+# -pedantic -g -fsanitize=address
 
 all: ${NAME}
 

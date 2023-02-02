@@ -1,88 +1,62 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include <iostream>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <fcntl.h>
-#include <cctype>
-#include <cstring>
-
-#include <sstream>
-#include <poll.h>
-#include <vector>
-#include <map>
-
+#include "ft_irc.hpp"
 #include "client.hpp"
 #include "commands.hpp"
 #include "channel.hpp"
 
+#define BACKLOG 0xFFFFFFF
+#define BUFFER_LENGHT 100
 
-
-
-#define IRC_MESSAGE_LENGHT 100
-// #define HOST_NAME_MAX 64
-
+class Channel;
 class Commands;
-class	Channel;
 
 class Server
 {
 	private:
-		struct sockaddr_in _address;
-		int _server;
-		int _port;
+		int 	_port;
+		int 	_conn;
+		int 	_server;
+		static bool	_on;
+		std::string	_name;
 		std::string _password;
-		int _conn;		//connecting client socket
 		std::string _admin_name;
 		std::string _admin_pass;
-
-		std::string	_name;
+		struct sockaddr_in _address;
+	
 		struct pollfd _pollfd;
-
-		// struct pollfd _pollfd;
 		std::vector<struct pollfd> _pollfds;
 		
-
-		std::map<int, Client *> _clients;		//list of all connections/clients
-
-
-		Commands *_cmd;							//list of commands
-
+		Commands *_cmd;
+		std::map<int, Client *> _clients;
 		std::vector<Channel *>	_channels;
 
+		static bool	is_on(void);
+
 		void new_server();
+		void new_connection();
 		void store_pollfd(int socket);
-
-		static bool		_on;
-
+		void message_recieved(int fd);
+		void handle_message(Client *client, std::string message);
+		void client_disconnect(std::vector<struct pollfd>::iterator poll_it);
+		
 	public:
 		Server(int port, std::string password);
 		~Server();
 
-		void get_arguments(std::string line, std::vector<std::string> *args);
-		// void get_arguments(std::string line, std::string command_name, std::vector<std::string> *args);
+		void run_server();
+		void client_quit(int fd);
+		static void	turn_off(int sig);
+		void broadcast_to_all_clients(std::string msg);
+
+		std::string	get_name();
 		std::string get_password();
 		std::string get_admin_name();
 		std::string get_admin_pass();
-
-		std::string	getName(void);
-		void run_server();
-		void new_connection();
-		void message_recieved(int fd);
-		void handle_message(Client *client, std::string message);
-
-		void client_disconnect(std::vector<struct pollfd>::iterator poll_it);
 		Client *get_client(std::string name);
-		std::vector<Channel *> & getChannels(void);
-		Channel	*getChannel(std::string	&name);
-		void	deleteChannel(Channel *channel);
-		void	clientQuit(int clientFd);	
-		static void	turnOff(int s);
-		static bool	isOn(void);
-		void	wall(std::string msg);
+		Channel	*get_channel(std::string &name);
+		std::vector<Channel *> &get_channels();
 };
 
-//typedef void (Server::*pFn)(int s);
 #endif

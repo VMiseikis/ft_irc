@@ -1,122 +1,76 @@
 #include "server.hpp"
-#include "stdio.h"
-#include "errno.h"
 
-//Reikia default porta tureti nusirodziu, del viso pikto
-//#define PORT 	4242		// server reachable via this port
-#define BACKLOG 0xFFFFFFF 	// the maximum number of pending connections that can be queued up for the socket before connections are refused
-#include <arpa/inet.h>		//for inet_addr() 
-
-
+bool Server::_on = true; 
 
 Server::Server(int port, std::string password) : _port(port), _password(password) 
 {
+	_conn = -1;
+	_name = "MultiplayerNotepad";
 	_admin_name = "admin";
 	_admin_pass = "pass";
+	_cmd = new Commands(this);
 	memset(&_address, 0, sizeof(_address));
 	memset(&_pollfds, 0, sizeof(_pollfds));
-	_conn = -1;
 	new_server();
-	_cmd = new Commands(this);
-	_name = "MultiplayerNotepad";
 }
 
-Server::~Server() {
-
-	delete _cmd;
-	if (!_channels.empty())	{
-		for (std::vector<Channel *>::iterator it = _channels.begin(); it != _channels.end(); it++)	{
-			delete *it;
-		}
-	}	
-	if (!_clients.empty())	{
-		for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)	{
-			delete it->second;
-		}
-	}
+Server::~Server()
+{
 	close(_server);
+	delete _cmd;
+	_pollfds.clear();
+	_clients.clear();
+	_channels.clear();
 }
 
-std::string Server::get_password() { return _password; }
-std::string Server::get_admin_name() { return _admin_name; }
-std::string Server::get_admin_pass() { return _admin_pass; }
+std::string	Server::get_name()			{ return _name; 	  }
+std::string Server::get_password() 	 	{ return _password;   }
+std::string Server::get_admin_name() 	{ return _admin_name; }
+std::string Server::get_admin_pass() 	{ return _admin_pass; }
+
+std::vector<Channel *> &Server::get_channels() { return _channels; }
+
+Channel	*Server::get_channel(std::string &name)
+{
+	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++)
+		if ((*it)->getName() == name)
+			return (*it);
+	return (NULL);
+}
+
+bool Server::is_on(void) { return Server::_on; }
+
+void Server::turn_off(int sig)
+{
+	if (sig)
+		Server::_on = false;
+}
 
 void Server::new_server()
 {
-	/*
-		socket(domain, service, protocol)
-		domain		- AF_INET - IPv4 Internet protocols == TCP/IP
-		service 	- SOCK_STREAM - Provides sequenced, reliable, two-way, connection-based byte streams. 
-		protocol 	- The protocol specifies a particular protocol to be used with the socket.
-					Normally only a single protocol exists to support a particular socket type 
-					within a given protocol family, in which case protocol can be specified as 0. 
-	*/
-
 	_server = socket(AF_INET, SOCK_STREAM, 0);
 	if (_server < 0)
-		throw (std::range_error("Server failed to get a socket"));
-//		exit(-1); //TODO error handling
-	
-	/*
-		SOL_SOCKET		- When retrieving a socket option, or setting it, you specify the option name
-						as well as the level. When level = SOL_SOCKET, the item will be searched for
-						in the socket itself.
-		SO_REUSEADDR	- When the listening socket is bound to INADDR_ANY with a specific port 
-						then it is not possible to bind to this port for any local address.
-						It allows the server to reuse (accept connections) the same ip and port,
-						while it's in close-wait or time-wait state.
-		enable			- SO_REUSEADDR is a boolean option. It only has two defined values, 0 (off) and 1 (on).
-	*/
+		throw (std::runtime_error("Error: Server failed to get a socket\n"));
 
 	const int enable = 1;
 	if (setsockopt(_server, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
-		throw (std::range_error("Failed to set socket options"));
-	//	exit(-1); //TODO error handling
-	/*
-		F_SETFL		- Set the file status flags.
-		O_NONBLOCK	- When possible, the file is opened in nonblocking mode. 
-		 			Non of I/O operations on the file descriptor which is returned
-					will cause the calling process to wait.
-		Requirement from sbject
-	*/
-	if (fcntl(_server, F_SETFL, O_NONBLOCK) < 0)
-		throw (std::range_error("Failed to set nonblocking"));
-//		exit(-1); //TODO error handling
+		throw (std::runtime_error("Error: Failed to set socket options\n"));
 
-	/*
-		define address structure
-		INADDR_ANY = (0.0.0.0) means any IPv4 address for binding;
-		htons(), htonl 	- convert values between host and network byte order.
-						“convert values between host and network byte order”,
-						where “Network byte order is big endian, or most significant
-						byte first.” 
-	*/
+	if (fcntl(_server, F_SETFL, O_NONBLOCK) < 0)
+		throw (std::runtime_error("Error: Failed to set socket to NON-BLOCKING\n"));
+
 	memset(&_address, 0, sizeof(_address));
 	_address.sin_family = AF_INET; 
-	// _address.sin_port = htons(PORT);
 	_address.sin_port = htons(_port);
 	_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	
-	//Bind socket to the IP address and port
 	if (bind(_server, (sockaddr *)&_address, sizeof(_address)) < 0)
-		throw (std::range_error("Failed to bind address to socket"));
-//		exit(-1); //TODO error handling
-
-	/*
-		listen() marks the socket referred to by sockfd as a passive
-       	socket, that is, as a socket that will be used to accept incoming
-       	connection requests using 
-	*/
+		throw (std::runtime_error("Error: Failed to bind address to socket\n"));
 
 	if (listen(_server, BACKLOG) < 0)
-		throw (std::range_error("Failed to start listening"));
-//		exit(-1); //TODO error handling
+		throw (std::runtime_error("Error: Failed to start listening\n"));
 
 	store_pollfd(_server);
-	// struct pollfd _pollfd = {_server, POLLIN, 0};
-	// _pollfds.push_back(_pollfd);
-	
 }
 
 void Server::store_pollfd(int socket)
@@ -130,63 +84,44 @@ void Server::store_pollfd(int socket)
 
 void Server::new_connection()
 {
-	/*
-		Accept all incoming connections that are
-		queued up on the listening socket before we
-		loop back and call poll again. 
-	*/
-
 	struct sockaddr_in client_address;
 	socklen_t addrlen = sizeof(client_address);
 
-	while (true)
+	memset(&client_address, 0, addrlen);
+	_conn = accept(_server, (sockaddr *)&client_address, (socklen_t*)&addrlen);
+	if (_conn < 0)
 	{
-		memset(&client_address, 0, addrlen);
-
-		_conn = accept(_server, (sockaddr *)&client_address, (socklen_t*)&addrlen);
-
-		if (_conn < 0)
-			break;	//TODO error handling
-			
-		if (fcntl(_conn, F_SETFL, O_NONBLOCK))
-			break; 	//TODO error handling
-		
-		store_pollfd(_conn);
-		char hostname[NI_MAXHOST];
-		getnameinfo((struct sockaddr *) &client_address, sizeof(client_address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV); //TODO != 0 error handling
-
-		std::cout << "FD:" << _conn <<std::endl;
-		_clients.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), hostname)));
-		
-		std::cout << "Client Connected" << std::endl;		//TODO handle client connect event
+		std::cerr << "Error: Error ocured while accepting connection\n";
+		return ;
 	}
-}
-
-void Server::get_arguments(std::string line, std::vector<std::string> *args)
-{
-	(*args).clear();
-
-	for (size_t i = 0; i < line.length(); )
+	
+	if (fcntl(_conn, F_SETFL, O_NONBLOCK))
 	{
-		i = line.find_first_not_of(' ' , i);
-		if (i == std::string::npos)
-			break ;
-		if (line[i] == ':')
-		{
-			i = line.find_first_not_of(' ' , i + 1);
-			(*args).push_back(line.substr(i, line.size()));
-			break ;
-		}
-		(*args).push_back(line.substr(i, line.find(' ', i) - i));
-		i += (*args).back().length();
+		std::cerr << "Error: Failed to set socket to NON-BLOCKING\n";
+		return ;
 	}
+
+	char hostname[NI_MAXHOST];
+	if (getnameinfo((struct sockaddr *) &client_address, sizeof(client_address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV) != 0)
+	{
+		std::cerr << "Error: Failed to get hostname of the client. IP address will be used instead\n";
+		hostname[0] = '\0';
+	}
+
+	store_pollfd(_conn);
+	_clients.insert(std::make_pair(_conn, new Client(_conn, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), hostname)));
+	if (_clients.at(_conn)->get_hostname().empty() || _clients.at(_conn)->get_hostname().size() > 63)
+		_clients.at(_conn)->set_hostname(_clients.at(_conn)->get_ip());
+
+	std::cout << "Client " + _clients.at(_conn)->get_hostname() + " connected\n";
+
 }
 
 void Server::handle_message(Client *client, std::string message)
 {
 	size_t begin, end;
-	std::stringstream ss(message);
 	std::string line = "";
+	std::stringstream ss(message);
 	std::vector<std::string> args;
 
 	if (!message.empty())
@@ -197,14 +132,15 @@ void Server::handle_message(Client *client, std::string message)
 			end = line.find_last_not_of(WHITESPACES) + 1;
 			if(begin != std::string::npos && end != std::string::npos)
 				line = line.substr(begin, end);
-			// else
-			// 	line = "";
 					
 			if (!line.empty())
 			{
 				for (int i = 0; line[i]; i++)	
 					if (!isprint(line[i]))
-						break ; 				//TODO handle incorect password format
+					{
+						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
+						return ;
+					}
 				_cmd->execute_command(client, line);	
 			}
 		}
@@ -213,40 +149,23 @@ void Server::handle_message(Client *client, std::string message)
 
 void Server::message_recieved(int fd)
 {
-	/*
-		RFC 2812
-		IRC messages are always lines of characters terminated 
-		with a CR-LF (Carriage Return - Line Feed) pair, and 
-		these messages SHALL NOT exceed 512 characters in length,
-		counting all characters including the trailing CR-LF. 
-		Thus, there are 510 characters maximum allowed for the 
-		command and its parameters.
-	*/
-
 	std::string msg;
 
-	char buffer[IRC_MESSAGE_LENGHT];
-	memset(&buffer, 0, IRC_MESSAGE_LENGHT);
+	char buffer[BUFFER_LENGHT];
+	memset(&buffer, 0, BUFFER_LENGHT);
 	while(!strstr(buffer, "\r\n"))
 	{
-		memset(&buffer, 0, IRC_MESSAGE_LENGHT);
-		if(recv(fd, &buffer, IRC_MESSAGE_LENGHT - 1, 0) < 0)
+		memset(&buffer, 0, BUFFER_LENGHT);
+		if(recv(fd, &buffer, BUFFER_LENGHT - 1, 0) < 0)
 			break ;
 		msg.append(buffer);
 	}
 
 	try {
-		std::cout << "BUFF>>" << msg << std::endl;
 		handle_message(_clients.at(fd), msg);
-	} catch (const std::out_of_range &err) {}
-
-	// if (recv(fd, buffer, IRC_MESSAGE_LENGHT, 0) > 0 && strstr(buffer, "\r\n"))
-	// {
-	// 	try {
-	// 		std::cout << "BUFF>>" << buffer << std::endl;
-	// 		handle_message(_clients.at(fd), buffer);
-	// 	} catch (const std::out_of_range &err) {}
-	// }
+	}
+	catch (const std::out_of_range &err)
+	{ std::cerr << "Error: Error occured while recieving " + _clients.at(fd)->get_hostname() + " message\n"; }
 } 
 
 Client *Server::get_client(std::string name)
@@ -257,113 +176,65 @@ Client *Server::get_client(std::string name)
 	return NULL;
 }
 
-void	Server::clientQuit(int clientFd)	{
-	std::vector<struct pollfd>::iterator it;
-	for (it = _pollfds.begin(); it != _pollfds.end(); it++)	{
-//		std::cout << " QUIT pollfs " << it->fd << std::endl;
-		if ((*it).fd == clientFd)
-			return (client_disconnect(it));
-	}
+void Server::client_quit(int fd)
+{
+	for (std::vector<struct pollfd>::iterator it = _pollfds.begin(); it != _pollfds.end(); it++)
+		if ((*it).fd == fd)
+			return client_disconnect(it);
 }
 
 void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
-	try {
+	try
+	{
+		std::string message = "Client " + _clients.at(it->fd)->get_hostname() + " disconnected\n";
 		_clients.at(it->fd)->dc();
 		delete _clients.at(it->fd);
 		_clients.erase(it->fd);
-//		close(it->fd);
 		_pollfds.erase(it);
+		std::cout << message;
 	}
-	catch (const std::out_of_range &err) {}
+	catch (const std::out_of_range &err)
+	{ std::cerr << "Error: Error occured during " + _clients.at(it->fd)->get_hostname() + " disconnect\n"; }
 }
-
 
 void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
-	while (isOn())
+	while (is_on())
 	{
-//		signal(SIGINT, SIG_IGN);
-		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)	{
-			std::cout << strerror(errno) << std::endl;
-			std::cout << " CIA ? ERR POLL" << std::endl;					//TODO handle poll error
-		}
+		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
+			std::cerr << "Error: Interrupted by system call\n";
+
 		for (it = _pollfds.begin(); it != _pollfds.end(); ++it)
 		{
 			if (it->revents == 0)
-				continue;
+				continue ;
 
 			if ((it->revents & POLLHUP) == POLLHUP)
 			{
-				std::cout << "Disconected" << std::endl; 			//TODO handle client disconect event
 				client_disconnect(it);
-				break;
-			} else if ((it->revents & POLLIN) == POLLIN)
+				break ;
+			} 
+			else if ((it->revents & POLLIN) == POLLIN)
 			{
 				if (it->fd == _server)
 				{
 					new_connection();
-					break;
+					break ;
 				}
 				message_recieved(it->fd);
 				break ;
 			} 
 		}
 	}
-	//server is going down msg
-
 }
 
-std::vector<Channel *> & Server::getChannels(void)	{
-	return (_channels);
-}
-
-Channel	*Server::getChannel(std::string &name)	{
-	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++)	{
-		if ((*it)->getName() == name)
-			return (*it);
-	}
-	return (NULL);
-}
-void	Server::deleteChannel(Channel *channel)	{
-		std::vector<Channel *>::iterator it;
-		for (it = _channels.begin(); it != _channels.end(); it++)	{
-			if (*it == channel)
-				delete *it;
-				_channels.erase(it);
-			break ;
-		}
-/*		//tetst
-		if (_channels.empty())
-			std::cout << "no channels exist\n";
-		else	{
-			for (it = _channels.begin(); it != _channels.end(); it++)	{
-				std::cout << (*it)->getName() << " existing servers\n";
-			}
-		}*/
-	}
-std::string	Server::getName(void)	{
-	return (_name);
-}
-
-bool	Server::isOn(void)	{
-	return (Server::_on);
-}
-
- void	Server::turnOff(int s)	{
-	if (s)
-		Server::_on = false;
-}
-
-void	Server::wall(std::string msg)	{
-	std::map<int, Client *>::iterator it;
-	for (it = _clients.begin(); it != _clients.end(); it ++)	{
-		std::string message = ":" + _name + " PRIVMSG ";
-//		std::string message = ":" + _name + " NOTICE ";
-		message += it->second->get_nick_name() + " :" + msg + "\r\n";
+void Server::broadcast_to_all_clients(std::string msg)
+{
+	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		std::string message = ":" + _name + " PRIVMSG " + it->second->get_nick_name() + " :" + msg + "\r\n";
 		send(it->first, message.c_str(), message.length(), 0);
 	}
 }
-		
-bool	Server::_on = true; 

@@ -136,7 +136,8 @@ void	Channel::part(Client *client)	{
 		}
 	}
 	if (_users.empty())	{
-		return _server->deleteChannel(this);
+		return delete_channel(this);
+		//return _server->deleteChannel(this);
 	}
 	else	{
 		if (_chops.empty())
@@ -148,6 +149,19 @@ void	Channel::part(Client *client)	{
 		}
 	}
 }
+
+void Channel::delete_channel(Channel *channel)
+{
+	for (std::vector<Channel *>::iterator it = _server->get_channels().begin(); it != _server->get_channels().end(); ++it)
+	{
+		if (*it == channel)
+		{
+			_server->get_channels().erase(it);
+			break ;
+		}
+	}
+}
+
 
 void	Channel::dc(Client *client)	{
 	std::vector<Client *>::iterator	it;
@@ -172,7 +186,8 @@ void	Channel::dc(Client *client)	{
 		}
 	}
 	if (_users.empty())	{
-		return _server->deleteChannel(this);
+		return delete_channel(this);
+		//return _server->deleteChannel(this);
 
 	}
 	else	{
