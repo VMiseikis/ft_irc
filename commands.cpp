@@ -405,6 +405,33 @@ void Commands::tpic_command(Client *client, std::string cmd, std::string args)
 	else
 		channel->topic(client, msg);
 }
+static std::string uitos(unsigned int i)	{
+	char s[64];
+	char c;
+	if (i == 0)	{
+		s[0] = '0';
+		s[1] = '\0';
+		return (s);
+	}
+	unsigned int j = 0;
+	while (i)	{
+		s[j] = i % 10 + '0';
+		i /= 10;
+		j++;
+	}
+	s[j] = '\0';
+	j--;
+	i = 0;
+	while (i < j)	{
+		c = s[i];
+		s[i] = s[j];
+		s[j] = c;
+		i++;
+		j--;
+	}
+	return (s);
+}
+	
 void Commands::list_command(Client *client, std::string cmd, std::string args)
 {
 	(void)cmd;
@@ -415,8 +442,7 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 		return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
 	std::vector<Channel *>::iterator it = _server->get_channels().begin();
 	for (; it != _server->get_channels().end(); it++)	{
-		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + " :" + (*it)->getTopic() + "\r\n");
-		// client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + std::to_string((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
+		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
 	}
 	return client->reply(" 323 " + client->get_nick_name() + ": No more channels.\r\n");
 }
