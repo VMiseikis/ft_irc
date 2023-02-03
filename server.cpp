@@ -18,9 +18,12 @@ Server::~Server()
 {
 	close(_server);
 	delete _cmd;
-	_pollfds.clear();
-	_clients.clear();
-	_channels.clear();
+
+	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+		delete it->second;
+
+	for (std::vector<Channel *>	::iterator it = _channels.begin(); it != _channels.end(); ++it)
+		delete *it;
 }
 
 std::string	Server::get_name()			{ return _name; 	  }
@@ -225,7 +228,7 @@ void Server::run_server()
 				}
 				message_recieved(it->fd);
 				break ;
-			} 
+			}
 		}
 	}
 }

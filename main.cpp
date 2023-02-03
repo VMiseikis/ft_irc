@@ -29,9 +29,9 @@ int main(int argc, char **argv)
 		}
 	}
 
+	Server srv(port, argv[2]);
 	try
 	{
-		Server srv(port, argv[2]);
 		signal(SIGINT, Server::turn_off);
 		srv.run_server();
 		return (0);

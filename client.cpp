@@ -96,6 +96,7 @@ Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
 void	Client::join(Channel *channel)	{
 	_channels.push_back(channel);
 }
+
 void	Client::part(Channel *channel)	{
 	channel->part(this);
 	std::vector<Channel *>::iterator it = _channels.begin();

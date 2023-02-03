@@ -1,6 +1,6 @@
 # include "channel.hpp"
 
-Channel::~Channel(void)	{}
+Channel::~Channel()	{}
 
 Channel::Channel(Server *server, Client *creator, std::string & name): _name(name), _server(server)	{
 	_chops.push_back(creator);
