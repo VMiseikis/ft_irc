@@ -48,6 +48,7 @@ class Server
 		void run_server();
 		void client_quit(int fd);
 		static void	turn_off(int sig);
+		void delete_channel(Channel *channel);
 		void broadcast_to_all_clients(std::string msg);
 
 		std::string	get_name();

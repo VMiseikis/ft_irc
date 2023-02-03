@@ -136,7 +136,7 @@ void	Channel::part(Client *client)	{
 		}
 	}
 	if (_users.empty())	{
-		return delete_channel(this);
+		return _server->delete_channel(this);
 		//return _server->deleteChannel(this);
 	}
 	else	{
@@ -150,17 +150,7 @@ void	Channel::part(Client *client)	{
 	}
 }
 
-void Channel::delete_channel(Channel *channel)
-{
-	for (std::vector<Channel *>::iterator it = _server->get_channels().begin(); it != _server->get_channels().end(); ++it)
-	{
-		if (*it == channel)
-		{
-			_server->get_channels().erase(it);
-			break ;
-		}
-	}
-}
+
 
 
 void	Channel::dc(Client *client)	{
@@ -186,9 +176,7 @@ void	Channel::dc(Client *client)	{
 		}
 	}
 	if (_users.empty())	{
-		return delete_channel(this);
-		//return _server->deleteChannel(this);
-
+		return _server->delete_channel(this);
 	}
 	else	{
 		std::string msg = ":" + client->fullID();

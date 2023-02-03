@@ -36,8 +36,6 @@ class Client
 		std::string get_hostname();
 		std::vector<Channel *> get_channels();
 
-		void welcome();
-
 		void set_status(int status);
 		void set_user_name(std::string user);
 		void set_real_name(std::string real);
@@ -50,6 +48,7 @@ class Client
 		bool is_registered();
 		bool is_admin();
 
+		void welcome();
 		void reply(const std::string &msg);
 		std::string	sendMsg(std::string msg);
 		std::string	fullID(void);

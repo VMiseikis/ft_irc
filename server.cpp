@@ -38,6 +38,7 @@ Channel	*Server::get_channel(std::string &name)
 	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++)
 		if ((*it)->getName() == name)
 			return (*it);
+
 	return (NULL);
 }
 
@@ -92,21 +93,18 @@ void Server::new_connection()
 
 	memset(&client_address, 0, addrlen);
 	_conn = accept(_server, (sockaddr *)&client_address, (socklen_t*)&addrlen);
-	if (_conn < 0)
-	{
+	if (_conn < 0){
 		std::cerr << "Error: Error ocured while accepting connection\n";
 		return ;
 	}
 	
-	if (fcntl(_conn, F_SETFL, O_NONBLOCK))
-	{
+	if (fcntl(_conn, F_SETFL, O_NONBLOCK)){
 		std::cerr << "Error: Failed to set socket to NON-BLOCKING\n";
 		return ;
 	}
 
 	char hostname[NI_MAXHOST];
-	if (getnameinfo((struct sockaddr *) &client_address, sizeof(client_address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV) != 0)
-	{
+	if (getnameinfo((struct sockaddr *) &client_address, sizeof(client_address), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV) != 0) {
 		std::cerr << "Error: Failed to get hostname of the client. IP address will be used instead\n";
 		hostname[0] = '\0';
 	}
@@ -127,23 +125,21 @@ void Server::handle_message(Client *client, std::string message)
 	std::stringstream ss(message);
 	std::vector<std::string> args;
 
-	if (!message.empty())
-	{
-		while (std::getline(ss, line))
-		{
+	if (!message.empty()) {
+		while (std::getline(ss, line)) {
 			begin = line.find_first_not_of(WHITESPACES);
 			end = line.find_last_not_of(WHITESPACES) + 1;
+
 			if(begin != std::string::npos && end != std::string::npos)
 				line = line.substr(begin, end);
 					
-			if (!line.empty())
-			{
-				for (int i = 0; line[i]; i++)	
-					if (!isprint(line[i]))
-					{
+			if (!line.empty()) {
+				for (int i = 0; line[i]; i++) {
+					if (!isprint(line[i])) {
 						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
 						return ;
 					}
+				}
 				_cmd->execute_command(client, line);	
 			}
 		}
@@ -156,8 +152,8 @@ void Server::message_recieved(int fd)
 
 	char buffer[BUFFER_LENGHT];
 	memset(&buffer, 0, BUFFER_LENGHT);
-	while(!strstr(buffer, "\r\n"))
-	{
+
+	while(!strstr(buffer, "\r\n")) {
 		memset(&buffer, 0, BUFFER_LENGHT);
 		if(recv(fd, &buffer, BUFFER_LENGHT - 1, 0) < 0)
 			break ;
@@ -167,8 +163,9 @@ void Server::message_recieved(int fd)
 	try {
 		handle_message(_clients.at(fd), msg);
 	}
-	catch (const std::out_of_range &err)
-	{ std::cerr << "Error: Error occured while recieving " + _clients.at(fd)->get_hostname() + " message\n"; }
+	catch (const std::out_of_range &err) {
+		std::cerr << "Error: Error occured while recieving " + _clients.at(fd)->get_hostname() + " message\n";
+	}
 } 
 
 Client *Server::get_client(std::string name)
@@ -188,41 +185,36 @@ void Server::client_quit(int fd)
 
 void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
-	try
-	{
+	try {
 		std::string message = "Client " + _clients.at(it->fd)->get_hostname() + " disconnected\n";
 		_clients.at(it->fd)->dc();
 		delete _clients.at(it->fd);
 		_clients.erase(it->fd);
 		_pollfds.erase(it);
 		std::cout << message;
+	} 
+	catch (const std::out_of_range &err) {
+		std::cerr << "Error: Error occured during " + _clients.at(it->fd)->get_hostname() + " disconnect\n";
 	}
-	catch (const std::out_of_range &err)
-	{ std::cerr << "Error: Error occured during " + _clients.at(it->fd)->get_hostname() + " disconnect\n"; }
 }
 
 void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
-	while (is_on())
-	{
+	while (is_on()) {
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
 			std::cerr << "Error: Interrupted by system call\n";
 
-		for (it = _pollfds.begin(); it != _pollfds.end(); ++it)
-		{
+		for (it = _pollfds.begin(); it != _pollfds.end(); ++it) {
 			if (it->revents == 0)
 				continue ;
 
-			if ((it->revents & POLLHUP) == POLLHUP)
-			{
+			if ((it->revents & POLLHUP) == POLLHUP) {
 				client_disconnect(it);
 				break ;
 			} 
-			else if ((it->revents & POLLIN) == POLLIN)
-			{
-				if (it->fd == _server)
-				{
+			else if ((it->revents & POLLIN) == POLLIN) {
+				if (it->fd == _server) {
 					new_connection();
 					break ;
 				}
@@ -235,9 +227,19 @@ void Server::run_server()
 
 void Server::broadcast_to_all_clients(std::string msg)
 {
-	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
-	{
+	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
 		std::string message = ":" + _name + " PRIVMSG " + it->second->get_nick_name() + " :" + msg + "\r\n";
 		send(it->first, message.c_str(), message.length(), 0);
+	}
+}
+
+void Server::delete_channel(Channel *channel)
+{
+	for (std::vector<Channel *>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
+		if (*it == channel) {
+			delete *it;
+			_channels.erase(it);
+			break ;
+		}
 	}
 }

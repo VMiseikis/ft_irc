@@ -36,7 +36,6 @@ class	Channel	{
 		void	topic(Client *client);
 		void	topic(Client *client, std::string topic);
 
-		void delete_channel(Channel *channel);
 };
 
 #endif

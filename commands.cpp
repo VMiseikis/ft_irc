@@ -33,74 +33,51 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		// case ERR_UNKNOWNCOMMAND:
 		// 	return (" 421 " arg + " :Unknown command.\r\n");
 
-		//RPL_YOUREOPER (381)
 		case RPL_UMODEIS:
 			return (" 221 " + client + " \r\n");
-			 			
-
-
-
 		case RPL_ISON:
 			return (" 303 " + client + "\r\n");
-
-		//"<client> <mask> :End of WHO list"
 		case RPL_ENDOFWHO:
 			return (" 315 :" + client + " " + arg + " :End of WHO list\r\n");
 		//"<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
 		case RPL_WHOREPLY:
 			return (" 352 :" + client + "\r\n");
-
 		case RPL_NAMREPLY:
 			return (" 353 " + client + " " + arg + "\r\n");
 		case RPL_WHOSPCRPL:		
 			return (" 354 " + client + " " + arg + "\r\n");
-
-
 		case RPL_ENDOFNAMES:
 			return (" 366 " + client + arg + "\r\n");
-
 		case ERR_NOSUCHNICK:
 			return (" 401 " + client + " " + arg + ":No such nick/channel\r\n");
 		case ERR_NOSUCHCHANNEL:
 			return (" 403 " + client + " " + arg + ":No such channel\r\n");		
 		case RPL_KILLDONE:
 			return (" 361 " + client + " " + arg + "\r\n");
-
 		case RPL_YOUREOPER:
 			return (" 381 " + client + " :You are now an IRC operator.\r\n");
-
-
 		case ERR_NONICKNAMEGIVEN:
 			return (" 431 " + client + " " + arg + " :No nickname give to change to.\r\n");
 		case ERR_ERRONEUSNICKNAME:
 			return (" 432 " + client + " " + arg + " :Erroneus nickname.\r\n");
 		case ERR_NICKNAMEINUSE:
 			return (" 433 " + client + " " + arg + " :Nickname is already in use.\r\n");
-
 		case ERR_NOTONCHANNEL:
 			return (" 442 " + client + " " + arg + " :You or target are not on that channel.\r\n");		
-
-
 		case ERR_NOTREGISTERED:
 			return (" 451 " + client + " :You have not registered.\r\n");
-
 		case ERR_NEEDMOREPARAMS:
 			return (" 461 " + client + " " + arg + " :Not enough, or to many parameters\r\n");
 		case ERR_ALREADYREGISTRED:
 			return (" 462 " + client + " :Unauthorized command\r\n");
 		case ERR_PASSWDMISMATCH:
 			return (" 464 " + client + " :Password incorrect\r\n");
-
 		case ERR_NOPRIVILEGES:
 			return (" 481 " + client + " :Permission Denied - You're not an IRC operator\r\n");
-
 		case ERR_CHANOPRIVSNEEDED:
 			return (" 482 " + client + " " + arg + " :You're not channel operator\r\n");
 		case ERR_UMODEUNKNOWNFLAG:
 			return (" 501 " + client + " :Unknown MODE flag\r\n");	
-
-
-
 		case ERR_NOCHANELNAME:
 			return (client + ":This command can only be used with a channel\r\n");
 		default:
@@ -135,7 +112,7 @@ void Commands::execute_command(Client *client, std::string line)
 	
 
 	for (i = 0; cmd[i]; i++)
-		towupper(cmd[i]);
+		cmd[i] = towupper(cmd[i]);
 
 	if (cmd == "CAP")
 		return ;
