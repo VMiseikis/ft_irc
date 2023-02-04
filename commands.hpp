@@ -35,6 +35,7 @@
 
 #define WHITESPACES				" \t\f\v\n\r"
 
+#include <cstdlib>
 #include "ft_irc.hpp"
 #include "client.hpp"
 #include "server.hpp"
