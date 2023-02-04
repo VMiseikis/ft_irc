@@ -33,7 +33,6 @@ std::string	Channel::getNamesList(void)	{
 		if (it + 1 != _users.end())
 			ret += " ";
 	}
-	std::cout << ret << " nameLISt\n";
 	return (ret + "\r\n");
 }
 
@@ -44,16 +43,6 @@ std::string	Channel::getNamesList(void)	{
 	msg = ":" + client->fullID() + " 366 " + client->get_nick_name();
 	msg += " " + _name + " :End of NAMES list\r\n";
 	send(client->get_fd(), msg.c_str(), msg.length(), 0);*/
-
-/*bool	Channel::nameOk(std::string	name)	{
-	if (name.length() > 50 || name.find_first_of(" ,") != std::string::npos)
-		return (false)
-	for (int i = 0; i < name.length(); i++)	{
-		if (!std::isprint(name[i]))
-			return (false)
-	}
-	return (true);
-}*/
 bool	Channel::isChanOp(Client *client) {
 	if (getClientByNick(_chops, (*client).get_nick_name()))
 		return (true);
@@ -73,15 +62,8 @@ void	Channel::newUser(Client	*client)	{
 	client->join(this);
 	std::string msg = ":" + client->fullID();
 	msg += " JOIN :" + _name + "\r\n";
-	std::cout << msg << std::endl;
 	broadcast(msg);
 	topic(client);
-/*msg = ":" + client->fullID() + " 353 " + client->get_nick_name();
-	msg += " = " + _name + getNamesList();
-	send(client->get_fd(), msg.c_str(), msg.length(), 0);
-	msg = ":" + client->fullID() + " 366 " + client->get_nick_name();
-	msg += " " + _name + " :End of /NAMES list\r\n";
-	send(client->get_fd(), msg.c_str(), msg.length(), 0);*/
 	msg = " 353 " + client->get_nick_name() + " = " + _name + getNamesList();
 	client->reply(msg);
 	msg = " 366 " + client->get_nick_name() + " " + _name + " :End of /NAMES list\r\n";
@@ -89,7 +71,7 @@ void	Channel::newUser(Client	*client)	{
 }
 
 void	Channel::broadcast(std::string msg)	{
-	std::cout << "broadcast visiems kanale\n";
+///	std::cout << "broadcast visiems kanale\n";
 	for (unsigned int i = 0; i < _users.size(); i++)	{
 		send(_users[i]->get_fd(), msg.c_str(), msg.length(), 0);
 	}
@@ -102,7 +84,7 @@ void	Channel::broadcast(std::string msg)	{
 }*/
 
 void	Channel::broadcast(Client *client, std::string msg)	{
-	std::cout << "broadcast\n";
+//	std::cout << client->get_nick_name() + " to " + _name + ": " + msg <<std::endl;
 	int fd = client->get_fd();
 	for (unsigned int i = 0; i < _users.size(); i++)	{
 		if (_users[i]->get_fd() == fd) 
@@ -125,7 +107,7 @@ void	Channel::part(Client *client)	{
 	}
 	std::string msg = ":" + client->fullID();
 	msg += " PART :" + _name + "\r\n";
-	std::cout << msg << std::endl;
+//	std::cout << msg << std::endl;
 	broadcast(msg);
 	for (it = _users.begin(); it < _users.end(); it++)	{
 			std::cout << (*it)->get_nick_name() << std::endl;
@@ -157,6 +139,7 @@ void Channel::delete_channel(Channel *channel)
 		if (*it == channel)
 		{
 			_server->get_channels().erase(it);
+			delete *it;
 			break ;
 		}
 	}

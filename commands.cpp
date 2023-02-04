@@ -303,7 +303,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
 			return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
 
-		std::cout << line << std::endl;
+		std::cout << client->get_nick_name() + " to " + line << std::endl;
 //		std::cout << channel->getName() << std::endl;
 		msg = ":" +  client->fullID() + " " + cmd + " " + line + "\r\n";
 		channel->broadcast(client, msg);
@@ -440,11 +440,12 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
 	if (_server->get_channels().empty())
 		return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
+	client->reply("321 Channels :Users Name\r\n");
 	std::vector<Channel *>::iterator it = _server->get_channels().begin();
 	for (; it != _server->get_channels().end(); it++)	{
 		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
 	}
-	return client->reply(" 323 " + client->get_nick_name() + ": No more channels.\r\n");
+	return client->reply(" 323 " + client->get_nick_name() + ": End of LIST\r\n");
 }
 
 void Commands::mode_command(Client *client, std::string cmd, std::string line)
