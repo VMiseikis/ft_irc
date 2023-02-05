@@ -62,6 +62,7 @@ void	Channel::newUser(Client	*client)	{
 	client->join(this);
 	std::string msg = ":" + client->fullID();
 	msg += " JOIN :" + _name + "\r\n";
+	std::cout<< msg << std::endl;
 	broadcast(msg);
 	topic(client);
 	msg = " 353 " + client->get_nick_name() + " = " + _name + getNamesList();

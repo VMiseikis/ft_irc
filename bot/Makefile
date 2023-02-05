@@ -1,6 +1,6 @@
-NAME = ircserv
+NAME = loveBot
 
-SRC = main.cpp server.cpp client.cpp channel.cpp commands.cpp
+SRC = main.cpp loveBot.cpp
 
 OBJ = ${SRC:.cpp=.o}
 

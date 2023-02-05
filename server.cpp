@@ -135,7 +135,10 @@ void Server::handle_message(Client *client, std::string message)
 					
 			if (!line.empty()) {
 				for (int i = 0; line[i]; i++) {
+				//	std::cout << line[i];
 					if (!isprint(line[i])) {
+				//		int j = line[i];
+				//		std::cout << j << " not printable\n";
 						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
 						return ;
 					}
@@ -151,7 +154,7 @@ void Server::message_recieved(int fd)
 	std::string msg;
 
 	char buffer[BUFFER_LENGHT];
-	memset(&buffer, 0, BUFFER_LENGHT);
+	memset(&buffer, 0, BUFFER_LENGHT); //reiktu & nuimt
 
 	while(!strstr(buffer, "\r\n")) {
 		memset(&buffer, 0, BUFFER_LENGHT);
@@ -159,7 +162,7 @@ void Server::message_recieved(int fd)
 			break ;
 		msg.append(buffer);
 	}
-
+	std::cout << msg << std::endl;
 	try {
 		handle_message(_clients.at(fd), msg);
 	}
@@ -203,7 +206,8 @@ void Server::run_server()
 	std::vector<struct pollfd>::iterator it;
 	while (is_on()) {
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
-			std::cerr << "Error: Interrupted by system call\n";
+			std::cout  << "\b\bServer turned OFF" <<std::endl; 
+//			std::cerr << "Error: Interrupted by system call\n";
 
 		for (it = _pollfds.begin(); it != _pollfds.end(); ++it) {
 			if (it->revents == 0)
