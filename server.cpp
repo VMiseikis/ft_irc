@@ -205,10 +205,16 @@ void Server::run_server()
 {
 	std::vector<struct pollfd>::iterator it;
 	while (is_on()) {
-		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)
-			std::cout  << "\b\bServer turned OFF" <<std::endl; 
+		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)	{
+			if (_on)	{
+				throw (std::runtime_error("Poll failure"));
+			}
+			else	{
+				throw (std::runtime_error("\b\bServer turned OFF"));
+//			std::cout  << "\b\bServer turned OFF" <<std::endl; 
 //			std::cerr << "Error: Interrupted by system call\n";
-
+			}
+		}
 		for (it = _pollfds.begin(); it != _pollfds.end(); ++it) {
 			if (it->revents == 0)
 				continue ;
