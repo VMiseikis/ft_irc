@@ -1,6 +1,6 @@
 #include "LoveBot.hpp"
 
-LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _join(false)	{
+LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _join(false), _in(false)	{
 //	std::cout << _nick << std::endl;
 	int temp = std::stoi(port); //atoi??
 	if (temp > 63535 || temp < 1)
@@ -47,8 +47,8 @@ void	LoveBot::sendMsg(const std::string &msg)	{
 
 void	LoveBot::signIn(void)	{
 	sendMsg("PASS " + _pass);
-	sendMsg("NICK " + _nick);
 	sendMsg("USER superUser 0 * :loveBot v1.0");
+	sendMsg("NICK " + _nick);
 }
 
 void	LoveBot::run(void)	{
@@ -124,14 +124,20 @@ void	LoveBot::readMsg(std::string msg)	{
 
 void	LoveBot::respond(std::vector<std::string> &args)	{
 	if (isdigit(args[1][0]))	{
-		if (args[1] == "001")
+		if (args[1] == "464")
+			throw (std::range_error("Wrong server password"));
+		if (args[1] == "433")	{
+			_nick += "_";
+			return sendMsg("NICK " + _nick);
+		}
+		if (args[1] == "001")	{
+			_in = true;
 			return sendMsg("OPER admin pass");
-		if (!_join)	{
+		}
+		if (!_join && _in)	{
 			_join = true;
 			return sendMsg("JOIN #Jokes");
 		}
-//		if /*(args[1] == "381")*/
-//			return sendMsg("JOIN #Jokes");
 		return ;
 	}
 	if (args[1] == "JOIN")	{
@@ -147,36 +153,43 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 				return sendMsg(args[1] + " " + args[2] + " :!joke for a joke! <3");
 		}
 		else
-			return sendMsg(args[1] + " " + args[0] + " :Hallonchen! <3");
+			flirt(args);
+//			return sendMsg(args[1] + " " + args[0] + " :Hallochen! <3");
 	}
 }
 
 void	LoveBot::getJokes(void)	{
 	std::ifstream	ifs("./jokes.txt");
+	std::string	line;
 	if (!ifs.is_open())	{
 		_joke.push_back("Somebody f****d up my jokes, sorry.. <3");
 	}
 	else	{
-		std::string	joke;
-		while (std::getline(ifs, joke))	{
-			if (!joke.empty())
-				_joke.push_back(joke);
+		while (std::getline(ifs, line))	{
+			if (!line.empty())
+				_joke.push_back(line);
+		}
+		ifs.close();
+	}
+	_flrt.push_back("Hallochen ! <3");
+	ifs.open("./replies.txt");
+	if (ifs.is_open())	{
+		while (std::getline(ifs, line))	{
+			if (!line.empty())
+				_flrt.push_back(line);
 		}
 		ifs.close();
 	}
 }
 
 void	LoveBot::tellJoke(std::vector<std::string> &args)	{
-	if (_joke.size() == 1)
-		return sendMsg(args[1] + " " + args[2] + " :" + _joke[0]);
-	else	{
-		int i = rand() % _joke.size();
-		if (i % 3 == 1)
-			sendMsg(args[1] + " " + args[2] + " :Here comes another! <3");
-		if (i % 3 == 2)
-			sendMsg(args[1] + " " + args[2] + " :Hope you get this one! <3");
-		return sendMsg(args[1] + " " + args[2] + " :" + _joke[i]);
-	}
+	int i = rand() % _joke.size();
+	return sendMsg(args[1] + " " + args[2] + " :" + _joke[i]);
+}
+
+void	LoveBot::flirt(std::vector<std::string> &args)	{
+	int i = rand() % _flrt.size();
+	return sendMsg(args[1] + " " + args[0] + " :" + _flrt[i]);
 }
 
 bool	LoveBot::_on = true;

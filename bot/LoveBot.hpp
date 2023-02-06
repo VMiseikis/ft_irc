@@ -15,7 +15,9 @@ class	LoveBot	{
 		std::string					_nick;
 //		struct sockaddr_in			_addr;
 		std::vector<std::string>	_joke;
+		std::vector<std::string>	_flrt;
 		bool						_join;
+		bool						_in;
 		static bool					_on;
 		static bool	isOn(void);
 		void	sendMsg(const std::string &msg);
@@ -26,7 +28,7 @@ class	LoveBot	{
 		void	respond(std::vector<std::string> &args);
 		void	getJokes(void);
 		void	tellJoke(std::vector<std::string> &args);
-
+		void	flirt(std::vector<std::string> &args);
 
 
 
