@@ -58,6 +58,7 @@ class Server
 		Client *get_client(std::string name);
 		Channel	*get_channel(std::string &name);
 		std::vector<Channel *> &get_channels();
+		void	wall(const std::string &msg);
 };
 
 #endif

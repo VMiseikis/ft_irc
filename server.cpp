@@ -245,6 +245,14 @@ void Server::broadcast_to_all_clients(std::string msg)
 	}
 }
 
+void Server::wall(const std::string &msg)
+{
+	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
+//		std::string message = ":" + _name + " PRIVMSG " + it->second->get_nick_name() + " :" + msg + "\r\n";
+		send(it->first, msg.c_str(), msg.length(), 0);
+	}
+}
+
 void Server::delete_channel(Channel *channel)
 {
 	for (std::vector<Channel *>::iterator it = _channels.begin(); it != _channels.end(); ++it) {

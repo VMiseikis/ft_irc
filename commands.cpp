@@ -203,8 +203,10 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 		client->welcome();
 		}
 		else	{
-			client->reply(" NICK :" + nick + "\r\n");
+//			client->reply(" NICK :" + nick + "\r\n");
+			std::string msg = ":" + client->fullID() + " NICK :" + nick + "\r\n";
 			client->set_nick_name(nick);
+			_server->wall(msg);
 std::cout << "NICK name pakeistas i:" << client->get_nick_name() << "\n";
 
 		}
@@ -426,7 +428,7 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
 	if (_server->get_channels().empty())
 		return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
-	client->reply("321 Channels :Users Name\r\n");
+	client->reply(" 321 Channels :Users Name\r\n");
 	std::vector<Channel *>::iterator it = _server->get_channels().begin();
 	for (; it != _server->get_channels().end(); it++)	{
 		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
