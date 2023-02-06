@@ -40,51 +40,70 @@ void Client::welcome()
 	}
 }
 
-void Client::reply(const std::string &msg)
+
+void Client::reply(std::string id, std::string msg)
 {
-	std::string reply = ":"; ///??????
-
-	reply += _nick;
-	if (!_user.empty())
-		reply += "!" + _user;
-	
-	if (!_ip.empty())
-		reply += "@" + _ip;
-
-	// if (_port != 0)
-	// 	reply += ":" + [_port];
-
-	reply.append(msg);
-
-	std::cout << reply << std::endl;
+	std::string reply = id + msg + "\r\n";
 	send(_fd, reply.c_str(), reply.length(), 0);
 }
 
-std::string	Client::fullID(void)	{
-	std::string	id;
 
-	id = _nick;
+// void Client::reply(const std::string &msg)
+// {
+// 	std::string reply = get_id() + msg + "\r\n";
+
+// 	// // reply += _nick;
+// 	// // if (!_user.empty())
+// 	// // 	reply += "!" + _user;
+	
+// 	// // if (!_ip.empty())
+// 	// // 	reply += "@" + _ip;
+
+// 	// // // if (_port != 0)
+// 	// // // 	reply += ":" + [_port];
+
+// 	// // reply.append(msg);
+
+// 	// std::cout << reply << std::endl;
+// 	send(_fd, reply.c_str(), reply.length(), 0);
+// }
+
+std::string	Client::get_id()
+{
+	std::string	id = ":";
+
+	if (!_nick.empty())
+		id += _nick;
+	else
+		id += "*";
+
 	if (!_user.empty())
 		id += "!" + _user;
+	else 
+		id += "!*";
+
 	if (!_ip.empty())
-		id += "@" + _ip;
+		id += "@" + _hostname;
+	else
+		id += "@*";
+
 	return (id);
 }
 
-std::string	Client::sendMsg(std::string msg)
-{
-	std::string reply = ":";
+// std::string	Client::sendMsg(std::string msg)
+// {
+// 	std::string reply = ":";
 
-	reply += _nick;
-	if (!_user.empty())
-		reply += "!" + _user;
+// 	reply += _nick;
+// 	if (!_user.empty())
+// 		reply += "!" + _user;
 	
-	if (!_ip.empty())
-		reply += "@" + _ip;
+// 	if (!_ip.empty())
+// 		reply += "@" + _ip;
 
-	reply.append(msg);
-	return (reply + "\r\n");
-}
+// 	reply.append(msg);
+// 	return (reply + "\r\n");
+// }
 
 Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
 	for (std::vector<Client *>::iterator it = from.begin(); it != from.end(); it++)	{

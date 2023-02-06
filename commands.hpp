@@ -6,6 +6,9 @@
 #define RPL_UMODEIS 			221
 #define RPL_ISON				303
 #define RPL_ENDOFWHO			315
+#define RPL_LISTSTART 			321
+#define RPL_LIST 				322
+#define RPL_LISTEND 			323
 #define RPL_WHOREPLY 			352
 #define RPL_NAMREPLY			353
 #define RPL_WHOSPCRPL 			354
@@ -56,6 +59,7 @@ class Commands
 		std::map<std::string, void (Commands::*)(Client *client, std::string cmd, std::string args)> _commands;
 
 		void get_arguments(std::string line, std::vector<std::string> *args);
+		std::string responce_msg(int err, std::string client, std::string arg);
 
 		void who_command(Client *client, std::string cmd, std::string args);
 		void pass_command(Client *client, std::string cmd, std::string args);

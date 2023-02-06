@@ -135,10 +135,7 @@ void Server::handle_message(Client *client, std::string message)
 					
 			if (!line.empty()) {
 				for (int i = 0; line[i]; i++) {
-				//	std::cout << line[i];
 					if (!isprint(line[i])) {
-				//		int j = line[i];
-				//		std::cout << j << " not printable\n";
 						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
 						return ;
 					}
@@ -154,7 +151,7 @@ void Server::message_recieved(int fd)
 	std::string msg;
 
 	char buffer[BUFFER_LENGHT];
-	memset(&buffer, 0, BUFFER_LENGHT); //reiktu & nuimt
+	memset(&buffer, 0, BUFFER_LENGHT);
 
 	while(!strstr(buffer, "\r\n")) {
 		memset(&buffer, 0, BUFFER_LENGHT);
