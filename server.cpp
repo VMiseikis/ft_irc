@@ -35,10 +35,12 @@ std::vector<Channel *> &Server::get_channels() { return _channels; }
 
 Channel	*Server::get_channel(std::string &name)
 {
-	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++)
-		if ((*it)->getName() == name)
+	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++) {
+//		if ((*it)->getName() == name)
+		std::string	Name = (*it)->getName();
+		if (!strncasecmp(Name.c_str(), name.c_str(), Name.length()))
 			return (*it);
-
+			}
 	return (NULL);
 }
 
@@ -134,7 +136,7 @@ void Server::handle_message(Client *client, std::string message)
 				line = line.substr(begin, end);
 					
 			if (!line.empty()) {
-				for (int i = 0; line[i]; i++) {
+/*				for (int i = 0; line[i]; i++) {
 				//	std::cout << line[i];
 					if (!isprint(line[i])) {
 				//		int j = line[i];
@@ -142,7 +144,7 @@ void Server::handle_message(Client *client, std::string message)
 						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
 						return ;
 					}
-				}
+				}*/
 				_cmd->execute_command(client, line);	
 			}
 		}
@@ -154,15 +156,15 @@ void Server::message_recieved(int fd)
 	std::string msg;
 
 	char buffer[BUFFER_LENGHT];
-	memset(&buffer, 0, BUFFER_LENGHT); //reiktu & nuimt
+	memset(buffer, 0, BUFFER_LENGHT); //reiktu & nuimt
 
 	while(!strstr(buffer, "\r\n")) {
-		memset(&buffer, 0, BUFFER_LENGHT);
-		if(recv(fd, &buffer, BUFFER_LENGHT - 1, 0) < 0)
+		memset(buffer, 0, BUFFER_LENGHT);
+		if(recv(fd, buffer, BUFFER_LENGHT - 1, 0) < 0)
 			break ;
 		msg.append(buffer);
 	}
-	std::cout << msg << std::endl;
+	std::cout <<"Inc << " <<  msg << std::endl;
 	try {
 		handle_message(_clients.at(fd), msg);
 	}

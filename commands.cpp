@@ -279,7 +279,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
 			return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
 
-		std::cout << client->get_nick_name() + " to " + line << std::endl;
+//		std::cout << client->get_nick_name() + " to " + line << std::endl;
 //		std::cout << channel->getName() << std::endl;
 		msg = ":" +  client->fullID() + " " + cmd + " " + line + "\r\n";
 		channel->broadcast(client, msg);

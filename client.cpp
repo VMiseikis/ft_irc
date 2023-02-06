@@ -56,7 +56,7 @@ void Client::reply(const std::string &msg)
 
 	reply.append(msg);
 
-	std::cout << reply << std::endl;
+//	std::cout << reply << std::endl;
 	send(_fd, reply.c_str(), reply.length(), 0);
 }
 
