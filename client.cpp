@@ -38,6 +38,11 @@ void Client::welcome()
 		_status++;
 		std::cout << "Issiustas welcome" << "\n";
 	}
+/*	else if (_status > 1)	{
+		std::cout << _status << std::endl;
+//		reply("NICK :" + _nick);
+	}*/
+
 }
 
 
