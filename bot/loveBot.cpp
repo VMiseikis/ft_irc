@@ -1,8 +1,8 @@
 #include "LoveBot.hpp"
 
-LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick)	{
-	std::cout << _nick << std::endl;
-	int temp = std::stoi(port);
+LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _join(false)	{
+//	std::cout << _nick << std::endl;
+	int temp = std::stoi(port); //atoi??
 	if (temp > 63535 || temp < 1)
 		throw (std::range_error("Bad port value"));
 	_port = temp;
@@ -38,7 +38,11 @@ LoveBot::~LoveBot(void){
 
 void	LoveBot::sendMsg(const std::string &msg)	{
 	std::string m = msg + "\r\n";
-	send(_fd, m.c_str(), m.length(), 0);
+	int sent = send(_fd, m.c_str(), m.length(), 0);
+	if (sent < 0)	{
+		throw (std::runtime_error("Send() failure"));
+	}
+	std::cout << "Sent(" << sent << "): " + m << std::endl;
 }
 
 void	LoveBot::signIn(void)	{
@@ -102,7 +106,7 @@ void	LoveBot::readMsg(std::string msg)	{
 		msg = msg.substr(i + 1);
 		i = msg.find(' ', 0);
 		if (msg[0] == ':')	{
-			args.push_back(msg.substr(0, msg.length() - 2));
+			args.push_back(msg.substr(0, msg.find_last_not_of(" \r\n\t\v") + 1));
 			break ;
 		}
 		if (i == std::string::npos)
@@ -112,9 +116,9 @@ void	LoveBot::readMsg(std::string msg)	{
 	i = args[0].find('!', 0);
 	if (i != std::string::npos)
 		args[0] = args[0].substr(1, i - 1);
-/*	for (int i = 0; i != args.size(); i++)	{
-		std::cout << args[i] << "   args\n"; 
-	}*/
+	for (int i = 0; i != args.size(); i++)	{
+		std::cout << args[i] << "| args\n"; 
+	}
 	respond(args);
 }
 
@@ -122,13 +126,18 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 	if (isdigit(args[1][0]))	{
 		if (args[1] == "001")
 			return sendMsg("OPER admin pass");
-		if (args[1] == "381")
+		if (!_join)	{
+			_join = true;
 			return sendMsg("JOIN #Jokes");
+		}
+//		if /*(args[1] == "381")*/
+//			return sendMsg("JOIN #Jokes");
 		return ;
 	}
 	if (args[1] == "JOIN")	{
 		if (args[0] == _nick)
-			return sendMsg("TOPIC #Jokes :!info & HAHA!!! <3 ");
+			return sendMsg("TOPIC #Jokes :!info & HAHA!!! <3");
+		return sendMsg("PRIVMSG " + args[2] + " :HAI! " + args[0] + " <3"); 
 	}
 	if (args[1] == "NOTICE" || args[1] == "PRIVMSG")	{
 		if (args[2][0] == '#')	{
@@ -138,7 +147,7 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 				return sendMsg(args[1] + " " + args[2] + " :!joke for a joke! <3");
 		}
 		else
-			return sendMsg(args[1] + " " + args[0] + " :Halloenchen! <3");
+			return sendMsg(args[1] + " " + args[0] + " :Hallonchen! <3");
 	}
 }
 
@@ -162,8 +171,10 @@ void	LoveBot::tellJoke(std::vector<std::string> &args)	{
 		return sendMsg(args[1] + " " + args[2] + " :" + _joke[0]);
 	else	{
 		int i = rand() % _joke.size();
-		if (i % 2)
+		if (i % 3 == 1)
 			sendMsg(args[1] + " " + args[2] + " :Here comes another! <3");
+		if (i % 3 == 2)
+			sendMsg(args[1] + " " + args[2] + " :Hope you get this one! <3");
 		return sendMsg(args[1] + " " + args[2] + " :" + _joke[i]);
 	}
 }

@@ -7,7 +7,7 @@
 
 class	LoveBot	{
 	private:
-		enum	responses {PRIVMSG, NOTICE, JOKE};
+//		enum	stage {};
 		int							_fd;
 		std::string	const			_ip;
 		unsigned short 				_port;
@@ -15,6 +15,7 @@ class	LoveBot	{
 		std::string					_nick;
 //		struct sockaddr_in			_addr;
 		std::vector<std::string>	_joke;
+		bool						_join;
 		static bool					_on;
 		static bool	isOn(void);
 		void	sendMsg(const std::string &msg);
