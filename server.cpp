@@ -36,11 +36,10 @@ std::vector<Channel *> &Server::get_channels() { return _channels; }
 Channel	*Server::get_channel(std::string &name)
 {
 	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++) {
-//		if ((*it)->getName() == name)
 		std::string	Name = (*it)->getName();
 		if (!strncasecmp(Name.c_str(), name.c_str(), Name.length()))
 			return (*it);
-			}
+	}
 	return (NULL);
 }
 
@@ -116,8 +115,7 @@ void Server::new_connection()
 	if (_clients.at(_conn)->get_hostname().empty() || _clients.at(_conn)->get_hostname().size() > 63)
 		_clients.at(_conn)->set_hostname(_clients.at(_conn)->get_ip());
 
-	std::cout << "Client " + _clients.at(_conn)->get_hostname() + " connected\n";
-
+	std::cout << "New client " + _clients.at(_conn)->get_hostname() + " connected\n";
 }
 
 void Server::handle_message(Client *client, std::string message)
@@ -135,39 +133,39 @@ void Server::handle_message(Client *client, std::string message)
 			if(begin != std::string::npos && end != std::string::npos)
 				line = line.substr(begin, end);
 					
-			if (!line.empty()) {
-/*				for (int i = 0; line[i]; i++) {
-				//	std::cout << line[i];
-					if (!isprint(line[i])) {
-						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
-						return ;
-					}
-				}*/
+			if (!line.empty())
 				_cmd->execute_command(client, line);	
-			}
 		}
 	}
 }
 
 void Server::message_recieved(int fd)
 {
+	int bytes;
 	std::string msg;
 
 	char buffer[BUFFER_LENGHT];
-	memset(buffer, 0, BUFFER_LENGHT); //reiktu & nuimt
+	memset(buffer, 0, BUFFER_LENGHT);
 
 	while(!strstr(buffer, "\r\n")) {
 		memset(buffer, 0, BUFFER_LENGHT);
-		if(recv(fd, buffer, BUFFER_LENGHT - 1, 0) < 0)
+		bytes = recv(fd, buffer, BUFFER_LENGHT - 1, 0);
+		if (bytes < 0)
 			break ;
+		if (bytes == 0)
+		{
+			client_quit(fd);
+			return;
+		}
 		msg.append(buffer);
 	}
-	std::cout <<"Inc << " <<  msg << std::endl;
+
+	std::cout << msg << std::endl;
 	try {
 		handle_message(_clients.at(fd), msg);
 	}
 	catch (const std::out_of_range &err) {
-		std::cerr << "Error: Error occured while recieving " + _clients.at(fd)->get_hostname() + " message\n";
+		std::cerr << "Error: Error occured while handling " + _clients.at(fd)->get_hostname() + " message\n";
 	}
 } 
 
@@ -206,14 +204,10 @@ void Server::run_server()
 	std::vector<struct pollfd>::iterator it;
 	while (is_on()) {
 		if (poll(_pollfds.begin().base(), _pollfds.size(), -1) < 0)	{
-			if (_on)	{
-				throw (std::runtime_error("Poll failure"));
-			}
-			else	{
+			if (_on)
+				throw (std::runtime_error("Error: Poll failure"));
+			else
 				throw (std::runtime_error("\b\bServer turned OFF"));
-//			std::cout  << "\b\bServer turned OFF" <<std::endl; 
-//			std::cerr << "Error: Interrupted by system call\n";
-			}
 		}
 		for (it = _pollfds.begin(); it != _pollfds.end(); ++it) {
 			if (it->revents == 0)

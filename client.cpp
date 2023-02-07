@@ -33,16 +33,10 @@ void Client::welcome()
 	if (_status == HANDSHAKE && !_user.empty() && !_real.empty() && !_nick.empty())
 	{
 		std::string welcome_message = ":MultiplayerNotepad 001 " + _nick + " :Welcome to MultiplayerNodepad " + _nick + "\r\n";
-		// reply(" 001 " + _nick + " :Welcome to MultiplayerNodepad " + _nick + "\r\n");	
 		send(_fd, welcome_message.c_str(), welcome_message.length(), 0);
 		_status++;
-		std::cout << "Issiustas welcome" << "\n";
+		std::cout << "Welcome message was send to the " << get_hostname() << " client" << std::endl;
 	}
-/*	else if (_status > 1)	{
-		std::cout << _status << std::endl;
-//		reply("NICK :" + _nick);
-	}*/
-
 }
 
 
@@ -51,27 +45,6 @@ void Client::reply(std::string id, std::string msg)
 	std::string reply = id + msg + "\r\n";
 	send(_fd, reply.c_str(), reply.length(), 0);
 }
-
-
-// void Client::reply(const std::string &msg)
-// {
-// 	std::string reply = get_id() + msg + "\r\n";
-
-// 	// // reply += _nick;
-// 	// // if (!_user.empty())
-// 	// // 	reply += "!" + _user;
-	
-// 	// // if (!_ip.empty())
-// 	// // 	reply += "@" + _ip;
-
-// 	// // // if (_port != 0)
-// 	// // // 	reply += ":" + [_port];
-
-// 	// // reply.append(msg);
-
-// 	// std::cout << reply << std::endl;
-// 	send(_fd, reply.c_str(), reply.length(), 0);
-// }
 
 std::string	Client::get_id()
 {
@@ -94,21 +67,6 @@ std::string	Client::get_id()
 
 	return (id);
 }
-
-// std::string	Client::sendMsg(std::string msg)
-// {
-// 	std::string reply = ":";
-
-// 	reply += _nick;
-// 	if (!_user.empty())
-// 		reply += "!" + _user;
-	
-// 	if (!_ip.empty())
-// 		reply += "@" + _ip;
-
-// 	reply.append(msg);
-// 	return (reply + "\r\n");
-// }
 
 Client	*getClientByNick(std::vector<Client *> &from, std::string nick)	{
 	for (std::vector<Client *>::iterator it = from.begin(); it != from.end(); it++)	{
