@@ -211,11 +211,17 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 		if (_server->get_client(nick))
 			return client->reply(client->get_id(), responce_msg(ERR_NICKNAMEINUSE, client->get_nick_name(), nick));
 
-		_server->wall(client->get_id() + " NICK :" + nick + "\r\n");
-		client->set_nick_name(nick);
-		std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
 		if (client->get_status() < 2)
+		{
+			client->set_nick_name(nick);
+			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
 			client->welcome();
+		} else {
+			std::string msg = ":" + client->get_id() + " NICK :" + nick + "\r\n";
+			client->set_nick_name(nick);
+			_server->wall(msg);
+			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
+		}
 	}
 }
 
@@ -291,12 +297,35 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		if (!receiver)
 			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
 
+		if (msg[0] == ':')
+		{
+			size_t i = msg.find_first_not_of(WHITESPACES , 1);
+			if (i != std::string::npos)
+			{
+				std::string sub_cmd = msg.substr(i, msg.size());
+				std::cout << "SUB>>" << sub_cmd  << "<<>>" << sub_cmd.substr(0, 5) << "<<" << std::endl;
+				//sub_cmd = sub_cmd.substr(0, 5);
+				if (strncasecmp(sub_cmd.c_str(), "DCC ", 5) == 0)
+					std::cout << "TEST>>>???????" << std::endl;
+
+				// submsg = submsg.substr(0, 4);
+				// std::cout << "TEST2222>>>" << submsg<< "pavyko" << std::endl;
+				// if (submsg == "DCC ")
+				// 	std::cout << "TEST>>>" << submsg << "pavyko" << std::endl;
+			}
+		}
+
+		// if (i == std::string::npos)
+		// 	return ;
+		// if (line[i] == ':')
+		// 	return (*args).push_back(line.substr(i, line.size()));
+
 		// if (msg[0] != ':')
 		// 	send_msg = " " + cmd + " " + nick + " :" + msg;
 		// else
 
 		send_msg = " " + cmd + " " + nick + " " + msg;
-		std::cout << "ICA>>>" << send_msg << std::endl;
+	
 
 		std::cout << "Client " << client->get_id() << " has send private message to " << receiver->get_id() << std::endl;
 		return receiver->reply(client->get_id(), send_msg);
