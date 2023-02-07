@@ -60,15 +60,17 @@ void	Channel::newUser(Client	*client)	{
 		return ;
 	_users.push_back(client);
 	client->join(this);
-	std::string msg = ":" + client->fullID();
+	std::string msg = client->get_id();
 	msg += " JOIN :" + _name + "\r\n";
 	std::cout<< msg << std::endl;
 	broadcast(msg);
 	topic(client);
 	msg = " 353 " + client->get_nick_name() + " = " + _name + getNamesList();
-	client->reply(msg);
+	client->reply(client->get_id(), msg);
+	//client->reply(msg);
 	msg = " 366 " + client->get_nick_name() + " " + _name + " :End of /NAMES list\r\n";
-	client->reply(msg);
+	client->reply(client->get_id(), msg);
+	//client->reply(msg);
 }
 
 void	Channel::broadcast(std::string msg)	{
@@ -106,7 +108,7 @@ void	Channel::part(Client *client)	{
 			break ;
 		}
 	}
-	std::string msg = ":" + client->fullID();
+	std::string msg = client->get_id();
 	msg += " PART :" + _name + "\r\n";
 //	std::cout << msg << std::endl;
 	broadcast(msg);
@@ -127,8 +129,10 @@ void	Channel::part(Client *client)	{
 			_chops.push_back(*(_users.begin()));
 //		std::string	msg;
 		for (unsigned int i = 0; i < _users.size(); i++)	{
-			_users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
-			_users[i]->reply(" 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list\r\n");
+			_users[i]->reply(_users[i]->get_id(), " 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
+			_users[i]->reply(_users[i]->get_id(), " 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list");
+			//_users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
+			//_users[i]->reply(" 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list\r\n");
 		}
 	}
 }
@@ -159,23 +163,27 @@ void	Channel::dc(Client *client)	{
 		return _server->delete_channel(this);
 	}
 	else	{
-		std::string msg = ":" + client->fullID();
+		std::string msg = client->get_id();
 		msg += " PART :" + _name + "\r\n";
 		std::cout << msg << std::endl;
 		broadcast(msg);
 		if (_chops.empty())
 			_chops.push_back(*(_users.begin()));
 		for (unsigned int i = 0; i < _users.size(); i++)	{
-			_users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
-			_users[i]->reply(" 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list\r\n");
+			_users[i]->reply(_users[i]->get_id(), " 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
+			_users[i]->reply(_users[i]->get_id(), " 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list");
+			// _users[i]->reply(" 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
+			// _users[i]->reply(" 366 " + _users[i]->get_nick_name() + " " + _name + " :End of /NAMES list\r\n");
 		}
 	}
 }
 
 void	Channel::topic(Client *client)	{
 	if (_topic.empty())
-		return client->reply(" 331 " + client->get_nick_name() + " "+ _name + " :No topic\r\n");
-	return client->reply(" 332 " + client->get_nick_name() + " "+ _name + " :" + _topic + "\r\n");
+		client->reply(client->get_id(), " 331 " + client->get_nick_name() + " "+ _name + " :No topic");
+		//return client->reply(" 331 " + client->get_nick_name() + " "+ _name + " :No topic\r\n");
+	client->reply(client->get_id(), " 332 " + client->get_nick_name() + " "+ _name + " :" + _topic);
+	//return client->reply(" 332 " + client->get_nick_name() + " "+ _name + " :" + _topic + "\r\n");
 }
 
 void	Channel::topic(Client *client, std::string topic)	{
@@ -185,7 +193,8 @@ void	Channel::topic(Client *client, std::string topic)	{
 		_topic = topic;
 	topic = " 332 " + client->get_nick_name() + " " + _name + " :" + _topic + "\r\n";
 	for (unsigned int i = 0; i < _users.size(); i++)	{
-		_users[i]->reply(topic);
+		//_users[i]->reply(client->get_id() + topic);
+		_users[i]->reply(_users[i]->get_id(), topic);
 	}
 }
 

@@ -49,9 +49,10 @@ class Client
 		bool is_admin();
 
 		void welcome();
-		void reply(const std::string &msg);
+		void reply(std::string id, std::string msg);
+		//void reply(const std::string &msg);
 		std::string	sendMsg(std::string msg);
-		std::string	fullID(void);
+		std::string	get_id();
 		void	join(Channel *channel);
 		void	part(Channel *channel);
 		void	dc(void);

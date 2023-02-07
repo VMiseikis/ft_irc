@@ -139,8 +139,6 @@ void Server::handle_message(Client *client, std::string message)
 /*				for (int i = 0; line[i]; i++) {
 				//	std::cout << line[i];
 					if (!isprint(line[i])) {
-				//		int j = line[i];
-				//		std::cout << j << " not printable\n";
 						std::cerr << "Error: Not valid input recieved form " + client->get_hostname() + "\n";
 						return ;
 					}
@@ -242,14 +240,6 @@ void Server::broadcast_to_all_clients(std::string msg)
 	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
 		std::string message = ":" + _name + " PRIVMSG " + it->second->get_nick_name() + " :" + msg + "\r\n";
 		send(it->first, message.c_str(), message.length(), 0);
-	}
-}
-
-void Server::wall(const std::string &msg)
-{
-	for (std::map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
-//		std::string message = ":" + _name + " PRIVMSG " + it->second->get_nick_name() + " :" + msg + "\r\n";
-		send(it->first, msg.c_str(), msg.length(), 0);
 	}
 }
 

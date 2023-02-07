@@ -25,7 +25,7 @@ Commands::Commands(Server *server) : _server(server)
 
 Commands::~Commands() { _commands.clear(); }
 
-std::string responce_msg(std::string client, int err, std::string arg)
+std::string Commands::responce_msg(int err, std::string client, std::string arg)
 {
 	switch (err)
 	{
@@ -33,53 +33,67 @@ std::string responce_msg(std::string client, int err, std::string arg)
 		// case ERR_UNKNOWNCOMMAND:
 		// 	return (" 421 " arg + " :Unknown command.\r\n");
 
+
 		case RPL_UMODEIS:
-			return (" 221 " + client + " \r\n");
+			return (" 221 " + client);
 		case RPL_ISON:
-			return (" 303 " + client + "\r\n");
+			return (" 303 " + client);
 		case RPL_ENDOFWHO:
-			return (" 315 :" + client + " " + arg + " :End of WHO list\r\n");
-		//"<client> <channel> <username> <host> <server> <nick> <flags> :<hopcount> <realname>"
+			return (" 315 :" + client + " " + arg + " :End of WHO list");
+		case RPL_LISTSTART:
+			return (" 321 " + client + " Channels :Users Name");
+		case RPL_LIST:
+			return (" 322 " + client + " " + arg);
+		case RPL_LISTEND:
+			return (" 323 " + client + " :End of LIST");
 		case RPL_WHOREPLY:
-			return (" 352 :" + client + "\r\n");
+			return (" 352 :" + client );
 		case RPL_NAMREPLY:
-			return (" 353 " + client + " " + arg + "\r\n");
+			return (" 353 " + client + " " + arg);
 		case RPL_WHOSPCRPL:		
-			return (" 354 " + client + " " + arg + "\r\n");
+			return (" 354 " + client + " " + arg);
 		case RPL_ENDOFNAMES:
-			return (" 366 " + client + arg + "\r\n");
-		case ERR_NOSUCHNICK:
-			return (" 401 " + client + " " + arg + ":No such nick/channel\r\n");
-		case ERR_NOSUCHCHANNEL:
-			return (" 403 " + client + " " + arg + ":No such channel\r\n");		
+			return (" 366 " + client + arg);	
 		case RPL_KILLDONE:
-			return (" 361 " + client + " " + arg + "\r\n");
+			return (" 361 " + client + " " + arg);
 		case RPL_YOUREOPER:
-			return (" 381 " + client + " :You are now an IRC operator.\r\n");
+			return (" 381 " + client + " :You are now an IRC operator");
+		case ERR_NOSUCHNICK:
+			return (" 401 " + client + " " + arg + " :No such nick/channel");
+		case ERR_NOSUCHCHANNEL:
+			return (" 403 " + client + " " + arg + " :No such channel");	
+		case ERR_CANNOTSENDTOCHAN:
+			return (" 404 " + client + " :Cannot send to channel, client isn't in the channel");
+		case ERR_NORECIPIENT:
+			return (" 411 " + client + " :No recipient given(PRIVMSG)");
+		case ERR_NOTEXTTOSEND:
+			return (" 412 " + client + " :No text to send");
+		case ERR_UNKNOWNCOMMAND:
+			return (" 421 " + client + " " + arg + " :Unknown command");
 		case ERR_NONICKNAMEGIVEN:
-			return (" 431 " + client + " " + arg + " :No nickname give to change to.\r\n");
+			return (" 431 " + client + " " + arg + " :No nickname give to change to");
 		case ERR_ERRONEUSNICKNAME:
-			return (" 432 " + client + " " + arg + " :Erroneus nickname.\r\n");
+			return (" 432 " + client + " " + arg + " :Erroneus nickname");
 		case ERR_NICKNAMEINUSE:
-			return (" 433 " + client + " " + arg + " :Nickname is already in use.\r\n");
+			return (" 433 " + client + " " + arg + " :Nickname is already in use");
 		case ERR_NOTONCHANNEL:
-			return (" 442 " + client + " " + arg + " :You or target are not on that channel.\r\n");		
+			return (" 442 " + client + " " + arg + " :You or target are not on that channel");		
 		case ERR_NOTREGISTERED:
-			return (" 451 " + client + " :You have not registered.\r\n");
+			return (" 451 " + client + " :You have not registered");
 		case ERR_NEEDMOREPARAMS:
-			return (" 461 " + client + " " + arg + " :Not enough, or to many parameters\r\n");
+			return (" 461 " + client + " " + arg + " :Not enough, or to many parameters");
 		case ERR_ALREADYREGISTRED:
-			return (" 462 " + client + " :Unauthorized command\r\n");
+			return (" 462 " + client + " :Unauthorized command");
 		case ERR_PASSWDMISMATCH:
-			return (" 464 " + client + " :Password incorrect\r\n");
+			return (" 464 " + client + " :Password incorrect");
 		case ERR_NOPRIVILEGES:
-			return (" 481 " + client + " :Permission Denied - You're not an IRC operator\r\n");
+			return (" 481 " + client + " :Permission Denied - You're not an IRC operator");
 		case ERR_CHANOPRIVSNEEDED:
-			return (" 482 " + client + " " + arg + " :You're not channel operator\r\n");
+			return (" 482 " + client + " " + arg + " :You're not channel operator");
 		case ERR_UMODEUNKNOWNFLAG:
-			return (" 501 " + client + " :Unknown MODE flag\r\n");	
+			return (" 501 " + client + " :Unknown MODE flag");	
 		case ERR_NOCHANELNAME:
-			return (client + ":This command can only be used with a channel\r\n");
+			return (client + ":This command can only be used with a channel");
 		default:
 			return "";
 	}
@@ -122,11 +136,14 @@ void Commands::execute_command(Client *client, std::string line)
 		args = line.substr(i, line.length());
 
 	if (cmd != "PASS" && client->is_new())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
 
 	try {
 		(this->*_commands.at(cmd))(client, cmd, args);
 	} catch (const std::out_of_range &err) { 
+		return client->reply(client->get_id(), responce_msg(ERR_UNKNOWNCOMMAND, client->get_nick_name(), cmd));
+
 		//jeigu tokios komandos neradome, reiskia, kad tai tik paprasta 
 		// zinute, todel turim jabroadcastinti i kanala ar kazkas panasaus
 		// broadcast message or handle different way, idk
@@ -136,13 +153,16 @@ void Commands::execute_command(Client *client, std::string line)
 void Commands::pass_command(Client *client, std::string cmd, std::string arg)
 {
 	if (arg.empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	if (!client->is_new())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 		
 	if (_server->get_password() != arg)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_PASSWDMISMATCH, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(), ""));
 
 	std::cout << "PASS sutampa su:" << arg << "\n";
 	client->set_status(client->get_status() + 1);	
@@ -153,12 +173,14 @@ void Commands::user_command(Client *client, std::string cmd, std::string line)
 	std::vector<std::string> args;
 
 	if (!client->is_auth() || !client->get_user_name().empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	get_arguments(line, &args);
 
 	if (args.size() != 4)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	if (args[3][0] == ':')
 	{
@@ -166,7 +188,8 @@ void Commands::user_command(Client *client, std::string cmd, std::string line)
 		if (i != std::string::npos)
 			client->set_real_name((args[3].substr(i, args[3].size())));
 		else
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+			return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+			//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 	}
 	else
 		client->set_real_name(args[3]);
@@ -183,20 +206,24 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 	std::vector<std::string> args;
 
 	if (client->is_new())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
 
 	if (nick.empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NONICKNAMEGIVEN, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NONICKNAMEGIVEN, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NONICKNAMEGIVEN, client->get_nick_name(), cmd));
 
 	if (nick[0] == '@')
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ERRONEUSNICKNAME, nick));
+		return client->reply(client->get_id(), responce_msg(ERR_ERRONEUSNICKNAME, client->get_nick_name(), nick));
+		//return client->reply(responce_msg(ERR_ERRONEUSNICKNAME, client->get_nick_name(), nick));
 
 	if (client->get_nick_name() != nick)
 	{
 		if (_server->get_client(nick))
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NICKNAMEINUSE, nick));
+			return client->reply(client->get_id(), responce_msg(ERR_NICKNAMEINUSE, client->get_nick_name(), nick));
+			//return client->reply(responce_msg(client->get_nick_name(), ERR_NICKNAMEINUSE, nick));
 		if (client->get_status() < 2)	{
 		client->set_nick_name(nick);
 		std::cout << "NICK name pakeistas i:" << client->get_nick_name() << "\n";
@@ -204,9 +231,9 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 		}
 		else	{
 //			client->reply(" NICK :" + nick + "\r\n");
-			std::string msg = ":" + client->fullID() + " NICK :" + nick + "\r\n";
+			std::string msg = ":" + client->get_id() + " NICK :" + nick + "\r\n";
 			client->set_nick_name(nick);
-			_server->wall(msg);
+			_server->broadcast_to_all_clients(msg);
 std::cout << "NICK name pakeistas i:" << client->get_nick_name() << "\n";
 
 		}
@@ -218,10 +245,12 @@ std::cout << "NICK name pakeistas i:" << client->get_nick_name() << "\n";
 void Commands::join_command(Client *creator, std::string cmd, std::string args)	{
 	(void) cmd;
 	if (creator->get_status() < REGISTERED)
-		return creator->reply(responce_msg(creator->get_nick_name(), ERR_NOTREGISTERED, ""));
+		return creator->reply(creator->get_id(), responce_msg(ERR_NOTREGISTERED, creator->get_nick_name(), ""));
+		//return creator->reply(responce_msg(ERR_NOTREGISTERED, creator->get_nick_name(), ""));
 	std::vector<std::string>	names;
 	if (args.empty())
-		return creator->reply(" 462 : Need more parameters.\r\n");
+		return creator->reply(creator->get_id(), responce_msg(ERR_NEEDMOREPARAMS, creator->get_nick_name(), ""));
+		//return creator->reply(" 461 : Need more parameters.\r\n");
 	size_t i = args.find(',', 0);
 	if (i == std::string::npos)
 		names.push_back(args);
@@ -260,40 +289,56 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	std::string send_msg;
 
 	if (!client->is_registered() && !client->is_admin())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
 
 	if (nick.empty())
-		return client->reply(" 411 : No recipient given\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NORECIPIENT, client->get_nick_name(), ""));
+		//return client->reply(" 411 : No recipient given\r\n");
 	i = line.find_first_not_of(WHITESPACES, nick.size());
 	if (i != std::string::npos)
 		msg = line.substr(i, line.size());
 	if (msg.empty())
-		return client->reply(" 412 : No text to send\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NOTEXTTOSEND, client->get_nick_name(), ""));
+		//return client->reply(" 412 : No text to send\r\n");
 	if (nick[0] != '#')	{
 		Client *receiver = _server->get_client(nick);
 		if (!receiver)
-			return client->reply(" 401 :No such nick\r\n");
-		send_msg = " " + cmd + " " + nick + " ";
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
+			//return client->reply(" 401 :No such nick\r\n");
+
 		if (msg[0] != ':')
-			send_msg = client->sendMsg(send_msg + ":" + msg);
+			send_msg = " " + cmd + " " + nick + " :" + msg;
+			// send_msg = client->get_id() + " " + cmd + " " + nick + " :" + msg + "\r\n";
 		else
-			send_msg = client->sendMsg(send_msg + msg);
-		std::cout << send_msg << std::endl;
-		send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
+			send_msg = " " + cmd + " " + nick + " " + msg;
+			// send_msg = client->get_id() + " " + cmd + " " + nick + " " + msg + "\r\n";
+
+
+		// send_msg = " " + cmd + " " + nick + " ";
+		// if (msg[0] != ':')
+		// 	send_msg = client->sendMsg(send_msg + ":" + msg);
+		// else
+		// 	send_msg = client->sendMsg(send_msg + msg);
+		// std::cout << send_msg << std::endl;
+		return receiver->reply(client->get_id(), send_msg);
+		//send(receiver->get_fd(), send_msg.c_str(), send_msg.length(), 0);
 	}
 	else	{
 		Channel	*channel;
 		channel = _server->get_channel(nick);
 		if (!channel)
-			return client->reply(" 403 :No such channel\r\n");
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), nick));
+			//return client->reply(" 403 :No such channel\r\n");
 		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
-			return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
+			return client->reply(client->get_id(), responce_msg(ERR_CANNOTSENDTOCHAN, client->get_nick_name(), ""));
+			//return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
 
 //		std::cout << client->get_nick_name() + " to " + line << std::endl;
 //		std::cout << channel->getName() << std::endl;
-		msg = ":" +  client->fullID() + " " + cmd + " " + line + "\r\n";
+		msg = client->get_id() + " " + cmd + " " + line + "\r\n";
 		channel->broadcast(client, msg);
 	}
 }
@@ -306,23 +351,28 @@ void Commands::oper_command(Client *client, std::string cmd, std::string line)
 		return;
 
 	if (!client->is_registered())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	std::string name = line.substr(0, line.find_first_of(WHITESPACES));
 	if (name.empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	i = line.find_first_not_of(WHITESPACES , name.size());
 	if (i == std::string::npos)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	std::string pass = line.substr(i, line.find_first_of(WHITESPACES, i) - i);
 
 	if (_server->get_admin_name() != name || _server->get_admin_pass() != pass)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_PASSWDMISMATCH, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(),""));
+		//return client->reply(responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(),""));
 
 	client->set_status(client->get_status() + 1);
-	return client->reply(responce_msg(client->get_nick_name(), RPL_YOUREOPER, ""));
+	return client->reply(client->get_id(), responce_msg(RPL_YOUREOPER, client->get_nick_name(), ""));
+	//return client->reply(responce_msg(RPL_YOUREOPER, client->get_nick_name(), ""));
 }
 
 void Commands::ison_command(Client *client, std::string cmd, std::string line)
@@ -331,15 +381,17 @@ void Commands::ison_command(Client *client, std::string cmd, std::string line)
 	std::vector<std::string> args;
 
 	if (!client->is_registered())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	get_arguments(line, &args);
 
 	for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
 		if (_server->get_client(*it))
 			msg += *it + " ";
-		
-	client->reply(responce_msg(msg, RPL_ISON, cmd));
+
+	return client->reply(client->get_id(), responce_msg(RPL_ISON, msg, cmd));
+	// return client->reply(responce_msg(RPL_ISON, msg, cmd));
 }
 
 
@@ -348,24 +400,30 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	(void) cmd;
 
 	if (!client->is_registered() && !client->is_admin())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
-	return client->reply(" PONG :" + line + "\r\n");
+	return client->reply(client->get_id(), " PONG :" + line + "\r\n");
+	//return client->reply(" PONG :" + line + "\r\n");
 }
 
 void Commands::part_command(Client *client, std::string cmd, std::string args)	{
 	(void) cmd;
 	if (client->get_status() < REGISTERED)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
 	if (args.empty())
-		return client->reply(" 462 : Need more parameters.\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), args));
+		//return client->reply(" 462 : Need more parameters.\r\n");
 	Channel	*exists;
 	args = args.substr(0, args.find_first_of(WHITESPACES));
 	exists = _server->get_channel(args);
 	if (!exists)
-		return client->reply(" 403 : No such channel.\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), args));
+		//return client->reply(" 403 : No such channel.\r\n");
 	if (!(*exists).isOnChan(client))
-		return client->reply(" 442 : Not on channel.\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NOTONCHANNEL, client->get_nick_name(), args));
+		//return client->reply(" 442 : Not on channel.\r\n");
 	 client->part(exists);
 }
 
@@ -375,16 +433,20 @@ void Commands::tpic_command(Client *client, std::string cmd, std::string args)
 	size_t i;
 	std::string	msg;
 	if (client->get_status() < REGISTERED)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
 	if (args.empty())
-		return client->reply(" 462 : Need more parameters.\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), args));
+		//return client->reply(" 462 : Need more parameters.\r\n");
 	std::string name = args.substr(0, args.find_first_of(WHITESPACES));
 	Channel	*channel;
 	channel = _server->get_channel(name);
 	if (!channel)
-		return client->reply(" 403 :No such channel\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), name));
+		//return client->reply(" 403 :No such channel\r\n");
 	if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
-		return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
+		return client->reply(client->get_id(), responce_msg(ERR_CANNOTSENDTOCHAN, client->get_nick_name(), ""));
+		//return client->reply(" 404 :Cannot send to channel, client isn't in the channel\r\n");
 	i = args.find_first_not_of(WHITESPACES, name.size());
 	if (i != std::string::npos)
 		msg = args.substr(i, args.size());
@@ -425,47 +487,60 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 	(void)cmd;
 	(void)args;
 	if (client->get_status() < REGISTERED)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOTREGISTERED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
 	if (_server->get_channels().empty())
-		return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
-	client->reply(" 321 Channels :Users Name\r\n");
+		return client->reply(client->get_id(), responce_msg(RPL_LISTEND, client->get_nick_name(), ""));
+		//return client->reply(" 323 " + client->get_nick_name() + " :No existant channels.\r\n");
+	client->reply(client->get_id(), responce_msg(RPL_LISTSTART, client->get_nick_name(), ""));
+	//client->reply("321 Channels :Users Name\r\n");
 	std::vector<Channel *>::iterator it = _server->get_channels().begin();
 	for (; it != _server->get_channels().end(); it++)	{
-		client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
+		client->reply(client->get_id(), responce_msg(RPL_LIST, client->get_nick_name(), (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic()));
+		//client->reply(client->get_id(), " 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic());
+		//client->reply(" 322 " + client->get_nick_name() + " " + (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic() + "\r\n");
 	}
-	return client->reply(" 323 " + client->get_nick_name() + ": End of LIST\r\n");
+	return client->reply(client->get_id(), responce_msg(RPL_LISTEND, client->get_nick_name(), ""));
+	//return client->reply(" 323 " + client->get_nick_name() + ": End of LIST\r\n");
 }
 
 void Commands::mode_command(Client *client, std::string cmd, std::string line)
 {
 	std::vector<std::string> args;
 
-	if (!client->is_registered())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+	if (!client->is_registered() && !client->is_admin())
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	get_arguments(line, &args);
 
 	if (args.size() > 0 && args[0][0] =='#')
 	{
 		if (args.size() == 1)
-			return client->reply(responce_msg(client->get_nick_name(), RPL_UMODEIS, ""));
+			return client->reply(client->get_id(), responce_msg(RPL_UMODEIS, client->get_nick_name(), ""));
+			//return client->reply(responce_msg(RPL_UMODEIS, client->get_nick_name(), ""));
 
 		if (args.size() < 3)
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+			return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+			//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 		Channel *channel = _server->get_channel(args[0]);
 		if (!channel)
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, args[0]));
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), args[0]));
+			//return client->reply(responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), args[0]));
 
 		Client *target = _server->get_client(args[2]);
 		if (!target)
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, args[2]));
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), args[2]));
+			//return client->reply(responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), args[2]));
 
 		if (!channel->isOnChan(client) || !channel->isOnChan(target))
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NOTONCHANNEL, args[0]));
+			return client->reply(client->get_id(), responce_msg(ERR_NOTONCHANNEL, client->get_nick_name(), args[0]));
+			//return client->reply(responce_msg(ERR_NOTONCHANNEL, client->get_nick_name(), args[0]));
 
-		if (!channel->isChanOp(client))
-			return client->reply(responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]));
+		if (!channel->isChanOp(client) && !client->is_admin())
+			return client->reply(client->get_id(), responce_msg(ERR_CHANOPRIVSNEEDED, client->get_nick_name(), args[0]));
+			//return client->reply(responce_msg(ERR_CHANOPRIVSNEEDED, client->get_nick_name(), args[0]));
 
 		char plusminus = '\0';
 		std::string mode = "";
@@ -496,11 +571,14 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 					else if (plusminus == '+' && !channel->isChanOp(target))
 						channel->getChops().push_back(target);
 					for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-						(*it)->reply(" MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name() + "\r\n");
+						(*it)->reply((*it)->get_id(), " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name());
+						//(*it)->reply(" MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name());
+						//(*it)->reply(" MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name() + "\r\n");
 					break ;
 				}
 				default:
-					return client->reply(responce_msg(client->get_nick_name(), ERR_UMODEUNKNOWNFLAG, ""));
+					return client->reply(client->get_id(), responce_msg(ERR_UMODEUNKNOWNFLAG, client->get_nick_name(), ""));
+					//return client->reply(responce_msg(ERR_UMODEUNKNOWNFLAG, client->get_nick_name(), ""));
 			}
 		}
 	}
@@ -511,32 +589,43 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 	(void) cmd;
 
 	if (!client->is_registered())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	std::string name = line.substr(0, line.find_first_of(WHITESPACES));
 	if (name.empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	if (name[0] == '#')
 	{
 		Channel *channel = _server->get_channel(name);
 		if (!channel)
-			return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, name));
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), name));
+			//return client->reply(responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), name));
 
 		for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-			client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->get_name() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
-		return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
+			client->reply(client->get_id(), responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->get_name() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
+			//client->reply(responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->get_name() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
+		
+		return client->reply(client->get_id(), responce_msg(RPL_ENDOFWHO, client->get_nick_name(), name));
+		//return client->reply(responce_msg(RPL_ENDOFWHO, client->get_nick_name(), name));
 	}
 
 	Client *target = _server->get_client(name);
 	if (!target)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, name));
+		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), name));
+		//return client->reply(responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), name));
 
 	if (target->get_channels().empty())
-		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " * " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+		return client->reply(client->get_id(), responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " * " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+		//client->reply(responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " * " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
 	else
-		client->reply(responce_msg(client->get_nick_name(), RPL_WHOSPCRPL, " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
-	return client->reply(responce_msg(client->get_nick_name(), RPL_ENDOFWHO, name));
+		return client->reply(client->get_id(), responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+		//client->reply(responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
+	
+	return client->reply(client->get_id(), responce_msg(RPL_ENDOFWHO, client->get_nick_name(), name));
+	//return client->reply(responce_msg(RPL_ENDOFWHO, client->get_nick_name(), name));
 }
 
 void Commands::kick_command(Client *client, std::string cmd, std::string line)
@@ -547,48 +636,64 @@ void Commands::kick_command(Client *client, std::string cmd, std::string line)
 
 	std::vector<std::string> args;
 
-	if (!client->is_registered())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_ALREADYREGISTRED, ""));
+	if (!client->is_registered() && !client->is_admin())
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	get_arguments(line, &args);
 
 	if (args.size() < 2)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	if (args[0][0] != '#')
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOCHANELNAME, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOCHANELNAME, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOCHANELNAME, client->get_nick_name(), ""));
 
 	Channel *channel = _server->get_channel(args[0]);
 	if (!channel)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHCHANNEL, args[0]));
+		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), args[0]));
+		//return client->reply(responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), args[0]));
 
-	if (!channel->isChanOp(client))
-		return client->reply(responce_msg(client->get_nick_name(), ERR_CHANOPRIVSNEEDED, args[0]));
+	if (!channel->isChanOp(client) && !client->is_admin())
+		return client->reply(client->get_id(), responce_msg(ERR_CHANOPRIVSNEEDED, client->get_nick_name(), args[0]));
+		//return client->reply(responce_msg(ERR_CHANOPRIVSNEEDED, client->get_nick_name(), args[0]));
 
 	Client *target = _server->get_client(args[1]);
 	if (!target)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, args[1]));
+		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), args[1]));
+		//return client->reply(responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), args[1]));
+
+	//:Guest17!textual@10.12.5.3 KICK #x test :Your behavior is not conducive to the desired environment.
+	//nick username hostname/ip
+	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+	{
+		if (args.size() == 3 && !args[2].empty())
+			(*it)->reply((*it)->get_id() , " KICK " + args[0] + " " + args[1] + " " + args[2]);
+			//(*it)->reply(" KICK " + args[0] + " " + args[1] + " " + args[2] + "\r\n");
+		else
+			(*it)->reply((*it)->get_id() , " KICK " + args[0] + " " + args[1] + " :Your behavior is not conducive to the desired environment");
+			//(*it)->reply(" KICK " + args[0] + " " + args[1] + " Your behavior is not conducive to the desired environment.\r\n");
+	}
 
 	for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it)
+	{
 		if ((*it)->get_nick_name() == args[1])
 		{
 			channel->getChops().erase(it);
 			break;
 		}
+	}
 	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+	{
 		if ((*it)->get_nick_name() == args[1])
 		{
 			channel->getUsers().erase(it);
 			break;
 		}
-
-	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-	{
-		if (args.size() == 3 && !args[2].empty())
-			(*it)->reply(" KICK " + args[0] + " " + args[1] + " " + args[2] + "\r\n");
-		else
-			(*it)->reply(" KICK " + args[0] + " " + args[1] + " Your behavior is not conducive to the desired environment.\r\n");
 	}
+
+
 }
 
 void Commands::quit_command(Client *client, std::string cmd, std::string args)	{
@@ -598,7 +703,9 @@ void Commands::quit_command(Client *client, std::string cmd, std::string args)	{
 	(void)args;
 //	if (args.empty())
 //		return client->reply(" 462 : Need more parameters.\r\n");
-	client->reply( " " + cmd + " " + client->get_nick_name() +  " :Bye Irc");
+
+	client->reply(client->get_id(), " " + cmd + " " + client->get_nick_name() +  " :Bye Irc");
+	//client->reply( " " + cmd + " " + client->get_nick_name() +  " :Bye Irc");
 //	std::cout << client->get_fd() << " quitting fd\n";
 	_server->client_quit(client->get_fd());
 //	client->part(exists);
@@ -608,24 +715,29 @@ void Commands::quit_command(Client *client, std::string cmd, std::string args)	{
 void Commands::kill_command(Client *client, std::string cmd, std::string line)
 {
 	if (!client->is_admin())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOPRIVILEGES, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOPRIVILEGES, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOPRIVILEGES, client->get_nick_name(), ""));
 	
 	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
 
 	if (nick.empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	Client *target = _server->get_client(nick);
 	if (!target)
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOSUCHNICK, nick));
-	target->reply(responce_msg("", RPL_KILLDONE, nick + " :Your behavior is not conducive to the desired environment"));
+		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
+		//return client->reply(responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
+	target->reply(target->get_id(), responce_msg(RPL_KILLDONE, "", nick + " :Your behavior is not conducive to the desired environment"));
+	//target->reply(responce_msg(RPL_KILLDONE, "", nick + " :Your behavior is not conducive to the desired environment"));
 
 	quit_command(target, "QUIT", "");
 }
 
 void Commands::squi_command(Client *client, std::string cmd, std::string args)	{
 	if (!client->is_admin())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOPRIVILEGES, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOPRIVILEGES, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOPRIVILEGES, client->get_nick_name(), ""));
 	(void) cmd;
 	(void)args;
 	_server->broadcast_to_all_clients("Server is going down now.");
@@ -635,10 +747,12 @@ void Commands::squi_command(Client *client, std::string cmd, std::string args)	{
 void Commands::wall_command(Client *client, std::string cmd, std::string args)
 {
 	if (!client->is_admin())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NOPRIVILEGES, ""));
+		return client->reply(client->get_id(), responce_msg(ERR_NOPRIVILEGES, client->get_nick_name(), ""));
+		//return client->reply(responce_msg(ERR_NOPRIVILEGES, client->get_nick_name(), ""));
 
 	if (args.empty())
-		return client->reply(responce_msg(client->get_nick_name(), ERR_NEEDMOREPARAMS, cmd));
+		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
+		//return client->reply(responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 
 	_server->broadcast_to_all_clients(args);
 }
