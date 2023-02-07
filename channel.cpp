@@ -137,24 +137,6 @@ void	Channel::part(Client *client)	{
 	}
 }
 
-/*<<<<<<< HEAD
-void Channel::delete_channel(Channel *channel)
-{
-	for (std::vector<Channel *>::iterator it = _server->get_channels().begin(); it != _server->get_channels().end(); ++it)
-	{
-		if (*it == channel)
-		{
-			_server->get_channels().erase(it);
-			delete *it;
-			break ;
-		}
-	}
-}
-=======
-
->>>>>>> a062a15f4401116a3f202fa71c19fcf48bad0001*/
-
-
 void	Channel::dc(Client *client)	{
 	std::vector<Client *>::iterator	it;
 	std::string	name;

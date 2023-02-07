@@ -440,7 +440,6 @@ static std::string uitos(unsigned int i)	{
 	}
 	s[j] = '\0';
 	j--;
-	i = 0;
 	while (i < j)	{
 		c = s[i];
 		s[i] = s[j];
