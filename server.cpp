@@ -10,7 +10,7 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 	_admin_pass = "pass";
 	_cmd = new Commands(this);
 	memset(&_address, 0, sizeof(_address));
-	memset(&_pollfds, 0, sizeof(_pollfds));
+	//memset(&_pollfds, 0, sizeof(_pollfds));
 	new_server();
 }
 
