@@ -1,7 +1,6 @@
 #include "LoveBot.hpp"
 
 LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _join(false), _in(false)	{
-//	std::cout << _nick << std::endl;
 	int temp = std::stoi(port); //atoi??
 	if (temp > 63535 || temp < 1)
 		throw (std::range_error("Bad port value"));
@@ -13,6 +12,7 @@ void	LoveBot::getSocket(void)	{
 	_fd = socket(PF_INET, SOCK_STREAM, 0);//AF_INET
 	if (_fd < 0)
 		throw (std::range_error("Failed geting a socket"));
+
 	//fill in hint struct
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
@@ -30,6 +30,7 @@ void	LoveBot::getSocket(void)	{
 		throw (std::range_error("Failed setting socket options"));
 	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0)
 		throw (std::range_error("Failed to set nonblock"));
+
 }
 
 LoveBot::~LoveBot(void){
@@ -142,6 +143,7 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 	}
 	if (args[1] == "JOIN")	{
 		if (args[0] == _nick)
+//			return sendMsg("MODE #Jokes " + _nick + " +o");
 			return sendMsg("TOPIC #Jokes :!info & HAHA!!! <3");
 		return sendMsg("PRIVMSG " + args[2].substr(1) + " :HAI! " + args[0] + " <3"); 
 	}
@@ -152,9 +154,20 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 			if (args[3] == ":!info")
 				return sendMsg(args[1] + " " + args[2] + " :!joke for a joke! <3");
 		}
-		else
-			flirt(args);
-//			return sendMsg(args[1] + " " + args[0] + " :Hallochen! <3");
+		else	{
+			if (!strncasecmp(args[3].c_str(), ":love", args[3].length()))	{
+				return sendMsg(args[1] + " " + args[0] + " :https://www.love.com/");
+			}
+			else if (!strncasecmp(args[3].c_str(), ":liebe", args[3].length()))	{
+				return sendMsg(args[1] + " " + args[0] + " :https://www.liebe.de/");
+			}
+//			else if (!strncasecmp(args[3], "myliu", args[3].lenght()))	{
+//				return sendMsg(args[1] + " " + args[2] + " :https://www.liebe.de/")
+//			}
+			else	{
+				flirt(args);
+			}
+		}
 	}
 }
 
