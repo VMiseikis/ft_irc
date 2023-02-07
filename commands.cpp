@@ -215,8 +215,8 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 		}
 		else {
 			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
-			std::string msg = ":" + client->get_id() + " NICK :" + nick + "\r\n";
-			_server->broadcast_to_all_clients(msg);
+			std::string msg = ": NICK :" + nick + "\r\n";
+			_server->wall(msg);
 		}
 	}
 }
