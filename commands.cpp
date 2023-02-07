@@ -2,6 +2,7 @@
 
 Commands::Commands(Server *server) : _server(server)
 {
+	_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 	_commands.insert(std::make_pair("WHO", &Commands::who_command));
 	_commands.insert(std::make_pair("PASS", &Commands::pass_command));
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
@@ -196,6 +197,9 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 
 	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
 
+	if (!nick.empty() && nick[0] == ':')
+		nick = nick.substr(1, nick.length());
+
 	if (nick.empty())
 		return client->reply(client->get_id(), responce_msg(ERR_NONICKNAMEGIVEN, client->get_nick_name(), cmd));
 
@@ -278,6 +282,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 	i = line.find_first_not_of(WHITESPACES, nick.size());
 	if (i != std::string::npos)
 		msg = line.substr(i, line.size());
+	
 	if (msg.empty())
 		return client->reply(client->get_id(), responce_msg(ERR_NOTEXTTOSEND, client->get_nick_name(), ""));
 
@@ -286,10 +291,12 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		if (!receiver)
 			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
 
-		if (msg[0] != ':')
-			send_msg = " " + cmd + " " + nick + " :" + msg;
-		else
-			send_msg = " " + cmd + " " + nick + " " + msg;
+		// if (msg[0] != ':')
+		// 	send_msg = " " + cmd + " " + nick + " :" + msg;
+		// else
+
+		send_msg = " " + cmd + " " + nick + " " + msg;
+		std::cout << "ICA>>>" << send_msg << std::endl;
 
 		std::cout << "Client " << client->get_id() << " has send private message to " << receiver->get_id() << std::endl;
 		return receiver->reply(client->get_id(), send_msg);
@@ -365,8 +372,10 @@ void Commands::pong_command(Client *client, std::string cmd, std::string line)
 	return client->reply(client->get_id(), " PONG :" + line + "\r\n");
 }
 
-void Commands::part_command(Client *client, std::string cmd, std::string args)	{
+void Commands::part_command(Client *client, std::string cmd, std::string args)
+{
 	(void) cmd;
+
 	if (client->get_status() < REGISTERED)
 		return client->reply(client->get_id(), responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
 
@@ -513,17 +522,18 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 				{
 					if (plusminus == '-' && channel->isChanOp(target))
 					{
-						for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it)
+						for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it) {
 							if ((*it)->get_nick_name() == args[2])
 							{
 								channel->getChops().erase(it);
 								break ;
 							}
+						}
 					}
 					else if (plusminus == '+' && !channel->isChanOp(target))
 						channel->getChops().push_back(target);
 					for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-						(*it)->reply((*it)->get_id(), " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name());
+						(*it)->reply(client->get_id(), " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name());
 					std::cout << "Channel " << channel->getName() << " operator set mode: " << plusminus << mode[i] << " to user " << target->get_id() << std::endl;
 					break ;
 				}
@@ -605,16 +615,14 @@ void Commands::kick_command(Client *client, std::string cmd, std::string line)
 
 	std::cout << "Client " << target->get_id() << " was kicked out of the channel: " << channel->getName() << " by operator: " << client->get_id() << std::endl;
 
-	for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it)
-	{
+	for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it) {
 		if ((*it)->get_nick_name() == args[1])
 		{
 			channel->getChops().erase(it);
 			break;
 		}
 	}
-	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-	{
+	for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it) {
 		if ((*it)->get_nick_name() == args[1])
 		{
 			channel->getUsers().erase(it);
@@ -672,4 +680,16 @@ void Commands::wall_command(Client *client, std::string cmd, std::string args)
 		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 	std::cout << "Admin " << client->get_id() << " has send announcement to everyone" << std::endl;
 	_server->broadcast_to_all_clients(args);
+}
+
+void Commands::dcc_command(Client *client, std::string cmd, std::string args)
+{
+	(void) client;
+	(void) cmd;
+	(void) args;
+
+	std::cout << "CIA lol\n";
+	// /PRIVMSG Petras :DCC SEND "Photo on 1-22-23 at 10.01 PM.jpg" 3170133662 1115 255469
+	// /PRIVMSG lol :DCC RESUME "Photo on 1-22-23 at 10.01 PM.jpg" 1115 255469
+	//PRIVMSG Petras :DCC ACCEPT "Photo on 1-22-23 at 10.01 PM.jpg" 1115 255469
 }

@@ -160,6 +160,7 @@ void Server::message_recieved(int fd)
 		msg.append(buffer);
 	}
 
+	std::cout << msg << std::endl;
 	try {
 		handle_message(_clients.at(fd), msg);
 	}

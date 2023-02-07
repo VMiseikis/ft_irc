@@ -125,8 +125,8 @@ void	Channel::part(Client *client)	{
 		//return _server->deleteChannel(this);
 	}
 	else	{
-		if (_chops.empty())
-			_chops.push_back(*(_users.begin()));
+		// if (_chops.empty())
+		// 	_chops.push_back(*(_users.begin()));
 //		std::string	msg;
 		for (unsigned int i = 0; i < _users.size(); i++)	{
 			_users[i]->reply(_users[i]->get_id(), " 353 " + _users[i]->get_nick_name() + " = " + _name + getNamesList());
