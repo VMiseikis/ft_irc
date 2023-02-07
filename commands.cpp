@@ -207,17 +207,11 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 		if (_server->get_client(nick))
 			return client->reply(client->get_id(), responce_msg(ERR_NICKNAMEINUSE, client->get_nick_name(), nick));
 
+		_server->wall(client->get_id() + " NICK :" + nick + "\r\n");
 		client->set_nick_name(nick);
+		std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
 		if (client->get_status() < 2)
-		{
-			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
 			client->welcome();
-		}
-		else {
-			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
-			std::string msg = ": NICK :" + nick + "\r\n";
-			_server->wall(msg);
-		}
 	}
 }
 
