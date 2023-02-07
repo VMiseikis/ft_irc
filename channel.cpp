@@ -180,9 +180,10 @@ void	Channel::dc(Client *client)	{
 
 void	Channel::topic(Client *client)	{
 	if (_topic.empty())
-		client->reply(client->get_id(), " 331 " + client->get_nick_name() + " "+ _name + " :No topic");
-		//return client->reply(" 331 " + client->get_nick_name() + " "+ _name + " :No topic\r\n");
-	client->reply(client->get_id(), " 332 " + client->get_nick_name() + " "+ _name + " :" + _topic);
+		return client->reply(client->get_id(), " 331 " + client->get_nick_name() + " "+ _name + " :No topic");
+	//return client->reply(" 331 " + client->get_nick_name() + " "+ _name + " :No topic\r\n");
+
+	return client->reply(client->get_id(), " 332 " + client->get_nick_name() + " "+ _name + " :" + _topic);
 	//return client->reply(" 332 " + client->get_nick_name() + " "+ _name + " :" + _topic + "\r\n");
 }
 
