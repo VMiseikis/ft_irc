@@ -1,18 +1,18 @@
 #include "LoveBot.hpp"
 
-LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _join(false), _in(false)	{
-	int temp = std::stoi(port); //atoi??
+LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _chnnl("#Jokes"), _join(false), _in(false), _o(false)	{
+	int temp = atoi(port.c_str());
 	if (temp > 63535 || temp < 1)
 		throw (std::range_error("Bad port value"));
 	_port = temp;
 	getSocket();
+	getJokes();
 }
 
 void	LoveBot::getSocket(void)	{
 	_fd = socket(PF_INET, SOCK_STREAM, 0);//AF_INET
 	if (_fd < 0)
 		throw (std::range_error("Failed geting a socket"));
-
 	//fill in hint struct
 	sockaddr_in hint;
 	hint.sin_family = AF_INET;
@@ -23,14 +23,13 @@ void	LoveBot::getSocket(void)	{
 	int conn = connect(_fd, (SA *)&hint, sizeof(hint));
 	if (conn < 0)	{
 		std::cerr<< " connect fail" << std::endl;
-		throw (std::range_error( "coonect"));
+		throw (std::range_error( "connect"));
 	}
 	const int	yes = 1;
 	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) < 0)
 		throw (std::range_error("Failed setting socket options"));
 	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0)
 		throw (std::range_error("Failed to set nonblock"));
-
 }
 
 LoveBot::~LoveBot(void){
@@ -53,7 +52,6 @@ void	LoveBot::signIn(void)	{
 }
 
 void	LoveBot::run(void)	{
-	getJokes();
 	signIn();
 	struct pollfd	fd[1];
 	memset(fd, 0, sizeof(fd));
@@ -117,14 +115,17 @@ void	LoveBot::readMsg(std::string msg)	{
 	i = args[0].find('!', 0);
 	if (i != std::string::npos)
 		args[0] = args[0].substr(1, i - 1);
-	for (int i = 0; i != args.size(); i++)	{
-		std::cout << args[i] << "| args\n"; 
-	}
+/*	for (int i = 0; i != args.size(); i++)	{
+		std::cout << args[i] << "| args[" << i << "]\n"; 
+	}*/
 	respond(args);
 }
 
 void	LoveBot::respond(std::vector<std::string> &args)	{
-	if (isdigit(args[1][0]))	{
+	if (args[0] == "PING")	{
+		return sendMsg("PONG " + args[1]);
+	}
+	if (!_in)	{
 		if (args[1] == "464")
 			throw (std::range_error("Wrong server password"));
 		if (args[1] == "433")	{
@@ -135,16 +136,22 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 			_in = true;
 			return sendMsg("OPER admin pass");
 		}
-		if (!_join && _in)	{
-			_join = true;
-			return sendMsg("JOIN #Jokes");
-		}
 		return ;
+	}
+	if (isdigit(args[1][0]))	{
+		if (_in && _join && !_o)	{
+			_o = true;
+			return sendMsg("MODE " + _chnnl + " +o " + _nick);
+		}
+		//return ;
+	}
+	if (!_join)	{
+		_join = true;
+		return sendMsg("JOIN " + _chnnl);
 	}
 	if (args[1] == "JOIN")	{
 		if (args[0] == _nick)
-//			return sendMsg("MODE #Jokes " + _nick + " +o");
-			return sendMsg("TOPIC #Jokes :!info & HAHA!!! <3");
+			return sendMsg("TOPIC " + _chnnl + " :!info & HaHa, wenn " + _nick + " da ist!! <3");
 		return sendMsg("PRIVMSG " + args[2].substr(1) + " :HAI! " + args[0] + " <3"); 
 	}
 	if (args[1] == "NOTICE" || args[1] == "PRIVMSG")	{
@@ -153,6 +160,10 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 				return tellJoke(args);
 			if (args[3] == ":!info")
 				return sendMsg(args[1] + " " + args[2] + " :!joke for a joke! <3");
+			//if (strnstr(args[3].c_str(), _nick.c_str(), args[3].length()))	{
+			if (strstr(args[3].c_str(), _nick.c_str()))	{//linux
+				return beFlirty(args);
+			}
 		}
 		else	{
 			if (!strncasecmp(args[3].c_str(), ":love", args[3].length()))	{
@@ -161,9 +172,13 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 			else if (!strncasecmp(args[3].c_str(), ":liebe", args[3].length()))	{
 				return sendMsg(args[1] + " " + args[0] + " :https://www.liebe.de/");
 			}
-//			else if (!strncasecmp(args[3], "myliu", args[3].lenght()))	{
-//				return sendMsg(args[1] + " " + args[2] + " :https://www.liebe.de/")
-//			}
+			else if (!strncasecmp(args[3].c_str(), ":kill all", 8/*args[3].length()*/))	{
+				_on = false;
+				return sendMsg("SQUIT");
+			}
+			else if (!strncasecmp(args[3].c_str(), ":kill me", args[3].length()))	{
+				return sendMsg("KILL " + args[0]);
+			}
 			else	{
 				flirt(args);
 			}
@@ -184,7 +199,6 @@ void	LoveBot::getJokes(void)	{
 		}
 		ifs.close();
 	}
-	_flrt.push_back("Hallochen ! <3");
 	ifs.open("./replies.txt");
 	if (ifs.is_open())	{
 		while (std::getline(ifs, line))	{
@@ -193,6 +207,8 @@ void	LoveBot::getJokes(void)	{
 		}
 		ifs.close();
 	}
+	else
+		_flrt.push_back("Hallochen ! <3");
 }
 
 void	LoveBot::tellJoke(std::vector<std::string> &args)	{
@@ -203,6 +219,11 @@ void	LoveBot::tellJoke(std::vector<std::string> &args)	{
 void	LoveBot::flirt(std::vector<std::string> &args)	{
 	int i = rand() % _flrt.size();
 	return sendMsg(args[1] + " " + args[0] + " :" + _flrt[i]);
+}
+
+void	LoveBot::beFlirty(std::vector<std::string> &args)	{
+	int i = rand() % _flrt.size();
+	return sendMsg(args[1] + " " + args[2]  + " :" + args[0] + ".. "  + _flrt[i]);
 }
 
 bool	LoveBot::_on = true;
