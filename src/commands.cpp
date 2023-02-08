@@ -153,7 +153,9 @@ void Commands::pass_command(Client *client, std::string cmd, std::string arg)
 	if (_server->get_password() != arg)
 		return client->reply(client->get_id(), responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(), ""));
 
-	std::cout << "Client " << client->get_hostname() << " logged to the server\n";
+	std::cout << client->get_hostname() << CYAN;
+	std::cout << " successfully logged into the server";
+	std::cout << RESET << std::endl;
 	client->set_status(client->get_status() + 1);	
 }
 
