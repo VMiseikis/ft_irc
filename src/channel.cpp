@@ -38,10 +38,10 @@ std::string	Channel::getNamesList(void)	{
 
 void	Channel::names(Client *client)	{
 	std::string	msg;
-	msg = ":" + client->get_id() + " 353 " + client->get_nick_name();
+	msg = client->get_id() + " 353 " + client->get_nick_name();
 	msg += " = " + _name + getNamesList();
 	send(client->get_fd(), msg.c_str(), msg.length(), 0);
-	msg = ":" + client->get_id() + " 366 " + client->get_nick_name();
+	msg = client->get_id() + " 366 " + client->get_nick_name();
 	msg += " " + _name + " :End of /NAMES list\r\n";
 	send(client->get_fd(), msg.c_str(), msg.length(), 0);
 }
