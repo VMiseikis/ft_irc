@@ -23,9 +23,8 @@ ${OBJ_D}%.o: ${SRC_D}%.cpp
 	@${CC} -I${INC} ${CFLAGS} $^ -c -o $@
 
 ${NAME}: ${OBJ}
-	@echo "\033[1;35mloveBot is being built up..\033[1;0m"
 	@${CC} ${CFLAGS} $^ -o ${NAME}
-	@echo "\033[1;35mloveBot is ready to be used!\033[1;0m"
+	@echo "\033[1;35mloveBot is ready and eager to be used!\033[1;0m"
 
 clean:
 	@rm -rf ${OBJ_D}

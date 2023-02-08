@@ -36,7 +36,7 @@ Channel	*Server::get_channel(std::string &name)
 {
 	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++) {
 		std::string	Name = (*it)->getName();
-		if (!strncasecmp(Name.c_str(), name.c_str(), Name.length()))
+		if (!strncasecmp(Name.c_str(), name.c_str(), Name.length() + 1))
 			return (*it);
 	}
 	return (NULL);

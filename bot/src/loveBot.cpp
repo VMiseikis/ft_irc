@@ -156,7 +156,8 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 	if (args[1] == "JOIN")	{
 		if (args[0] == _nick)
 			return sendMsg("TOPIC " + _chnnl + " :!info & HaHa, wenn " + _nick + " da ist!! <3");
-		return sendMsg("PRIVMSG " + args[2].substr(1) + " :HAI! " + args[0] + " <3"); 
+		return sendMsg("NAMES #Jokes");//cia dele
+//		return sendMsg("PRIVMSG " + args[2].substr(1) + " :HAI! " + args[0] + " <3"); 
 	}
 	if (args[1] == "NOTICE" || args[1] == "PRIVMSG")	{
 		if (args[2][0] == '#')	{
