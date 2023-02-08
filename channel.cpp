@@ -164,7 +164,8 @@ void	Channel::dc(Client *client)	{
 	}
 	else	{
 		std::string msg = client->get_id();
-		msg += " PART :" + _name + "\r\n";
+//		msg += " PART :" + _name + "\r\n";
+		msg += " QUIT :Client exited\r\n";
 		std::cout << msg << std::endl;
 		broadcast(msg);
 		if (_chops.empty())

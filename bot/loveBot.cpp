@@ -2,7 +2,7 @@
 
 LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _chnnl("#Jokes"), _join(false), _in(false), _o(false)	{
 	int temp = atoi(port.c_str());
-	if (temp > 63535 || temp < 1)
+	if (temp > 63535 || temp < 0)
 		throw (std::range_error("Bad port value"));
 	_port = temp;
 	getSocket();
@@ -22,14 +22,18 @@ void	LoveBot::getSocket(void)	{
 	//connect to server
 	int conn = connect(_fd, (SA *)&hint, sizeof(hint));
 	if (conn < 0)	{
-		std::cerr<< " connect fail" << std::endl;
-		throw (std::range_error( "connect"));
+//		std::cerr<< " connect fail" << std::endl;
+		throw (std::range_error( "connect() failure"));
 	}
 	const int	yes = 1;
-	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) < 0)
+	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) < 0)	{
+		close(_fd); //?
 		throw (std::range_error("Failed setting socket options"));
-	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0)
+	}
+	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0)	{
+		close(_fd); //?
 		throw (std::range_error("Failed to set nonblock"));
+	}
 }
 
 LoveBot::~LoveBot(void){
@@ -42,7 +46,8 @@ void	LoveBot::sendMsg(const std::string &msg)	{
 	if (sent < 0)	{
 		throw (std::runtime_error("Send() failure"));
 	}
-	std::cout << "Sent(" << sent << "): " + m << std::endl;
+	if (_in && _join && _o)
+		std::cout << "Sent(" << sent << "): " + m << std::endl;
 }
 
 void	LoveBot::signIn(void)	{
@@ -111,7 +116,6 @@ void	LoveBot::readMsg(std::string msg)	{
 		if (i == std::string::npos)
 			args.push_back(msg);
 	}
-
 	i = args[0].find('!', 0);
 	if (i != std::string::npos)
 		args[0] = args[0].substr(1, i - 1);
@@ -128,6 +132,8 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 	if (!_in)	{
 		if (args[1] == "464")
 			throw (std::range_error("Wrong server password"));
+		if (args[1] == "461")
+			throw (std::range_error("Not enough parameters to connect to server"));
 		if (args[1] == "433")	{
 			_nick += "_";
 			return sendMsg("NICK " + _nick);
@@ -208,7 +214,7 @@ void	LoveBot::getJokes(void)	{
 		ifs.close();
 	}
 	else
-		_flrt.push_back("Hallochen ! <3");
+		_flrt.push_back("Hallochen! <3");
 }
 
 void	LoveBot::tellJoke(std::vector<std::string> &args)	{

@@ -10,7 +10,6 @@ Server::Server(int port, std::string password) : _port(port), _password(password
 	_admin_pass = "pass";
 	_cmd = new Commands(this);
 	memset(&_address, 0, sizeof(_address));
-	//memset(&_pollfds, 0, sizeof(_pollfds));
 	new_server();
 }
 
@@ -47,8 +46,8 @@ bool Server::is_on(void) { return Server::_on; }
 
 void Server::turn_off(int sig)
 {
-	if (sig)
-		Server::_on = false;
+	(void)sig;
+	Server::_on = false;
 }
 
 void Server::new_server()
@@ -115,7 +114,9 @@ void Server::new_connection()
 	if (_clients.at(_conn)->get_hostname().empty() || _clients.at(_conn)->get_hostname().size() > 63)
 		_clients.at(_conn)->set_hostname(_clients.at(_conn)->get_ip());
 
-	std::cout << "New client " + _clients.at(_conn)->get_hostname() + " connected\n";
+	std::cout << "New client " + _clients.at(_conn)->get_hostname();
+	std::cout << "(" << inet_ntoa(client_address.sin_addr) << ":";
+	std::cout << ntohs(client_address.sin_port) <<  ") connected" << std::endl;
 }
 
 void Server::handle_message(Client *client, std::string message)
