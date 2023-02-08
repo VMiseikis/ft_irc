@@ -31,7 +31,7 @@ std::string Commands::responce_msg(int err, std::string client, std::string arg)
 	switch (err)
 	{
 		case RPL_UMODEIS:
-			return (" 221 " + client);
+			return (" 221 " + client + " " + arg);
 		case RPL_ISON:
 			return (" 303 " + client);
 		case RPL_ENDOFWHO:
@@ -307,7 +307,7 @@ void Commands::ison_command(Client *client, std::string cmd, std::string line)
 	std::string msg = "";
 	std::vector<std::string> args;
 
-	if (!client->is_registered())
+	if (!client->is_registered() && !client->is_admin())
 		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	get_arguments(line, &args);
@@ -432,6 +432,7 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 
 void Commands::mode_command(Client *client, std::string cmd, std::string line)
 {
+	(void) cmd;
 	std::vector<std::string> args;
 
 	if (!client->is_registered() && !client->is_admin())
@@ -441,62 +442,66 @@ void Commands::mode_command(Client *client, std::string cmd, std::string line)
 
 	if (args.size() > 0 && args[0][0] =='#')
 	{
-		if (args.size() == 1)
-			return client->reply(client->get_id(), responce_msg(RPL_UMODEIS, client->get_nick_name(), ""));
-
-		if (args.size() < 3)
-			return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
-
 		Channel *channel = _server->get_channel(args[0]);
 		if (!channel)
 			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), args[0]));
-
-		Client *target = _server->get_client(args[2]);
-		if (!target)
-			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), args[2]));
-
-		if (!channel->isOnChan(client) || !channel->isOnChan(target))
-			return client->reply(client->get_id(), responce_msg(ERR_NOTONCHANNEL, client->get_nick_name(), args[0]));
-
-		if (!channel->isChanOp(client) && !client->is_admin())
-			return client->reply(client->get_id(), responce_msg(ERR_CHANOPRIVSNEEDED, client->get_nick_name(), args[0]));
-
-		char plusminus = '\0';
-		std::string mode = "";
-		for (int i = 0; args[1][i]; i++)
+		
+		if (args.size() == 1)
 		{
-			if (iswalpha(args[1][i]) && mode.find_first_of(args[1][i]) == std::string::npos)
-				mode.push_back(args[1][i]);
-			else if (plusminus == '\0' && (args[1][i] == '-' || args[1][i] == '+'))
-				plusminus = args[1][i];
+			if (channel->isChanOp(client))
+				return client->reply(client->get_id(), responce_msg(RPL_UMODEIS, client->get_nick_name(), "+o"));
+			return client->reply(client->get_id(), responce_msg(RPL_UMODEIS, client->get_nick_name(), "no_modes"));
 		}
-		if (plusminus == '\0')
-			plusminus = '+';
-		for (int i = 0; mode[i]; i++)
+
+		if (args.size() == 3)
 		{
-			switch (mode[i])
+			Client *target = _server->get_client(args[2]);
+			if (!target)
+				return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), args[2]));
+
+			if (!channel->isOnChan(client) || !channel->isOnChan(target))
+				return client->reply(client->get_id(), responce_msg(ERR_NOTONCHANNEL, client->get_nick_name(), args[0]));
+
+			if (!channel->isChanOp(client) && !client->is_admin())
+				return client->reply(client->get_id(), responce_msg(ERR_CHANOPRIVSNEEDED, client->get_nick_name(), args[0]));
+
+			char plusminus = '\0';
+			std::string mode = "";
+			for (int i = 0; args[1][i]; i++)
 			{
-				case 'o':
+				if (iswalpha(args[1][i]) && mode.find_first_of(args[1][i]) == std::string::npos)
+					mode.push_back(args[1][i]);
+				else if (plusminus == '\0' && (args[1][i] == '-' || args[1][i] == '+'))
+					plusminus = args[1][i];
+			}
+			if (plusminus == '\0')
+				plusminus = '+';
+			for (int i = 0; mode[i]; i++)
+			{
+				switch (mode[i])
 				{
-					if (plusminus == '-' && channel->isChanOp(target))
+					case 'o':
 					{
-						for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it) {
-							if ((*it)->get_nick_name() == args[2])
-							{
-								channel->getChops().erase(it);
-								break ;
+						if (plusminus == '-' && channel->isChanOp(target))
+						{
+							for (std::vector<Client *>::iterator it = channel->getChops().begin(); it != channel->getChops().end(); ++it) {
+								if ((*it)->get_nick_name() == args[2])
+								{
+									channel->getChops().erase(it);
+									break ;
+								}
 							}
 						}
+						else if (plusminus == '+' && !channel->isChanOp(target))
+							channel->getChops().push_back(target);
+						for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
+							(*it)->reply(client->get_id(), " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name());
+						std::cout << "Channel " << channel->getName() << " operator set mode: " << plusminus << mode[i] << " to user " << target->get_id() << std::endl;
+						break ;
 					}
-					else if (plusminus == '+' && !channel->isChanOp(target))
-						channel->getChops().push_back(target);
-					for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
-						(*it)->reply(client->get_id(), " MODE " + args[0] + " " + plusminus + mode[i] + " " + target->get_nick_name());
-					std::cout << "Channel " << channel->getName() << " operator set mode: " << plusminus << mode[i] << " to user " << target->get_id() << std::endl;
-					break ;
+					default:
+						return client->reply(client->get_id(), responce_msg(ERR_UMODEUNKNOWNFLAG, client->get_nick_name(), ""));
 				}
-				default:
-					return client->reply(client->get_id(), responce_msg(ERR_UMODEUNKNOWNFLAG, client->get_nick_name(), ""));
 			}
 		}
 	}
@@ -506,7 +511,7 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 {
 	(void) cmd;
 
-	if (!client->is_registered())
+	if (!client->is_registered() && !client->is_admin())
 		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
 
 	std::string name = line.substr(0, line.find_first_of(WHITESPACES));
@@ -521,10 +526,9 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 
 		for (std::vector<Client *>::iterator it = channel->getUsers().begin(); it != channel->getUsers().end(); ++it)
 			client->reply(client->get_id(), responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " " + name + " " + (*it)->get_user_name() + " " + (*it)->get_hostname() + " " + _server->get_name() + " " + (*it)->get_nick_name() + " H 0 " + (*it)->get_real_name()));
-
-		return client->reply(client->get_id(), responce_msg(RPL_ENDOFWHO, client->get_nick_name(), name));
+		return ;
 	}
-
+	
 	Client *target = _server->get_client(name);
 	if (!target)
 		return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), name));
@@ -533,8 +537,6 @@ void Commands::who_command(Client *client, std::string cmd, std::string line)
 		return client->reply(client->get_id(), responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " * " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
 	else
 		return client->reply(client->get_id(), responce_msg(RPL_WHOSPCRPL, client->get_nick_name(), " " + target->get_channels()[0]->getName() + " " + target->get_user_name() + " " + target->get_hostname() + " " + _server->get_name() + " " + target->get_nick_name() + " H 0 " + target->get_real_name()));
-
-	return client->reply(client->get_id(), responce_msg(RPL_ENDOFWHO, client->get_nick_name(), name));
 }
 
 void Commands::kick_command(Client *client, std::string cmd, std::string line)
