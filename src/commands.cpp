@@ -695,13 +695,13 @@ void Commands::names_command(Client *client, std::string cmd, std::string args)	
 	std::vector<std::string> names;
 	if (args.empty())
 		return client->reply(client->get_id(), responce_msg(ERR_NOCHANELNAME, client->get_nick_name(), ""));
-		Channel	*exists = _server->get_channel(args);
-		if (exists)		{
-			(*exists).names(client);
-		}
-		else {
-			std::string msg = ":" + client->get_id() + " 366 " + client->get_nick_name();
-			msg += " " + args + " :End of /NAMES list\r\n";
-			send(client->get_fd(), msg.c_str(), msg.length(), 0);
-		}
+	Channel	*exists = _server->get_channel(args);
+	if (exists)		{
+		(*exists).names(client);
+	}
+	else {
+		std::string msg = ":" + client->get_id() + " 366 " + client->get_nick_name();
+		msg += " " + args + " :End of /NAMES list\r\n";
+		send(client->get_fd(), msg.c_str(), msg.length(), 0);
+	}
 }
