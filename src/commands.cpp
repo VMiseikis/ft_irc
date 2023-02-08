@@ -176,14 +176,14 @@ void Commands::user_command(Client *client, std::string cmd, std::string line)
 	{
 		size_t i = args[3].find_first_not_of(WHITESPACES, 1);
 		if (i != std::string::npos)
-			client->set_real_name((args[3].substr(i, args[3].size())));
+			client->set_real_name((args[3].substr(i, 10)));
 		else
 			return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
 	}
 	else
-		client->set_real_name(args[3]);
-	
-	client->set_user_name(args[0]);
+		client->set_real_name(args[3].substr(0, 10));
+
+	client->set_user_name(args[0].substr(0, 10));
 
 	std::cout << "Client " << client->get_hostname() << " set his USER name to: " << client->get_user_name() << " and REAL name to: " << client->get_real_name() << std::endl;
 
@@ -207,6 +207,9 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 
 	if (nick[0] == '@')
 		return client->reply(client->get_id(), responce_msg(ERR_ERRONEUSNICKNAME, client->get_nick_name(), nick));
+
+	if (nick.size() > 10)
+		nick.resize(10);
 
 	if (client->get_nick_name() != nick)
 	{
