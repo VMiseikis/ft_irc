@@ -8,11 +8,12 @@ OBJ_D = obj/
 
 OBJ = ${patsubst ${SRC_D}%.cpp, ${OBJ_D}%.o, ${addprefix ${SRC_D}, ${SRC}}} 
 
+INC = inc/
+
 CC = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-INC = inc/
 # -pedantic -g -fsanitize=address
 
 all: ${NAME}
@@ -22,6 +23,7 @@ ${OBJ_D}%.o: ${SRC_D}%.cpp
 	@${CC} -I${INC} ${CFLAGS} $^ -c -o $@
 
 ${NAME}: ${OBJ}
+	@echo "\033[1;35mloveBot is being built up..\033[1;0m"
 	@${CC} ${CFLAGS} $^ -o ${NAME}
 	@echo "\033[1;35mloveBot is ready to be used!\033[1;0m"
 

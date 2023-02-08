@@ -153,7 +153,7 @@ void Commands::pass_command(Client *client, std::string cmd, std::string arg)
 	if (_server->get_password() != arg)
 		return client->reply(client->get_id(), responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(), ""));
 
-	std::cout << "Client " << client->get_hostname() << " loged to the server\n";
+	std::cout << "Client " << client->get_hostname() << " logged to the server\n";
 	client->set_status(client->get_status() + 1);	
 }
 
@@ -634,7 +634,7 @@ void Commands::wall_command(Client *client, std::string cmd, std::string args)
 
 	if (args.empty())
 		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
-	std::cout << "Admin " << client->get_id() << " has send announcement to everyone" << std::endl;
+	std::cout << "Admin " << client->get_id() << " has sent announcement to everyone" << std::endl;
 	_server->broadcast_to_all_clients(args);
 }
 
