@@ -188,6 +188,7 @@ void Server::client_quit(int fd)
 void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
 	try {
+		close(it->fd);
 		std::string message = "Client " + _clients.at(it->fd)->get_hostname() + " disconnected\n";
 		_clients.at(it->fd)->dc();
 		delete _clients.at(it->fd);
