@@ -46,7 +46,7 @@ void	LoveBot::sendMsg(const std::string &msg)	{
 		throw (std::runtime_error("Send() failure"));
 	}
 	if (_in && _join && _o)
-		std::cout << "Sent(" << sent << "): " + m << std::endl;
+		std::cout << MAGENTA << "Sent(" << sent << "): " << RESET << m << std::endl;
 }
 
 void	LoveBot::signIn(void)	{
@@ -94,7 +94,7 @@ void	LoveBot::recieveMsg(void)	{
 			throw (std::runtime_error("Server closed connection"));
 		msg += buff;
 	}
-	std::cout <<"Received: " << msg << std::endl;
+	std::cout << CYAN << "Received: " << RESET << msg << std::endl;
 	readMsg(msg);
 }
 
