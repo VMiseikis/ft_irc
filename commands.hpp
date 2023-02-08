@@ -61,7 +61,6 @@ class Commands
 		void get_arguments(std::string line, std::vector<std::string> *args);
 		std::string responce_msg(int err, std::string client, std::string arg);
 
-		void dcc_command(Client *client, std::string cmd, std::string args);
 		void who_command(Client *client, std::string cmd, std::string args);
 		void pass_command(Client *client, std::string cmd, std::string args);
 		void user_command(Client *client, std::string cmd, std::string args);

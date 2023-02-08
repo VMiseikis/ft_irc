@@ -2,7 +2,6 @@
 
 Commands::Commands(Server *server) : _server(server)
 {
-	_commands.insert(std::make_pair("DCC", &Commands::dcc_command));
 	_commands.insert(std::make_pair("WHO", &Commands::who_command));
 	_commands.insert(std::make_pair("PASS", &Commands::pass_command));
 	_commands.insert(std::make_pair("USER", &Commands::user_command));
@@ -217,7 +216,7 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
 			client->welcome();
 		} else {
-			std::string msg = ":" + client->get_id() + " NICK :" + nick + "\r\n";
+			std::string msg = client->get_id() + " NICK :" + nick + "\r\n";
 			client->set_nick_name(nick);
 			_server->wall(msg);
 			std::cout << "Client " << client->get_id() << " set his NICK name to " << client->get_nick_name() << std::endl;
@@ -268,79 +267,6 @@ void Commands::join_command(Client *creator, std::string cmd, std::string args)
 			_server->get_channels().back()->newUser(creator);
 			std::cout << "Client " << creator->get_id() << " created a channel " << _server->get_channels().back()->getName() << std::endl;
 		}
-	}
-}
-
-void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
-{
-	size_t i;
-	std::string	msg = "";
-	std::string send_msg;
-
-	if (!client->is_registered() && !client->is_admin())
-		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
-
-	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
-
-	if (nick.empty())
-		return client->reply(client->get_id(), responce_msg(ERR_NORECIPIENT, client->get_nick_name(), ""));
-
-	i = line.find_first_not_of(WHITESPACES, nick.size());
-	if (i != std::string::npos)
-		msg = line.substr(i, line.size());
-	
-	if (msg.empty())
-		return client->reply(client->get_id(), responce_msg(ERR_NOTEXTTOSEND, client->get_nick_name(), ""));
-
-	if (nick[0] != '#')	{
-		Client *receiver = _server->get_client(nick);
-		if (!receiver)
-			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
-
-		if (msg[0] == ':')
-		{
-			size_t i = msg.find_first_not_of(WHITESPACES , 1);
-			if (i != std::string::npos)
-			{
-				std::string sub_cmd = msg.substr(i, msg.size());
-				std::cout << "SUB>>" << sub_cmd  << "<<>>" << sub_cmd.substr(0, 5) << "<<" << std::endl;
-				//sub_cmd = sub_cmd.substr(0, 5);
-				if (strncasecmp(sub_cmd.c_str(), "DCC ", 5) == 0)
-					std::cout << "TEST>>>???????" << std::endl;
-
-				// submsg = submsg.substr(0, 4);
-				// std::cout << "TEST2222>>>" << submsg<< "pavyko" << std::endl;
-				// if (submsg == "DCC ")
-				// 	std::cout << "TEST>>>" << submsg << "pavyko" << std::endl;
-			}
-		}
-
-		// if (i == std::string::npos)
-		// 	return ;
-		// if (line[i] == ':')
-		// 	return (*args).push_back(line.substr(i, line.size()));
-
-		// if (msg[0] != ':')
-		// 	send_msg = " " + cmd + " " + nick + " :" + msg;
-		// else
-
-		send_msg = " " + cmd + " " + nick + " " + msg;
-	
-
-		std::cout << "Client " << client->get_id() << " has send private message to " << receiver->get_id() << std::endl;
-		return receiver->reply(client->get_id(), send_msg);
-	} else {
-		Channel	*channel;
-		channel = _server->get_channel(nick);
-		if (!channel)
-			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), nick));
-
-		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
-			return client->reply(client->get_id(), responce_msg(ERR_CANNOTSENDTOCHAN, client->get_nick_name(), ""));
-
-		msg = client->get_id() + " " + cmd + " " + line + "\r\n";
-		std::cout << "Client " << client->get_id() << " has wrote message in the channel " << channel->getName() << std::endl;
-		channel->broadcast(client, msg);
 	}
 }
 
@@ -711,14 +637,49 @@ void Commands::wall_command(Client *client, std::string cmd, std::string args)
 	_server->broadcast_to_all_clients(args);
 }
 
-void Commands::dcc_command(Client *client, std::string cmd, std::string args)
+void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 {
-	(void) client;
-	(void) cmd;
-	(void) args;
+	size_t i;
+	std::string	msg = "";
+	std::string send_msg;
 
-	std::cout << "CIA lol\n";
-	// /PRIVMSG Petras :DCC SEND "Photo on 1-22-23 at 10.01 PM.jpg" 3170133662 1115 255469
-	// /PRIVMSG lol :DCC RESUME "Photo on 1-22-23 at 10.01 PM.jpg" 1115 255469
-	//PRIVMSG Petras :DCC ACCEPT "Photo on 1-22-23 at 10.01 PM.jpg" 1115 255469
+	if (!client->is_registered() && !client->is_admin())
+		return client->reply(client->get_id(), responce_msg(ERR_ALREADYREGISTRED, client->get_nick_name(), ""));
+
+	std::string nick = line.substr(0, line.find_first_of(WHITESPACES));
+
+	if (nick.empty())
+		return client->reply(client->get_id(), responce_msg(ERR_NORECIPIENT, client->get_nick_name(), ""));
+
+	i = line.find_first_not_of(WHITESPACES, nick.size());
+	if (i != std::string::npos)
+		msg = line.substr(i, line.size() - i);
+	
+	if (msg.empty())
+		return client->reply(client->get_id(), responce_msg(ERR_NOTEXTTOSEND, client->get_nick_name(), ""));
+
+	if (nick[0] != '#')	{
+		Client *receiver = _server->get_client(nick);
+		if (!receiver)
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHNICK, client->get_nick_name(), nick));
+
+		if (msg[0] == ':')
+			send_msg = " " + cmd + " " + nick + " " + msg;
+		else
+			send_msg = " " + cmd + " " + nick + " :" + msg;
+		std::cout << "Client " << client->get_id() << " has send private message to " << receiver->get_id() << std::endl;
+		return receiver->reply(client->get_id(), send_msg);
+	} else {
+		Channel	*channel;
+		channel = _server->get_channel(nick);
+		if (!channel)
+			return client->reply(client->get_id(), responce_msg(ERR_NOSUCHCHANNEL, client->get_nick_name(), nick));
+
+		if (!getClientByNick(channel->getUsers(), client->get_nick_name()))
+			return client->reply(client->get_id(), responce_msg(ERR_CANNOTSENDTOCHAN, client->get_nick_name(), ""));
+
+		msg = client->get_id() + " " + cmd + " " + line + "\r\n";
+		std::cout << "Client " << client->get_id() << " has wrote message in the channel " << channel->getName() << std::endl;
+		channel->broadcast(client, msg);
+	}
 }
