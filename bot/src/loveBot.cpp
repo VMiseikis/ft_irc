@@ -191,7 +191,7 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 }
 
 void	LoveBot::getJokes(void)	{
-	std::ifstream	ifs("./jokes.txt");
+	std::ifstream	ifs("utils/jokes.txt");
 	std::string	line;
 	if (!ifs.is_open())	{
 		_joke.push_back("Somebody f****d up my jokes, sorry.. <3");
@@ -203,7 +203,7 @@ void	LoveBot::getJokes(void)	{
 		}
 		ifs.close();
 	}
-	ifs.open("./replies.txt");
+	ifs.open("utils/replies.txt");
 	if (ifs.is_open())	{
 		while (std::getline(ifs, line))	{
 			if (!line.empty())
