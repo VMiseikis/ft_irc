@@ -36,7 +36,7 @@ Channel	*Server::get_channel(std::string &name)
 {
 	for (std::vector<Channel *>::iterator it = _channels.begin(); it < _channels.end(); it++) {
 		std::string	Name = (*it)->getName();
-		if (!strncasecmp(Name.c_str(), name.c_str(), Name.length()))
+		if (!strncasecmp(Name.c_str(), name.c_str(), Name.length() + 1))
 			return (*it);
 	}
 	return (NULL);
@@ -114,7 +114,8 @@ void Server::new_connection()
 	if (_clients.at(_conn)->get_hostname().empty() || _clients.at(_conn)->get_hostname().size() > 63)
 		_clients.at(_conn)->set_hostname(_clients.at(_conn)->get_ip());
 
-	std::cout << "New client " + _clients.at(_conn)->get_hostname();
+	std::cout << BLUE << "New client: " << RESET;
+	std::cout << _clients.at(_conn)->get_hostname();
 	std::cout << "(" << inet_ntoa(client_address.sin_addr) << ":";
 	std::cout << ntohs(client_address.sin_port) <<  ") connected" << std::endl;
 }
@@ -189,12 +190,12 @@ void Server::client_disconnect(std::vector<struct pollfd>::iterator it)
 {
 	try {
 		close(it->fd);
-		std::string message = "Client " + _clients.at(it->fd)->get_hostname() + " disconnected\n";
+		std::cout << _clients.at(it->fd)->get_id();
+		std::cout << RED_C << " disconnected" << RESET << std::endl;
 		_clients.at(it->fd)->dc();
 		delete _clients.at(it->fd);
 		_clients.erase(it->fd);
 		_pollfds.erase(it);
-		std::cout << message;
 	} 
 	catch (const std::out_of_range &err) {
 		std::cerr << "Error: Error occured during " + _clients.at(it->fd)->get_hostname() + " disconnect\n";

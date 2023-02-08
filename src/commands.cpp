@@ -21,6 +21,7 @@ Commands::Commands(Server *server) : _server(server)
 	_commands.insert(std::make_pair("SQUIT", &Commands::squi_command));
 	_commands.insert(std::make_pair("NOTICE", &Commands::pmsg_command));
 	_commands.insert(std::make_pair("PRIVMSG", &Commands::pmsg_command));
+	_commands.insert(std::make_pair("NAMES", &Commands::names_command));
 }
 
 Commands::~Commands() { _commands.clear(); }
@@ -153,7 +154,9 @@ void Commands::pass_command(Client *client, std::string cmd, std::string arg)
 	if (_server->get_password() != arg)
 		return client->reply(client->get_id(), responce_msg(ERR_PASSWDMISMATCH, client->get_nick_name(), ""));
 
-	std::cout << "Client " << client->get_hostname() << " loged to the server\n";
+	std::cout << client->get_hostname() << CYAN;
+	std::cout << " successfully logged into the server";
+	std::cout << RESET << std::endl;
 	client->set_status(client->get_status() + 1);	
 }
 
@@ -225,8 +228,7 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 	}
 }
 
-void Commands::join_command(Client *creator, std::string cmd, std::string args)
-{
+void Commands::join_command(Client *creator, std::string cmd, std::string args)	{
 	(void) cmd;
 
 	if (creator->get_status() < REGISTERED)
@@ -636,7 +638,7 @@ void Commands::wall_command(Client *client, std::string cmd, std::string args)
 
 	if (args.empty())
 		return client->reply(client->get_id(), responce_msg(ERR_NEEDMOREPARAMS, client->get_nick_name(), cmd));
-	std::cout << "Admin " << client->get_id() << " has send announcement to everyone" << std::endl;
+	std::cout << "Admin " << client->get_id() << " has sent announcement to everyone" << std::endl;
 	_server->broadcast_to_all_clients(args);
 }
 
@@ -685,4 +687,23 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 		std::cout << "Client " << client->get_id() << " has wrote message in the channel " << channel->getName() << std::endl;
 		channel->broadcast(client, msg);
 	}
+}
+
+void Commands::names_command(Client *client, std::string cmd, std::string args)	{
+	(void) cmd;
+	if (client->get_status() < REGISTERED)
+		return client->reply(client->get_id(), responce_msg(ERR_NOTREGISTERED, client->get_nick_name(), ""));
+
+	std::vector<std::string> names;
+	if (args.empty())
+		return client->reply(client->get_id(), responce_msg(ERR_NOCHANELNAME, client->get_nick_name(), ""));
+		Channel	*exists = _server->get_channel(args);
+		if (exists)		{
+			(*exists).names(client);
+		}
+		else {
+			std::string msg = ":" + client->get_id() + " 366 " + client->get_nick_name();
+			msg += " " + args + " :End of /NAMES list\r\n";
+			send(client->get_fd(), msg.c_str(), msg.length(), 0);
+		}
 }

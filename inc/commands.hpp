@@ -79,6 +79,7 @@ class Commands
 		void quit_command(Client *client, std::string cmd, std::string args);
 		void squi_command(Client *client, std::string cmd, std::string args);
 		void wall_command(Client *client, std::string cmd, std::string args);
+		void names_command(Client *client, std::string cmd, std::string args);
 };
 
 #endif

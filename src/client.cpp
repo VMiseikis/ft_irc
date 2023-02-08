@@ -35,7 +35,8 @@ void Client::welcome()
 		std::string welcome_message = ":MultiplayerNotepad 001 " + _nick + " :Welcome to MultiplayerNodepad " + _nick + "\r\n";
 		send(_fd, welcome_message.c_str(), welcome_message.length(), 0);
 		_status++;
-		std::cout << "Welcome message was send to the " << get_hostname() << " client" << std::endl;
+		std::cout << "Welcome message sent to " << GREEN;
+		std::cout << get_id() << RESET << std::endl;
 	}
 }
 
