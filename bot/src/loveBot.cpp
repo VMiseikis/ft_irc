@@ -168,6 +168,12 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 			if (strstr(args[3].c_str(), _nick.c_str()))	{//linux
 				return beFlirty(args);
 			}
+			if (strstr(args[3].c_str(), "love"))	{
+				return sendMsg(args[1] + " " + args[0] + " :https://www.love.com/");
+			}
+			if (strstr(args[3].c_str(), "liebe"))	{
+				return sendMsg(args[1] + " " + args[0] + " :https://www.liebe.de/");
+			}
 		}
 		else	{
 			if (!strncasecmp(args[3].c_str(), ":love", args[3].length()))	{

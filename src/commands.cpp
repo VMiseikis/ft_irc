@@ -672,7 +672,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 			send_msg = " " + cmd + " " + nick + " " + msg;
 		else
 			send_msg = " " + cmd + " " + nick + " :" + msg;
-		std::cout << "Client " << client->get_id() << " has send private message to " << receiver->get_id() << std::endl;
+//		std::cout << "Client " << client->get_id() << " sent private message to " << receiver->get_id() << std::endl;
 		return receiver->reply(client->get_id(), send_msg);
 	} else {
 		Channel	*channel;
@@ -684,7 +684,7 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 			return client->reply(client->get_id(), responce_msg(ERR_CANNOTSENDTOCHAN, client->get_nick_name(), ""));
 
 		msg = client->get_id() + " " + cmd + " " + line + "\r\n";
-		std::cout << "Client " << client->get_id() << " has wrote message in the channel " << channel->getName() << std::endl;
+//		std::cout << "Client " << client->get_id() << " wrote message in the channel " << channel->getName() << std::endl;
 		channel->broadcast(client, msg);
 	}
 }
