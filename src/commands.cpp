@@ -208,9 +208,6 @@ void Commands::nick_command(Client *client, std::string cmd, std::string line)
 	if (nick[0] == '@' || iswdigit(nick[0]))
 		return client->reply(client->get_id(), responce_msg(ERR_ERRONEUSNICKNAME, client->get_nick_name(), nick));
 
-	if (nick.size() > 10)
-		nick.resize(10);
-
 	if (client->get_nick_name() != nick)
 	{
 		if (_server->get_client(nick))
