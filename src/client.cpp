@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vmiseiki <vmiseiki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 16:51:30 by vmiseiki          #+#    #+#             */
+/*   Updated: 2023/02/09 16:51:31 by vmiseiki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.hpp"
 
 Client::Client(int fd, std::string ip, int port, std::string hostname) : _fd(fd), _port(port), _status(NEW), _ip(ip), _user(), _real(), _nick(), _pass(), _hostname(hostname) {}

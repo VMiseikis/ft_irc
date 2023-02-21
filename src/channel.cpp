@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   channel.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vmiseiki <vmiseiki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 16:42:15 by vmiseiki          #+#    #+#             */
+/*   Updated: 2023/02/09 17:10:07 by ajazbuti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "channel.hpp"
 
 Channel::~Channel()	{}
@@ -22,7 +34,7 @@ std::vector<Client * > & Channel::getUsers(void)	{
 	return (_users);
 }
 
-std::string	Channel::getNamesList(void)	{
+std::string	Channel::getNameList(void)	{
 	std::string ret = " :";
 	std::vector<Client *>::iterator it;
 	for (it = _users.begin(); it != _users.end(); it++)	{
@@ -39,7 +51,7 @@ std::string	Channel::getNamesList(void)	{
 void	Channel::names(Client *client)	{
 	std::string	msg;
 	msg = client->get_id() + " 353 " + client->get_nick_name();
-	msg += " = " + _name + getNamesList();
+	msg += " = " + _name + getNameList();
 	send(client->get_fd(), msg.c_str(), msg.length(), 0);
 	msg = client->get_id() + " 366 " + client->get_nick_name();
 	msg += " " + _name + " :End of /NAMES list\r\n";
@@ -137,7 +149,7 @@ void	Channel::dc(Client *client)	{
 	}
 	else	{
 		std::string msg = client->get_id();
-		msg += " QUIT :Client exited\r\n";
+		msg += " QUIT :Client left Irc\r\n";
 		broadcast(msg);
 		for (unsigned int i = 0; i < _users.size(); i++)	{
 			names(_users[i]);
@@ -161,4 +173,3 @@ void	Channel::topic(Client *client, std::string topic)	{
 		_users[i]->reply(_users[i]->get_id(), topic);
 	}
 }
-

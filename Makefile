@@ -14,8 +14,6 @@ CC = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-# -pedantic -g -fsanitize=address
-
 all: ${NAME}
 
 ${OBJ_D}%.o: ${SRC_D}%.cpp

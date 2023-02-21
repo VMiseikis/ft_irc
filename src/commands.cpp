@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commands.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vmiseiki <vmiseiki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 16:42:22 by vmiseiki          #+#    #+#             */
+/*   Updated: 2023/02/09 18:17:18 by ajazbuti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "commands.hpp"
 
 Commands::Commands(Server *server) : _server(server)
@@ -37,11 +49,11 @@ std::string Commands::responce_msg(int err, std::string client, std::string arg)
 		case RPL_ENDOFWHO:
 			return (" 315 :" + client + " " + arg + " :End of WHO list");
 		case RPL_LISTSTART:
-			return (" 321 " + client + " Channels :Users Name");
+			return (" 321 " + client + " Channel :Users  Name");
 		case RPL_LIST:
 			return (" 322 " + client + " " + arg);
 		case RPL_LISTEND:
-			return (" 323 " + client + " :End of LIST");
+			return (" 323 " + client + " :End of /LIST");
 		case RPL_WHOREPLY:
 			return (" 352 :" + client );
 		case RPL_NAMREPLY:
@@ -242,8 +254,7 @@ void Commands::join_command(Client *creator, std::string cmd, std::string args)	
 	if (i == std::string::npos)
 		names.push_back(args);
 	else {
-		while (i != std::string::npos)
-		{
+		while (i != std::string::npos)	{
 			names.push_back(args.substr(0, i));
 			args = args.substr(i + 1);
 			if (args[0] != '#')
@@ -253,22 +264,18 @@ void Commands::join_command(Client *creator, std::string cmd, std::string args)	
 				names.push_back(args);
 		}
 	}
-
 	for (unsigned int i = 0; i < names.size(); i++) {
 		if (!i)	{
 			if (names[i][i] != '#')
 				names[i] = "#" + names[i];
 		}
 		Channel	*exists = _server->get_channel(names[i]);
-		if (exists)
-		{
+		if (exists)	{
 			(*exists).newUser(creator);
-			std::cout << "Client " << creator->get_id() << " joined a channel " << exists->getName() << std::endl;
 		}
 		else {
 			_server->get_channels().push_back(new Channel(_server, creator, names[i]));
 			_server->get_channels().back()->newUser(creator);
-			std::cout << "Client " << creator->get_id() << " created a channel " << _server->get_channels().back()->getName() << std::endl;
 		}
 	}
 }
@@ -348,8 +355,6 @@ void Commands::part_command(Client *client, std::string cmd, std::string args)
 
 	if (!(*exists).isOnChan(client))
 		return client->reply(client->get_id(), responce_msg(ERR_NOTONCHANNEL, client->get_nick_name(), args));
-
-	std::cout << "Client " << client->get_id() << " left the channel " << exists->getName() << std::endl;
 	client->part(exists);
 }
 
@@ -381,8 +386,6 @@ void Commands::tpic_command(Client *client, std::string cmd, std::string args)
 		channel->topic(client);
 	else
 		channel->topic(client, msg);
-	
-	std::cout << "Client " << client->get_id() << " changed channel " << channel->getName() << " topic to: " << channel->getTopic() << std::endl;
 }
 
 static std::string uitos(unsigned int i)	{
@@ -423,10 +426,9 @@ void Commands::list_command(Client *client, std::string cmd, std::string args)
 
 	client->reply(client->get_id(), responce_msg(RPL_LISTSTART, client->get_nick_name(), ""));
 
-	for (std::vector<Channel *>::iterator it = _server->get_channels().begin(); it != _server->get_channels().end(); it++)
+	for (std::vector<Channel *>::iterator it = _server->get_channels().begin(); it != _server->get_channels().end(); it++)	{
 		client->reply(client->get_id(), responce_msg(RPL_LIST, client->get_nick_name(), (*it)->getName() + " " + uitos((*it)->getUsers().size()) + " :" + (*it)->getTopic()));
-
-	std::cout << "Client " << client->get_id() << " called LIST command " << std::endl;
+	}
 	return client->reply(client->get_id(), responce_msg(RPL_LISTEND, client->get_nick_name(), ""));
 }
 
@@ -672,7 +674,6 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 			send_msg = " " + cmd + " " + nick + " " + msg;
 		else
 			send_msg = " " + cmd + " " + nick + " :" + msg;
-//		std::cout << "Client " << client->get_id() << " sent private message to " << receiver->get_id() << std::endl;
 		return receiver->reply(client->get_id(), send_msg);
 	} else {
 		Channel	*channel;
@@ -684,7 +685,6 @@ void Commands::pmsg_command(Client *client, std::string cmd, std::string line)
 			return client->reply(client->get_id(), responce_msg(ERR_CANNOTSENDTOCHAN, client->get_nick_name(), ""));
 
 		msg = client->get_id() + " " + cmd + " " + line + "\r\n";
-//		std::cout << "Client " << client->get_id() << " wrote message in the channel " << channel->getName() << std::endl;
 		channel->broadcast(client, msg);
 	}
 }

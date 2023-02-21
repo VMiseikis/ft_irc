@@ -29,7 +29,7 @@ class	Channel	{
 		void	newUser(Client *user);
 
 		std::string	getTopic(void);
-		std::string	getNamesList(void);
+		std::string	getNameList(void);
 		void	names(Client *client);
 		void	part(Client *client);
 		void	dc(Client *client);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loveBot.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vmiseiki <vmiseiki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 16:51:38 by vmiseiki          #+#    #+#             */
+/*   Updated: 2023/02/09 17:13:22 by ajazbuti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "LoveBot.hpp"
 
 LoveBot::LoveBot(std::string ip, std::string port, std::string pass, std::string nick): _ip(ip), _pass(pass), _nick(nick), _chnnl("#Jokes"), _join(false), _in(false), _o(false)	{
@@ -26,11 +38,11 @@ void	LoveBot::getSocket(void)	{
 	}
 	const int	yes = 1;
 	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes)) < 0)	{
-		close(_fd); //?
+		close(_fd);
 		throw (std::range_error("Failed setting socket options"));
 	}
 	if (fcntl(_fd, F_SETFL, O_NONBLOCK) < 0)	{
-		close(_fd); //?
+		close(_fd);
 		throw (std::range_error("Failed to set nonblock"));
 	}
 }
@@ -164,8 +176,7 @@ void	LoveBot::respond(std::vector<std::string> &args)	{
 				return tellJoke(args);
 			if (args[3] == ":!info")
 				return sendMsg(args[1] + " " + args[2] + " :!joke for a joke! <3");
-			//if (strnstr(args[3].c_str(), _nick.c_str(), args[3].length()))	{
-			if (strstr(args[3].c_str(), _nick.c_str()))	{//linux
+			if (strstr(args[3].c_str(), _nick.c_str()))	{
 				return beFlirty(args);
 			}
 			if (strstr(args[3].c_str(), "love"))	{
